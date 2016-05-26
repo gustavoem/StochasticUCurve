@@ -1,12 +1,15 @@
 def bisection_min (v):
     """ This function receives a vector, that describes a u-shaped curve, as argument
     and return the minimum element of this vector """
-    n = len (v)
-    i = n // 2
+    i = len (v) // 2
     
     while (not valley (v, i)):
         direction = select_side (v, i)
-        i = i + direction * (i // 2)
+        if (direction is 1):
+            v[0:i] = []
+        else:
+            v[i:len (v)] = []
+        i = len(v) // 2
 
     return v[i]
 
@@ -18,7 +21,7 @@ def select_side (v, i):
     l = max (0, i - 1)
     r = min (len(v) - 1, i + 1)
     d = v[l] - v[r]
-    return d / abs (d)
+    return int(d / abs (d))
 
 
 def valley (v, i):
