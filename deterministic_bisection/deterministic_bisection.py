@@ -5,8 +5,9 @@ def bisection_min (v):
     
     while (not valley (v, i)):
         direction = select_side (v, i)
+        
         if (direction is 1):
-            v[0:i] = []
+            v[0:i + 1] = []
         else:
             v[i:len (v)] = []
         i = len(v) // 2
@@ -21,10 +22,23 @@ def select_side (v, i):
     l = max (0, i - 1)
     r = min (len(v) - 1, i + 1)
     d = v[l] - v[r]
+    if (d is 0): # if we don't know what side to take just go right
+        d = 1
     return int(d / abs (d))
 
 
 def valley (v, i):
-    l = max (0, i - 1)
-    r = min (len(v) - 1, i + 1)
-    return v[i] <= min (v[l], v[r])
+    if (len (v) is 1):
+        return True
+    
+    # from now on we can assume we have at least two elements
+    if (i > 0):
+        vl = v[i - 1]
+    else: # just reflect the other neighbour if we are in the extreme
+        vl = v[i + 1]
+    if (i < len (v) - 1):
+        vr = v[i + 1]
+    else:
+        vr = v[i - 1]
+
+    return v[i] < min (vl, vr)
