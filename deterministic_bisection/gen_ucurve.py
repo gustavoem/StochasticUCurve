@@ -8,11 +8,11 @@ def gen_points (n, max_distance, center):
     minimum = random.random () / 2
     points[center] = minimum
 
-    for i in xrange (center - 1, 0, -1):
+    for i in range (center - 1, -1, -1):
         points[i] = points[i + 1] + \
             min (max_distance * random.random (), (1 - points[i + 1]) * random.random ())
 
-    for i in xrange (center + 1, n):
+    for i in range (center + 1, n):
         points[i] = points[i - 1] + \
             min (max_distance * random.random (), (1 - points[i - 1]) * random.random ())
 
