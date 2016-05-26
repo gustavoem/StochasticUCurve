@@ -3,16 +3,17 @@ def bisection_min (v):
     and return the minimum element of this vector """
     i = len (v) // 2
     
-    while (not valley (v, i)):
+    if (valley (v, i)):
+        return v[i]
+    else:
         direction = select_side (v, i)
-        
         if (direction is 1):
-            v[0:i + 1] = []
+            return bisection_min (v[i:len (v)])
+        elif (direction is -1):
+            return bisection_min (v[0:i])
         else:
-            v[i:len (v)] = []
-        i = len(v) // 2
+            return min (bisection_min (v[0:i]), bisection_min (v[i:len (v)]))
 
-    return v[i]
 
 
 def select_side (v, i):
@@ -22,8 +23,10 @@ def select_side (v, i):
     l = max (0, i - 1)
     r = min (len(v) - 1, i + 1)
     d = v[l] - v[r]
-    if (d is 0): # if we don't know what side to take just go right
-        d = 1
+
+    if (abs (d) < 1e-10): # if we don't know where to go
+        return 0
+
     return int(d / abs (d))
 
 
