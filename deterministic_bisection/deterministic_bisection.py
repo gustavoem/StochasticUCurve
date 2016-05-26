@@ -31,6 +31,8 @@ def select_side (v, i):
 
 
 def valley (v, i):
+    """ This function verifies if the element on index i of v is a valley, i.e if the 
+    element on index i of v is strictly less than its neighbours """
     if (len (v) is 1):
         return True
     
