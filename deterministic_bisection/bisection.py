@@ -15,7 +15,6 @@ def bisection_min (v):
             return min (bisection_min (v[0:i]), bisection_min (v[i:len (v)]))
 
 
-
 def select_side (v, i):
     """ This function receives a vector v and an index i and, based on the elements
     v[i - 1], v[i] and v[i + 1] decides if the points are decreasing returning 1 if
@@ -47,3 +46,39 @@ def valley (v, i):
         vr = v[i - 1]
 
     return v[i] < min (vl, vr)
+
+
+def dip_toe_ubisection (v):
+    """ This function receives a vector, that describes approximately u-shaped curve, as
+    argument and return the minimum element of this vector """
+    return dip_toe_step (v, 0.0, 1.0 / int_log2 (len (v)))
+    
+
+def dip_toe_step (v, p_rate, p_increment):
+    """ This function receives """
+    mid = (len (v) // 2) 
+    left_mid = mid // 2
+    right_mid = mid + (len (v) - mid) // 2
+
+    # minimum of a vector of one element
+    if left_mid is right_mid:
+        return v[mid]
+
+    d = v[left_mid] - v[right_mid]
+    alpha = d * (1 - p_rate)
+
+    if (alpha > 1e-3):
+        return dip_toe_step (v[0:mid], min (p_rate + p_increment, 1), p_increment)
+    elif (alpha < -1e-3):
+        return dip_toe_step (v[mid:len (v)], min (p_rate + p_increment, 1), p_increment)
+    else:
+        return min (dip_toe_step (v[mid:len (v)], min (p_rate + p_increment, 1), p_increment), \
+                    dip_toe_step (v[0:mid], min (p_rate + p_increment, 1), p_increment))
+
+def int_log2 (x):
+    x = int (x)
+    i = 0
+    while (x > 0):
+        x = x // 2
+        i = i + 1
+    return i
