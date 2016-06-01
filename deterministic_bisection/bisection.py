@@ -67,10 +67,10 @@ def dip_toe_step (v, p_rate, p_increment):
     d = v[left_mid] - v[right_mid]
     alpha = d * (1 - p_rate)
 
-    if (alpha > 1e-3):
-        return dip_toe_step (v[0:mid], min (p_rate + p_increment, 1), p_increment)
-    elif (alpha < -1e-3):
+    if (alpha > 1):
         return dip_toe_step (v[mid:len (v)], min (p_rate + p_increment, 1), p_increment)
+    elif (alpha < -1):
+        return dip_toe_step (v[0:mid], min (p_rate + p_increment, 1), p_increment)
     else:
         return min (dip_toe_step (v[mid:len (v)], min (p_rate + p_increment, 1), p_increment), \
                     dip_toe_step (v[0:mid], min (p_rate + p_increment, 1), p_increment))
