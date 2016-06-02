@@ -51,29 +51,71 @@ def valley (v, i):
 def dip_toe_ubisection (v):
     """ This function receives a vector, that describes approximately u-shaped curve, as
     argument and return the minimum element of this vector """
-    return dip_toe_step (v, 0.0, 1.0 / int_log2 (len (v)))
+    #print ("Bisection on v: ", v)
+    
+    return dip_toe_step (v, 1, -1.0 / int_log2 (len (v)))
     
 
-def dip_toe_step (v, p_rate, p_increment):
+def dip_toe_step (v, reliance, reliance_increment):
     """ This function receives """
-    mid = (len (v) // 2) 
-    left_mid = mid // 2
-    right_mid = mid + (len (v) - mid) // 2
+    #print ("Bisection step on: ", v)
+    #print ("reliance: ", reliance)
+
+    m = (len (v) // 2) 
+    lm = m // 2
+    rm = m + (len (v) - m) // 2
 
     # minimum of a vector of one element
-    if left_mid is right_mid:
-        return v[mid]
+    if lm is rm:
+        return v[m]
 
-    d = v[left_mid] - v[right_mid]
-    alpha = d * (1 - p_rate)
+    ld = v[m] - v[lm]
+    rd = v[rm] - v[m]
+    l_slope = abstract_slope (ld, reliance)
+    r_slope = abstract_slope (rd, reliance)
+    new_reliance = max (reliance + reliance_increment, 0)
+    
+    #print ("l_slope, r_slope: ", l_slope, ", ", r_slope)
 
-    if (alpha > 1e-5):
-        return dip_toe_step (v[mid:len (v)], min (p_rate + p_increment, 1), p_increment)
-    elif (alpha < -1e-5):
-        return dip_toe_step (v[0:mid], min (p_rate + p_increment, 1), p_increment)
+    # cases:
+    #    
+    #      m    ,   lm -- m -- rm 
+    # lm /   \ rm
+    if ((l_slope is 1 and r_slope is -1) or (l_slope is 0 and r_slope is 0)):
+        return min (dip_toe_step (v[0:m], new_reliance, reliance_increment), \
+                dip_toe_step (v[m:len(v)], new_reliance, reliance_increment))
+    # cases:
+    #
+    # lm       rm
+    #    \ m /
+    elif (l_slope is -1 and r_slope is 1):
+        return dip_toe_step (v[lm + 1:rm], new_reliance, reliance_increment)
+
+    # cases:
+    #
+    #          rm ,      m -- rm ,           rm
+    #      m /      lm /           lm -- m / 
+    # lm /
+    elif ((l_slope is 1 and (r_slope is 1 or r_slope is 0)) or (l_slope is 0 and r_slope is -1)):
+        return dip_toe_step (v[0:m], new_reliance, reliance_increment)
+
+
+    # cases:
+    #
+    # lm            lm             lm -- m 
+    #    \ m      ,    \ m -- rm ,         \ rm
+    #        \ rm
     else:
-        return min (dip_toe_step (v[mid:len (v)], min (p_rate + p_increment, 1), p_increment), \
-                    dip_toe_step (v[0:mid], min (p_rate + p_increment, 1), p_increment))
+        return dip_toe_step (v[m:len (v)], new_reliance, reliance_increment)
+
+def abstract_slope (d, reliance):
+    alpha = d * reliance
+    if (abs (alpha) < 1):
+        return 0
+    else:
+        return int (d / abs (d))
+
+
 
 def int_log2 (x):
     x = int (x)
