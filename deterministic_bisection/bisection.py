@@ -111,8 +111,15 @@ def mid_neighbour_step (v, reliance, reliance_increment):
 
     # cases:
     #
-    # lm            lm             lm -- m 
-    #    \ m      ,    \ m -- rm ,         \ rm
+    # lm            
+    #    \ m -- rm 
+    elif (l_slope is -1 and r_slope is 0):
+        return mid_neighbour_step (v[lm:len(v)], new_reliance, reliance_increment)
+
+    # cases:
+    #
+    # lm            lm -- m 
+    #    \ m      ,         \ rm
     #        \ rm
     else:
         return mid_neighbour_step (v[m:len (v)], new_reliance, reliance_increment)
