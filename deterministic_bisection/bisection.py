@@ -96,7 +96,7 @@ def dip_toe_step (v, reliance, reliance_increment):
     #          rm ,      m -- rm ,           rm
     #      m /      lm /           lm -- m / 
     # lm /
-    elif ((l_slope is 1 and (r_slope is 1 or r_slope is 0)) or (l_slope is 0 and r_slope is -1)):
+    elif ((l_slope is 1 and (r_slope is 1 or r_slope is 0)) or (l_slope is 0 and r_slope is 1)):
         return dip_toe_step (v[0:m], new_reliance, reliance_increment)
 
 
@@ -108,9 +108,10 @@ def dip_toe_step (v, reliance, reliance_increment):
     else:
         return dip_toe_step (v[m:len (v)], new_reliance, reliance_increment)
 
+
 def abstract_slope (d, reliance):
     alpha = d * reliance
-    if (abs (alpha) < 1):
+    if (abs (alpha) < 1e-3):
         return 0
     else:
         return int (d / abs (d))
