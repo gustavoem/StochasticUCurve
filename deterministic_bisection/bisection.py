@@ -25,7 +25,7 @@ def select_side (v, i):
 
     if (abs (d) < 1e-10): # if we don't know where to go
         return 0
-
+    
     return int(d / abs (d))
 
 
@@ -103,10 +103,10 @@ def mid_neighbour_step (v, reliance, reliance_increment):
 
     # cases:
     #
-    #          rm ,      m -- rm ,           rm
-    #      m /      lm /           lm -- m / 
+    #          rm ,      m -- rm 
+    #      m /      lm /            
     # lm /
-    elif ((l_slope is 1 and (r_slope is 1 or r_slope is 0)) or (l_slope is 0 and r_slope is 1)):
+    elif (l_slope is 1 and (r_slope is 1 or r_slope is 0)):
         return mid_neighbour_step (v[0:m + 1], new_reliance, reliance_increment)
 
     # cases:
@@ -115,6 +115,13 @@ def mid_neighbour_step (v, reliance, reliance_increment):
     #    \ m -- rm 
     elif (l_slope is -1 and r_slope is 0):
         return mid_neighbour_step (v[lm:len(v)], new_reliance, reliance_increment)
+
+    # cases:
+    #
+    # lm -- m
+    #         \ rm
+    elif (l_slope is 0 and r_slope is 1):
+        return mid_neighbour_step (v[0:rm], new_reliance, reliance_increment)
 
     # cases:
     #

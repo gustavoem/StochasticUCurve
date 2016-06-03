@@ -4,7 +4,7 @@ from bisection import bisection_min
 from bisection import mid_neighbour_bisection 
 from time import time
 
-max_input_size = 1000
+max_input_size = 8000
 test_size = 10000.0
 
 d_corrects = 0
