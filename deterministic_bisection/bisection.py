@@ -107,7 +107,7 @@ def mid_neighbour_step (v, reliance, reliance_increment):
     #      m /      lm /           lm -- m / 
     # lm /
     elif ((l_slope is 1 and (r_slope is 1 or r_slope is 0)) or (l_slope is 0 and r_slope is 1)):
-        return mid_neighbour_step (v[0:m], new_reliance, reliance_increment)
+        return mid_neighbour_step (v[0:m + 1], new_reliance, reliance_increment)
 
     # cases:
     #
