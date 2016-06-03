@@ -1,7 +1,7 @@
 from random import random
 from gen_ucurve import gen_points
 from bisection import bisection_min
-from bisection import dip_toe_ubisection 
+from bisection import mid_neighbour_bisection 
 from time import time
 
 max_input_size = 1000
@@ -25,7 +25,7 @@ for i in range (int (test_size)):
         d_corrects = d_corrects + 1
 
     s = time ()
-    result = dip_toe_ubisection (points)
+    result = mid_neighbour_bisection (points)
     e = time ()
     s_time = s_time + e - s
     if min (points) is result:
@@ -35,8 +35,8 @@ for i in range (int (test_size)):
 
 
 
-print ("Correctness for stochastic bisection: ", s_corrects / test_size)
-print ("Correctness for deterministic bisection: ", d_corrects / test_size)
-print ("Time used for stochastic bisection (seconds): ", s_time)
-print ("Time used for deterministicbisection (seconds): ", d_time)
-print ("Average relative error of stochastic bisection: ", s_error / max (test_size - s_corrects, 1))
+print ("Correctness for mid-neighbour bisection: ", s_corrects / test_size)
+print ("Correctness for traditional bisection: ", d_corrects / test_size)
+print ("Time used for mid-neighbour bisection (seconds): ", s_time)
+print ("Time used for traditional bisection (seconds): ", d_time)
+print ("Average relative error of mid-neighour bisection: ", s_error / max (test_size - s_corrects, 1))
