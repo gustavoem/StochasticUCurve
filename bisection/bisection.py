@@ -160,17 +160,20 @@ def upb (v):
     #       P(x* = i) = pmf[i]
     pmf = [1.0 / n] * n
     i = 0
-    print ("hi :)")
-    while (pmf[i] < .9):
+    old_i = -1
+    while (old_i is not i):
         print ("-------------\nIterating...")
         print ("Initial pmf: ", pmf)
+        old_i = i
         [i, alpha] = find_median (pmf)
         print ("i, alpha: ", i, ", ", alpha)
         direction = select_side (v, i)
         print ("direction: ", direction)
         update_pmf (pmf, i, alpha, direction)
+        #update_pmf2 (pmf, i, direction)
         print ("New pmf: ", pmf)
         print ("pmf sum:", sum(pmf))
+
     return v[i]
 
 def find_median (pmf):
@@ -198,10 +201,21 @@ def update_pmf (pmf, i, alpha, direction):
     qc = 1 - pc
     
     if (direction < 0):
-        print ("Inverted pc and qc")
         pc = 1 - pc
         qc = 1 - qc
 
-    pmf[0:i] = map (lambda x: (1.0 / (1 - alpha)) * qc * x, pmf[0:i])
-    pmf[i:len (pmf)] = map (lambda x: (1.0 / alpha) * pc * x, pmf[i:len (pmf)])
+    pmf[0:i] = map (lambda x: (1.0 / alpha) * qc * x, pmf[0:i])
+    pmf[i:len (pmf)] = map (lambda x: (1.0 / (1 - alpha)) * pc * x, pmf[i:len (pmf)])
 
+def update_pmf2 (pmf, i, direction):
+    pc = .75
+    qc = 1 - pc
+    if (direction < 0):
+        pc = 1 - pc
+        qc = 1 - qc
+
+    pmf[0:i] = map (lambda x: qc * x, pmf[0:i])
+    pmf[i:len (pmf)] = map (lambda x: pc * x, pmf[i:len (pmf)])
+    
+    total = sum (pmf)
+    pmf[0:len (pmf)] = map (lambda x: x / total, pmf[0:len (pmf)])
