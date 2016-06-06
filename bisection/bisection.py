@@ -183,7 +183,6 @@ def find_median (pmf):
         i = argmin {v[i] | P(x* <= i) >= 1/2}, and
         alpha = P(x <= i)
     """
-    print (pmf)
     i = 0
     alpha = pmf[i]
     while (alpha < .5):
@@ -210,8 +209,8 @@ def update_pmf (pmf, i, alpha, direction):
     if (alpha > 0.95):
         return [i, 0]
 
-    pmf[0:i] = map (lambda x: (1.0 / alpha) * qc * x, pmf[0:i])
-    pmf[i:len (pmf)] = map (lambda x: (1.0 / (1 - alpha)) * pc * x, pmf[i:len (pmf)])
+    pmf[0:i + 1] = map (lambda x: (1.0 / alpha) * qc * x, pmf[0:i + 1])
+    pmf[i + 1:len (pmf)] = map (lambda x: (1.0 / (1 - alpha)) * pc * x, pmf[i + 1:len (pmf)])
 
 def update_pmf2 (pmf, i, direction):
     pc = .75
