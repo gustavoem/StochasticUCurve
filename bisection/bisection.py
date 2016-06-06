@@ -140,8 +140,6 @@ def abstract_slope (d, reliance):
     else:
         return int (d / abs (d))
 
-
-
 def int_log2 (x):
     """ Calculates the base 2 logarithm of an integer x """
     x = int (x)
@@ -150,3 +148,55 @@ def int_log2 (x):
         x = x // 2
         i = i + 1
     return i
+
+
+def upb (v):
+    """ U-Curve Probabilistic Bisection 
+    This function receives a vector, that describes approximately u-shaped curve, as
+    argument and return the minimum element of this vector """
+    n = len (v)
+    # probability mass function
+    # Suppose that the minimum element of v is in v[x*], then, we say that 
+    #       P(x* = i) = pmf[i]
+    pmf = [1.0 / n] * n
+    
+    print ("Initial pmf: ", pmf)
+    [i, alpha] = find_median (pmf)
+    print ("i, alpha: ", i, ", ", alpha)
+    direction = select_side (v, i)
+    print ("direction: ", direction)
+    update_pmf (pmf, i, alpha, direction)
+    print ("New pmf: ", pmf)
+
+def find_median (pmf):
+    """ Receives v and pmf and returns the index of v and alpha such that:
+        i = argmin {v[i] | P(x* <= i) >= 1/2}, and
+        alpha = P(x <= i)
+    """
+    alpha = 0
+    i = 0
+    while (alpha < .5):
+        alpha += pmf[i]
+        i += 1
+
+    return [i, alpha]
+
+def update_pmf (pmf, i, alpha, direction):
+    """ if direction >= 0
+        pmf_{n+1}(y) = (1/(1 - alpha))*pc*pmf_{n}(y) for y >= x_{n}
+        pmf_{n+1}(y) = (1/alpha)*qc*pmf_{n}(y) for y < x_{n}
+    and, similarly, for direction = -1 
+        pmf_{n+1}(y) = (1/(1 - alpha))*qc*pmf_{n}(y) for y >= x_{n}
+        pmf_{n+1}(y) = (1/alpha)*pc*pmf_{n}(y) for y < x_{n}
+    """
+    pc = .75
+    qc = 1 - pc
+    
+    if (direction < 0):
+        print ("Inverted pc and qc")
+        pc = 1 - pc
+        qc = 1 - qc
+
+    pmf[0:i] = map (lambda x: (1.0 / (1 - alpha)) * qc * x, pmf[0:i])
+    pmf[i:len (pmf)] = map (lambda x: (1.0 / alpha) * pc * x, pmf[i:len (pmf)])
+
