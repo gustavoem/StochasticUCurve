@@ -161,7 +161,8 @@ def upb (v):
     pmf = [1.0 / n] * n
     i = 0
     old_i = -1
-    while (old_i is not i):
+    limit = 1000
+    while (old_i is not i and limit > 0):
         print ("-------------\nIterating...")
         print ("Initial pmf: ", pmf)
         old_i = i
@@ -173,6 +174,7 @@ def upb (v):
         #update_pmf2 (pmf, i, direction)
         print ("New pmf: ", pmf)
         print ("pmf sum:", sum(pmf))
+        limit -= 1
 
     return v[i]
 
@@ -181,11 +183,12 @@ def find_median (pmf):
         i = argmin {v[i] | P(x* <= i) >= 1/2}, and
         alpha = P(x <= i)
     """
-    alpha = 0
+    print (pmf)
     i = 0
+    alpha = pmf[i]
     while (alpha < .5):
-        alpha += pmf[i]
         i += 1
+        alpha += pmf[i]
 
     return [i, alpha]
 
@@ -203,6 +206,9 @@ def update_pmf (pmf, i, alpha, direction):
     if (direction < 0):
         pc = 1 - pc
         qc = 1 - qc
+
+    if (alpha > 0.95):
+        return [i, 0]
 
     pmf[0:i] = map (lambda x: (1.0 / alpha) * qc * x, pmf[0:i])
     pmf[i:len (pmf)] = map (lambda x: (1.0 / (1 - alpha)) * pc * x, pmf[i:len (pmf)])

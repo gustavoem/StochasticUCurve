@@ -2,14 +2,17 @@ from random import random
 from gen_ucurve import gen_points
 from bisection import bisection_min
 from bisection import mid_neighbour_bisection 
+from bisection import upb
 from time import time
 
-max_input_size = 8000
-test_size = 10000.0
+max_input_size = 10
+test_size = 1000.0
 
 d_corrects = 0
+m_corrects = 0
 s_corrects = 0
 d_time = 0
+m_time = 0
 s_time = 0
 s_error = 0.0
 
@@ -27,6 +30,13 @@ for i in range (int (test_size)):
     s = time ()
     result = mid_neighbour_bisection (points)
     e = time ()
+    m_time = m_time + e - s
+    if min (points) is result:
+        m_corrects = m_corrects + 1
+
+    s = time ()
+    result = upb (points)
+    e = time ()
     s_time = s_time + e - s
     if min (points) is result:
         s_corrects = s_corrects + 1
@@ -35,8 +45,10 @@ for i in range (int (test_size)):
 
 
 
-print ("Correctness for mid-neighbour bisection: ", s_corrects / test_size)
+print ("Correctness for mid-neighbour bisection: ", m_corrects / test_size)
 print ("Correctness for traditional bisection: ", d_corrects / test_size)
-print ("Time used for mid-neighbour bisection (seconds): ", s_time)
+print ("Correctness for probabilistic bisection: ", s_corrects / test_size)
+print ("Time used for mid-neighbour bisection (seconds): ", m_time)
 print ("Time used for traditional bisection (seconds): ", d_time)
-print ("Average relative error of mid-neighour bisection: ", s_error / max (test_size - s_corrects, 1))
+print ("Time used for probabilistic bisection (seconds): ", s_time)
+print ("Average relative error of upb bisection: ", s_error / max (test_size - s_corrects, 1))
