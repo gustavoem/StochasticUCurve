@@ -159,14 +159,19 @@ def upb (v):
     # Suppose that the minimum element of v is in v[x*], then, we say that 
     #       P(x* = i) = pmf[i]
     pmf = [1.0 / n] * n
-    
-    print ("Initial pmf: ", pmf)
-    [i, alpha] = find_median (pmf)
-    print ("i, alpha: ", i, ", ", alpha)
-    direction = select_side (v, i)
-    print ("direction: ", direction)
-    update_pmf (pmf, i, alpha, direction)
-    print ("New pmf: ", pmf)
+    i = 0
+    print ("hi :)")
+    while (pmf[i] < .9):
+        print ("-------------\nIterating...")
+        print ("Initial pmf: ", pmf)
+        [i, alpha] = find_median (pmf)
+        print ("i, alpha: ", i, ", ", alpha)
+        direction = select_side (v, i)
+        print ("direction: ", direction)
+        update_pmf (pmf, i, alpha, direction)
+        print ("New pmf: ", pmf)
+        print ("pmf sum:", sum(pmf))
+    return v[i]
 
 def find_median (pmf):
     """ Receives v and pmf and returns the index of v and alpha such that:
