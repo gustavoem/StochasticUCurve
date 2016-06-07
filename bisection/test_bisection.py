@@ -5,7 +5,7 @@ from bisection import mid_neighbour_bisection
 from bisection import upb
 from time import time
 
-max_input_size = 100
+max_input_size = 3200
 test_size = 1000.0
 
 d_corrects = 0

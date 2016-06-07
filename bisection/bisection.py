@@ -165,25 +165,25 @@ def upb (v, pmf = []):
     old_i = -1
     limit = 1000
     while ((not valley (v, i)) and limit > 0):
-        print ("-------------\nIterating...")
-        print ("Initial pmf: ", pmf)
-        print ("v: ", v)
+        #print ("-------------\nIterating...")
+        #print ("Initial pmf: ", pmf)
+        #print ("v: ", v)
         
         old_i = i
         [i, alpha] = find_median (pmf)
         
-        print ("i, alpha: ", i, ", ", alpha)
+        #print ("i, alpha: ", i, ", ", alpha)
         
         direction = select_side (v, i)
         if (direction is 0):
             return split_upb (v, pmf, i)
         
-        print ("direction: ", direction)
+        #print ("direction: ", direction)
         
         update_pmf (pmf, i, alpha, direction)
         
-        print ("New pmf: ", pmf)
-        print ("pmf sum:", sum(pmf))
+        #print ("New pmf: ", pmf)
+        #print ("pmf sum:", sum(pmf))
         limit -= 1
 
     return v[i]
@@ -200,9 +200,6 @@ def split_upb (v, pmf, i):
     normalize_pmf (pmf1)
     normalize_pmf (pmf2)
     
-    print ("splitting in: ", v1, ", and ", v2)
-    print ("len: ", len (v1), ", ", len (v2))
-
     sol1 = None
     sol2 = None
     if (len (v1) > 0):
