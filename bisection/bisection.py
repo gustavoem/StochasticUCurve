@@ -150,7 +150,7 @@ def int_log2 (x):
     return i
 
 
-def upb (v):
+def upb (v, pmf = []):
     """ U-Curve Probabilistic Bisection 
     This function receives a vector, that describes approximately u-shaped curve, as
     argument and return the minimum element of this vector """
@@ -158,25 +158,77 @@ def upb (v):
     # probability mass function
     # Suppose that the minimum element of v is in v[x*], then, we say that 
     #       P(x* = i) = pmf[i]
-    pmf = [1.0 / n] * n
+    if (pmf == []):
+        pmf = [1.0 / n] * n
+    
     i = 0
     old_i = -1
     limit = 1000
     while ((not valley (v, i)) and limit > 0):
-        #print ("-------------\nIterating...")
-        #print ("Initial pmf: ", pmf)
+        print ("-------------\nIterating...")
+        print ("Initial pmf: ", pmf)
+        print ("v: ", v)
+        
         old_i = i
         [i, alpha] = find_median (pmf)
-        #print ("i, alpha: ", i, ", ", alpha)
+        
+        print ("i, alpha: ", i, ", ", alpha)
+        
         direction = select_side (v, i)
-        #print ("direction: ", direction)
+        if (direction is 0):
+            return split_upb (v, pmf, i)
+        
+        print ("direction: ", direction)
+        
         update_pmf (pmf, i, alpha, direction)
-        #update_pmf2 (pmf, i, direction)
-        #print ("New pmf: ", pmf)
-        #print ("pmf sum:", sum(pmf))
+        
+        print ("New pmf: ", pmf)
+        print ("pmf sum:", sum(pmf))
         limit -= 1
 
     return v[i]
+
+
+def split_upb (v, pmf, i):
+    """ Splits the orginal problem v with pmf in two parts, from 0 to i - 1 and from
+    i + 1 to len (v) """
+    v1 = v[0:i]
+    v2 = v[i + 1:len (v)]
+    
+    pmf1 = pmf[0:i]
+    pmf2 = pmf[i + 1:len (v)]
+    normalize_pmf (pmf1)
+    normalize_pmf (pmf2)
+    
+    print ("splitting in: ", v1, ", and ", v2)
+    print ("len: ", len (v1), ", ", len (v2))
+
+    sol1 = None
+    sol2 = None
+    if (len (v1) > 0):
+        sol1 = upb (v1, pmf1)
+    if (len (v2) > 0):
+        sol2 = upb (v2, pmf2)
+    
+    return min (min_with_none (sol1, sol2), v[i])
+
+
+def min_with_none (a, b):
+    """ Same as the built in min function, except that this one handles None elements """
+    if (a is None):
+        return b
+    if (b is None):
+        return a
+    return min (a, b)
+
+    
+
+def normalize_pmf (pmf):
+    """ Makes sum (pmf) = 1 and keep the proportion of it's elements """
+    total = sum (pmf)
+    pmf[0:len (pmf)] = map (lambda x: x / total, pmf[0:len (pmf)])
+    
+
 
 def find_median (pmf):
     """ Receives v and pmf and returns the index of v and alpha such that:
@@ -220,16 +272,3 @@ def update_pmf (pmf, i, alpha, direction):
                 map (lambda x: (1.0 / (1 - alpha)) * pc * x, pmf[i + 1: len (pmf)])
         pmf[0:i + 1] = map (lambda x: (1.0 / alpha) * qc * x, pmf[0:i + 1])
 
-
-def update_pmf2 (pmf, i, direction):
-    pc = .75
-    qc = 1 - pc
-    if (direction < 0):
-        pc = 1 - pc
-        qc = 1 - qc
-
-    pmf[0:i] = map (lambda x: qc * x, pmf[0:i])
-    pmf[i:len (pmf)] = map (lambda x: pc * x, pmf[i:len (pmf)])
-    
-    total = sum (pmf)
-    pmf[0:len (pmf)] = map (lambda x: x / total, pmf[0:len (pmf)])
