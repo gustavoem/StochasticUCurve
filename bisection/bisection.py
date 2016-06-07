@@ -162,7 +162,7 @@ def upb (v):
     i = 0
     old_i = -1
     limit = 1000
-    while (old_i is not i and limit > 0):
+    while ((not valley (v, i)) and (old_i is not i) and limit > 0):
         #print ("-------------\nIterating...")
         #print ("Initial pmf: ", pmf)
         old_i = i
