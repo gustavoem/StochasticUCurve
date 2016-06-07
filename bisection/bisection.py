@@ -163,17 +163,17 @@ def upb (v):
     old_i = -1
     limit = 1000
     while ((not valley (v, i)) and limit > 0):
-        print ("-------------\nIterating...")
-        print ("Initial pmf: ", pmf)
+        #print ("-------------\nIterating...")
+        #print ("Initial pmf: ", pmf)
         old_i = i
         [i, alpha] = find_median (pmf)
-        print ("i, alpha: ", i, ", ", alpha)
+        #print ("i, alpha: ", i, ", ", alpha)
         direction = select_side (v, i)
-        print ("direction: ", direction)
+        #print ("direction: ", direction)
         update_pmf (pmf, i, alpha, direction)
         #update_pmf2 (pmf, i, direction)
-        print ("New pmf: ", pmf)
-        print ("pmf sum:", sum(pmf))
+        #print ("New pmf: ", pmf)
+        #print ("pmf sum:", sum(pmf))
         limit -= 1
 
     return v[i]
@@ -202,23 +202,23 @@ def update_pmf (pmf, i, alpha, direction):
     pc = .75
     qc = 1 - pc
     
-    if (direction >= 0):
+    if (direction < 0):
         # beta = P (x* < X_n)
         # beta < 1 
         beta = alpha - pmf[i]
         if (1 - beta < 1e-8):
             return
         
-        pmf[i:len (pmf)] = map (lambda x: (1.0 / (1 - beta)) * pc * x, pmf[i:len (pmf)])
-        pmf[0:i] = map (lambda x: (1.0 / beta) * qc * x, pmf[0:i])
+        pmf[i:len (pmf)] = map (lambda x: (1.0 / (1 - beta)) * qc * x, pmf[i:len (pmf)])
+        pmf[0:i] = map (lambda x: (1.0 / beta) * pc * x, pmf[0:i])
     else:
         # alpha = P (x* <= X_n)
         if (1 - alpha < 1e-8):
             return
 
         pmf[i + 1:len (pmf)] = \
-                map (lambda x: (1.0 / (1 - alpha)) * qc * x, pmf[i + 1: len (pmf)])
-        pmf[0:i + 1] = map (lambda x: (1.0 / alpha) * pc * x, pmf[0:i + 1])
+                map (lambda x: (1.0 / (1 - alpha)) * pc * x, pmf[i + 1: len (pmf)])
+        pmf[0:i + 1] = map (lambda x: (1.0 / alpha) * qc * x, pmf[0:i + 1])
 
 
 def update_pmf2 (pmf, i, direction):
