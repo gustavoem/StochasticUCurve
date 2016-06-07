@@ -162,18 +162,18 @@ def upb (v):
     i = 0
     old_i = -1
     limit = 1000
-    while ((not valley (v, i)) and (old_i is not i) and limit > 0):
-        #print ("-------------\nIterating...")
-        #print ("Initial pmf: ", pmf)
+    while ((not valley (v, i)) and limit > 0):
+        print ("-------------\nIterating...")
+        print ("Initial pmf: ", pmf)
         old_i = i
         [i, alpha] = find_median (pmf)
-        #print ("i, alpha: ", i, ", ", alpha)
+        print ("i, alpha: ", i, ", ", alpha)
         direction = select_side (v, i)
-        #print ("direction: ", direction)
+        print ("direction: ", direction)
         update_pmf (pmf, i, alpha, direction)
         #update_pmf2 (pmf, i, direction)
-        #print ("New pmf: ", pmf)
-        #print ("pmf sum:", sum(pmf))
+        print ("New pmf: ", pmf)
+        print ("pmf sum:", sum(pmf))
         limit -= 1
 
     return v[i]
