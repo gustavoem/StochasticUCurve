@@ -162,14 +162,11 @@ def upb (v, pmf = []):
         pmf = [1.0 / n] * n
     
     i = 0
-    old_i = -1
     limit = 1000
     while ((not valley (v, i)) and limit > 0):
         #print ("-------------\nIterating...")
         #print ("Initial pmf: ", pmf)
         #print ("v: ", v)
-        
-        old_i = i
         [i, alpha] = find_median (pmf)
         
         #print ("i, alpha: ", i, ", ", alpha)
@@ -230,8 +227,7 @@ def normalize_pmf (pmf):
 def find_median (pmf):
     """ Receives v and pmf and returns the index of v and alpha such that:
         i = argmin {v[i] | P(x* <= i) >= 1/2}, and
-        alpha = P(x <= i)
-    """
+        alpha = P(x <= i) """
     i = 0
     alpha = pmf[i]
     while (alpha < .5):
@@ -246,8 +242,7 @@ def update_pmf (pmf, i, alpha, direction):
         pmf_{n+1}(y) = (1/alpha)*qc*pmf_{n}(y) for y < x_{n}
     and, similarly, for direction = -1 
         pmf_{n+1}(y) = (1/(1 - alpha))*qc*pmf_{n}(y) for y >= x_{n}
-        pmf_{n+1}(y) = (1/alpha)*pc*pmf_{n}(y) for y < x_{n}
-    """
+        pmf_{n+1}(y) = (1/alpha)*pc*pmf_{n}(y) for y < x_{n} """
     pc = .75
     qc = 1 - pc
     
