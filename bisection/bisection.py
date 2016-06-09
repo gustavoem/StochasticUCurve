@@ -79,36 +79,39 @@ def mid_neighbour_step (v, reliance, reliance_increment):
     and calculate both 'sides' of the vector separately to avoid prunning the minimum"""
     #print ("Bisection step on: ", v)
     #print ("reliance: ", reliance)
-
     m = (len (v) // 2) 
     lm = m // 2
     rm = m + (len (v) - m) // 2
+    #print ("lm, m, rm: ", lm, ", ", m, ", ", m)
 
     # minimum of a vector of one element
     if lm is rm:
-        return v[m]
+        return [v[m], 0]
 
     ld = v[m] - v[lm]
     rd = v[rm] - v[m]
     l_slope = abstract_slope (ld, reliance)
     r_slope = abstract_slope (rd, reliance)
     new_reliance = max (reliance + reliance_increment, 0)
-    
     #print ("l_slope, r_slope: ", l_slope, ", ", r_slope)
-
+    
     # cases:
     #    
     #      m    ,   lm -- m -- rm 
     # lm /   \ rm
     if ((l_slope is 1 and r_slope is -1) or (l_slope is 0 and r_slope is 0)):
-        return min (mid_neighbour_step (v[0:m], new_reliance, reliance_increment), \
-                mid_neighbour_step (v[m:len(v)], new_reliance, reliance_increment))
+        [result1, evaluations1] = mid_neighbour_step (v[0:m], new_reliance, reliance_increment)
+        [result2, evaluations2] = mid_neighbour_step (v[m:len(v)], new_reliance, reliance_increment)
+        return [min (result1, result2), evaluations1 + evaluations2 + 3]
+
     # cases:
     #
     # lm       rm
     #    \ m /
     elif (l_slope is -1 and r_slope is 1):
-        return mid_neighbour_step (v[lm + 1:rm], new_reliance, reliance_increment)
+        [result, evaluations] = \
+                mid_neighbour_step (v[lm + 1:rm], new_reliance, reliance_increment)
+        return [result, evaluations + 3]
 
     # cases:
     #
@@ -116,21 +119,26 @@ def mid_neighbour_step (v, reliance, reliance_increment):
     #      m /      lm /            
     # lm /
     elif (l_slope is 1 and (r_slope is 1 or r_slope is 0)):
-        return mid_neighbour_step (v[0:m + 1], new_reliance, reliance_increment)
+        [result, evaluations] = \
+                mid_neighbour_step (v[0:m + 1], new_reliance, reliance_increment)
+        return [result, evaluations + 3]
 
     # cases:
     #
     # lm            
     #    \ m -- rm 
     elif (l_slope is -1 and r_slope is 0):
-        return mid_neighbour_step (v[lm:len(v)], new_reliance, reliance_increment)
+        [result, evaluations] =  mid_neighbour_step (v[lm:len(v)], new_reliance, reliance_increment)
+        return [result, evaluations + 3]
 
     # cases:
     #
     # lm -- m
     #         \ rm
     elif (l_slope is 0 and r_slope is 1):
-        return mid_neighbour_step (v[0:rm], new_reliance, reliance_increment)
+        [result, evaluations] = \
+                mid_neighbour_step (v[0:rm], new_reliance, reliance_increment)
+        return [result, evaluations + 3]
 
     # cases:
     #
@@ -138,7 +146,10 @@ def mid_neighbour_step (v, reliance, reliance_increment):
     #    \ m      ,         \ rm
     #        \ rm
     else:
-        return mid_neighbour_step (v[m:len (v)], new_reliance, reliance_increment)
+        [result, evaluations] = \
+                mid_neighbour_step (v[m:len (v)], new_reliance, reliance_increment)
+        return [result, evaluations + 3]
+
 
 
 def abstract_slope (d, reliance):
@@ -170,9 +181,12 @@ def upb (v, pmf = []):
     if (pmf == []):
         pmf = [1.0 / n] * n
     
+    evaluations = 0
+
     i = 0
     limit = 1000
     while ((not valley (v, i)) and limit > 0):
+        evaluations += 3
         #print ("-------------\nIterating...")
         #print ("Initial pmf: ", pmf)
         #print ("v: ", v)
@@ -182,7 +196,8 @@ def upb (v, pmf = []):
         
         direction = select_side (v, i)
         if (direction is 0):
-            return split_upb (v, pmf, i)
+            [result, child_eval] = split_upb (v, pmf, i)
+            return [result, evaluations + child_eval]
         
         #print ("direction: ", direction)
         
@@ -192,7 +207,8 @@ def upb (v, pmf = []):
         #print ("pmf sum:", sum(pmf))
         limit -= 1
 
-    return v[i]
+    evaluations += 3
+    return [v[i], evaluations]
 
 
 def split_upb (v, pmf, i):
@@ -207,13 +223,15 @@ def split_upb (v, pmf, i):
     normalize_pmf (pmf2)
     
     sol1 = None
+    eval1 = 0
     sol2 = None
+    eval2 = 0
     if (len (v1) > 0):
-        sol1 = upb (v1, pmf1)
+        [sol1, eval1] = upb (v1, pmf1)
     if (len (v2) > 0):
-        sol2 = upb (v2, pmf2)
+        [sol2, eval2] = upb (v2, pmf2)
     
-    return min (min_with_none (sol1, sol2), v[i])
+    return [min (min_with_none (sol1, sol2), v[i]), eval1 + eval2]
 
 
 def min_with_none (a, b):
