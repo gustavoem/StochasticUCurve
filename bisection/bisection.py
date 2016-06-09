@@ -1,18 +1,27 @@
 def bisection_min (v):
+    return bisection_min_step (v, 0)
+
+def bisection_min_step (v, evaluations):
     """ This function receives a vector, that describes a u-shaped curve, as argument
     and return the minimum element of this vector """
     i = len (v) // 2
-    
+    if (len (v) is 1):
+        evaluations += 1
+    else:
+        evaluations += 3
+
     if (valley (v, i)):
-        return v[i]
+        return [v[i], evaluations]
     else:
         direction = select_side (v, i)
         if (direction is 1):
-            return bisection_min (v[i:len (v)])
+            return bisection_min_step (v[i:len (v)], evaluations)
         elif (direction is -1):
-            return bisection_min (v[0:i])
+            return bisection_min_step (v[0:i], evaluations)
         else:
-            return min (bisection_min (v[0:i]), bisection_min (v[i:len (v)]))
+            [result1, evaluations1] = bisection_min_step (v[0:i], 0)
+            [result2, evaluations2] = bisection_min_step (v[i:len (v)], 0)
+            return [min (result1, result2), evaluations1 + evaluations2] 
 
 
 def select_side (v, i):

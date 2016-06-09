@@ -5,12 +5,15 @@ from bisection import mid_neighbour_bisection
 from bisection import upb
 from time import time
 
-max_input_size = 800
+max_input_size = 1000
 test_size = 1000.0
 
 d_corrects = 0
 m_corrects = 0
 s_corrects = 0
+d_evaluations = 0
+m_evaluations = 0
+s_evaluations = 0
 d_time = 0
 m_time = 0
 s_time = 0
@@ -21,7 +24,8 @@ for i in range (int (test_size)):
     points = gen_points (n, 1.0 / n, int (n * random ()))
     
     s = time ()
-    result = bisection_min (points)
+    [result, evaluations] = bisection_min (points)
+    d_evaluations += evaluations / (n * 1.0)
     e = time ()
     d_time = d_time + e - s
     if min (points) is result:
@@ -48,6 +52,7 @@ for i in range (int (test_size)):
 print ("Correctness for mid-neighbour bisection: ", m_corrects / test_size)
 print ("Correctness for traditional bisection: ", d_corrects / test_size)
 print ("Correctness for probabilistic bisection: ", s_corrects / test_size)
+print ("Average percentage of evaluated nodes for traditional bisection: ", d_evaluations / test_size)
 print ("Time used for mid-neighbour bisection (seconds): ", m_time)
 print ("Time used for traditional bisection (seconds): ", d_time)
 print ("Time used for probabilistic bisection (seconds): ", s_time)
