@@ -23,3 +23,12 @@ def gen_points (n, max_distance, center):
         points[j + k] = points[j]
 
     return points
+
+def input_noise (v):
+    """ Inserts random noise in the points of v with values in
+    [-(amplitude / len (v)) * (error_percentage), (amplitude / len (v)) * (error_percentage)] """
+    points_amplitude = max (v) - min (v)
+    relative_amplitude = points_amplitude / len (v)
+    error_percentage = 1
+    v[0:len (v)] = map (lambda x: x + ((random () - .5) * relative_amplitude * error_percentage * 2), v[0:len (v)])
+    

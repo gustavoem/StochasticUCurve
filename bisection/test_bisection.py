@@ -1,11 +1,12 @@
 from random import random
 from gen_ucurve import gen_points
+from gen_ucurve import input_noise
 from bisection import bisection_min
 from bisection import mid_neighbour_bisection 
 from bisection import upb
 from time import time
 
-max_input_size = 10000
+max_input_size = 1000
 test_size = 1000.0
 
 d_corrects = 0
@@ -22,6 +23,7 @@ s_error = 0.0
 for i in range (int (test_size)):
     n = 1 + int (random () * max_input_size)
     points = gen_points (n, 1.0 / n, int (n * random ()))
+    input_noise (points)
     
     s = time ()
     [result, evaluations] = bisection_min (points)
