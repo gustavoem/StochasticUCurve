@@ -92,5 +92,62 @@ $[-\alpha \frac{curve\_amplitude}{n}, \alpha \frac{curve\_amplitude}{n}]$, where
 
 \newpage
 \section{Bisection Algorithms}
+\subsection{Traditional Bisection}
+This is the simplest bisection algorithm we implemented. The basic idea of this algorithm is to divide the original problem in two halfs and, by analysing the neighbours of the node in the middle, determine which half has the minimum and then solve this half recursively. To guarantee the optimally of the algorithm (when the input respects the U-Curve assumption) we solve both halfs when the neighbours can't determine if the minimum lies to the left or right of the middle point.
+\begin{algorithm}[h]
+\caption{}
+\begin{algorithmic}[1]
+\Procedure{Bisection}{$v$}
+    \State $n \gets v.length$
+    \State $i \gets n / 2$
+    \If {$(valley (v, i))$}
+        \State
+        \Return $v[i]$
+    \Else
+        \State $direction \gets SelectSide (v, i)$
+        \If {$direction = Left$}
+            \State
+            \Return $Bisection ([v_i, ..., v_n])$
+        \ElsIf {$direction = Right$}
+            \State
+            \Return $Bisection ([v_0, ..., v_{i - 1}])$
+        \Else \Comment Unknown direction
+            \State
+            \Return $min (Bisection ([v_0, ..., v_{i - 1}]), Bisection ([v_i, ..., v_n]))$
+        \EndIf
+    \EndIf
+
+\EndProcedure
+\end{algorithmic}
+\end{algorithm}
+
+\begin{algorithm}[h]
+\caption{}
+\begin{algorithmic}[1]
+\Procedure{SelectSide}{$v, i$}
+    \State $d = v[i + 1] - v[i - 1]$
+    \If {$|d| < \epsilon$}
+        \State
+        \Return Unknown
+    \ElsIf {$d > 0$}
+        \State
+        \Return Left
+    \Else
+        \State
+        \Return Right
+    \EndIf
+\EndProcedure
+\end{algorithmic}
+\end{algorithm}
+
+\subsection {Mid-neighbour Bisection}
+As an attempt to minimize the effects of noise in the traditional bisection algorithm we developed the Mid-neighbour Bisection, which brings two new ideas to the traditional bisection, that changes the evaluated points and also how we divide the problem in smaller problems.
+
+The first idea consists in changing the points that are evaluated to decide which side to go. Instead of looking to the neighbours of the middle point, we now evaluate the points that are in the middle of the left half and right half. After evaluating these points, we calculate the difference between the left-middle point and middle point and also the difference between the right-middle point and the middle point to get two abstract slopes that can guarantee us which fraction of the input has the minimum value. 
+
+The second idea considers the "reliabillity" of the abstract slopes mentioned before, for instance, if we say that the left slope (middle point - left-middle point) is negative, it's more likely that the function is going to increase from the left-middle point and before if the distance between these two points is greater. That happens because if the function decreases from the left-middle point and before, then the left-middle point suffered some noise that caused a peak (an inverted u-shape) and, considering that the points should describe a u-shape that would imply in a bigger noise for bigger distances of middle point and lef-middle point. We modeled the "reliability" of the abstract slope as a linear function that decreases from one to zero in $lg n$ steps.
+
+The abstracts slopes are reduced to three different cases: 1 for growing, -1 for decreasing and 0 for plain areas or unreliable difference. Since we have two different slopes
+
 \end{document}
 
