@@ -1,9 +1,12 @@
 from random import random
+from random import seed
+from datetime import datetime
 
 def gen_points (n, max_distance, center):
     """Generates n points from 0 to 1, that differ from each at most max_distance, and 
     describe a u-shape in the return vector. center represents the index of the minimum 
     of the curve"""
+    seed(datetime.now ())
     points = [0] * n
     minimum = random () / 2
     points[center] = minimum
@@ -26,9 +29,16 @@ def gen_points (n, max_distance, center):
 
 def input_noise (v):
     """ Inserts random noise in the points of v with values in
-    [-(amplitude / len (v)) * (error_percentage), (amplitude / len (v)) * (error_percentage)] """
+    [-(amplitude / len (v)) * (alpha), (amplitude / len (v)) * (alpha)] """
     curve_amplitude = max (v) - min (v)
     relative_amplitude = curve_amplitude / len (v)
-    error_percentage = 1
-    v[0:len (v)] = map (lambda x: x + ((random () - .5) * relative_amplitude * error_percentage * 2), v[0:len (v)])
-    
+    alpha = 5
+    v[0:len (v)] = map (lambda x: x + ((random () - .5) * relative_amplitude * alpha * 2), v[0:len (v)])
+   
+f = open ('curve_data.txt', 'w')
+v = gen_points (100, .01, 50)
+input_noise (v)
+for x in v:
+    f.write (str (x) + "\n")
+f.close ()
+

@@ -1,5 +1,5 @@
 \documentclass[12pt]{article}
-\usepackage[portuguese]{babel}
+%\usepackage[portuguese]{babel}
 \usepackage[utf8]{inputenc}
 \usepackage[usenames,dvipsnames]{color}
 \usepackage{setspace}
@@ -69,7 +69,28 @@ The algorithm receives three parameters: $n$, $max\_distance$ and $center$; and 
 \end{algorithm}
 
 \subsection{Noise}
-The noise is applied to the vector created by $GeneratePoints$
+The noise is applied to the vector created by $GeneratePoints$, by adding a value uniformily distributed in the interval 
+$[-\alpha \frac{curve\_amplitude}{n}, \alpha \frac{curve\_amplitude}{n}]$, where $curve\_amplitude = max(v) - min (v)$ and $\alpha$ is a noise parameter.
 
+\begin{figure}[H]
+\caption{Example of a curve generated with $\alpha = 0$}
+\centering
+\includegraphics[scale=.5]{alpha_zero_curve}
+\end{figure}
 
+\begin{figure}[H]
+\caption{Example of a curve generated with $\alpha = 1$}
+\centering
+\includegraphics[scale=.5]{alpha_one_curve}
+\end{figure}
+
+\begin{figure}[H]
+\caption{Example of a curve generated with $\alpha = 2$}
+\centering
+\includegraphics[scale=.5]{alpha_two_curve}
+\end{figure}
+
+\newpage
+\section{Bisection Algorithms}
 \end{document}
+
