@@ -32,7 +32,7 @@ def input_noise (v):
     [-(amplitude / len (v)) * (alpha), (amplitude / len (v)) * (alpha)] """
     curve_amplitude = max (v) - min (v)
     relative_amplitude = curve_amplitude / len (v)
-    alpha = 5
+    alpha = 6
     v[0:len (v)] = map (lambda x: x + ((random () - .5) * relative_amplitude * alpha * 2), v[0:len (v)])
    
 f = open ('curve_data.txt', 'w')

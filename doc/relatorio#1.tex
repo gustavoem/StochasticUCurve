@@ -147,7 +147,15 @@ The first idea consists in changing the points that are evaluated to decide whic
 
 The second idea considers the "reliabillity" of the abstract slopes mentioned before, for instance, if we say that the left slope (middle point - left-middle point) is negative, it's more likely that the function is going to increase from the left-middle point and before if the distance between these two points is greater. That happens because if the function decreases from the left-middle point and before, then the left-middle point suffered some noise that caused a peak (an inverted u-shape) and, considering that the points should describe a u-shape that would imply in a bigger noise for bigger distances of middle point and lef-middle point. We modeled the "reliability" of the abstract slope as a linear function that decreases from one to zero in $lg n$ steps.
 
-The abstracts slopes are reduced to three different cases: 1 for growing, -1 for decreasing and 0 for plain areas or unreliable difference. Since we have two different slopes
+The abstracts slopes are reduced to three different cases: 1 for growing, -1 for decreasing and 0 for plain areas or unreliable difference. Since we have three different slopes, there are nine different cases that need to be treated in the algorithm. 
+
+\thicklines
+\begin{center}\label{fig:basic_dir}
+    \begin{picture}(200, 200)
+        \put(50, 50){\line(1, 0){100}}
+        \put(50, 50){\line(-1, 1){50}}
+    \end{picture}
+\end{center} 
 
 \end{document}
 
