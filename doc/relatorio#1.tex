@@ -147,52 +147,52 @@ The first idea consists in changing the points that are evaluated to decide whic
 
 The second idea considers the "reliabillity" of the abstract slopes mentioned before, for instance, if we say that the left slope (middle point - left-middle point) is negative, it's more likely that the function is going to increase from the left-middle point and before if the distance between these two points is greater. That happens because if the function decreases from the left-middle point and before, then the left-middle point suffered some noise that caused a peak (an inverted u-shape) and, considering that the points should describe a u-shape that would imply in a bigger noise for bigger distances of middle point and lef-middle point. We modeled the "reliability" of the abstract slope as a linear function that decreases from one to zero in $lg n$ steps.
 
-The abstracts slopes are reduced to three different cases: 1 for growing, -1 for decreasing and 0 for plain areas or unreliable difference. Since we have three different slopes, there are nine different cases that need to handled by the algorithm, which we describe in the following pictures.
+The abstracts slopes are reduced to three different cases: 1 for growing, -1 for decreasing and 0 for plain areas or unreliable difference. Since we have three different slopes, there are nine different cases that need to be handled by the algorithm. Suppose that we are using the mid-neighbour bisection on a vector $v = \{v_1, ..., v_n\}$ and the right-middle, middle and left-middle point are, respectively, $lm, m, $ and $rm$. Then, the following pictures represent how the algorithm finds the minimum recursively.
 
     \begin{figure}[H]
         \centering
-        \includegraphics[scale=.45]{mid_case1}
-        \caption{Caption}
+        \includegraphics[scale=.35]{mid_case1}
+        \caption{In this case we split the original problem into the two problem of finding the minimum of $\{v_1,..., v_{m - 1}\}$ and $\{v_m, ..., v_n\}$.}
     \end{figure}
     \begin{figure}[H]
         \centering
-        \includegraphics[scale=.45]{mid_case2}
-        \caption{Caption}
+        \includegraphics[scale=.35]{mid_case2}
+        \caption{In this case we reduce the problem to finding the minimum of $\{v_{lm}, ..., v_{rm}\}$.}
     \end{figure}
     \begin{figure}[H]
         \centering
-        \includegraphics[scale=.45]{mid_case3}
-        \caption{Caption}
+        \includegraphics[scale=.35]{mid_case3}
+        \caption{For this case we reduce the problem to finding the minimum of $\{v_1, ..., v_{m}\}$.}
     \end{figure}
     \begin{figure}[H]
         \centering
-        \includegraphics[scale=.45]{mid_case4}
-        \caption{Caption}
+        \includegraphics[scale=.35]{mid_case4}
+        \caption{In this case we reduce the problem to finding the minimum of $\{v_m, ...v_n\}$.}
     \end{figure}
     \begin{figure}[H]
         \centering
-        \includegraphics[scale=.45]{mid_case5}
-        \caption{Caption}
+        \includegraphics[scale=.35]{mid_case5}
+        \caption{For this case we reduce the problem to finding the minimum of $\{v_1, ..., v_m\}$.}
     \end{figure}
     \begin{figure}[H]
         \centering
-        \includegraphics[scale=.45]{mid_case6}
-        \caption{Caption}
+        \includegraphics[scale=.35]{mid_case6}
+        \caption{For this case we reduce the problem to finding the minimum of $\{v_{lm}, ..., v_m\}$.}
     \end{figure}
     \begin{figure}[H]
         \centering
-        \includegraphics[scale=.45]{mid_case7}
-        \caption{Caption}
+        \includegraphics[scale=.35]{mid_case7}
+        \caption{In this case we split the original problem into the two problem of finding the minimum of $\{v_1,..., v_{m - 1}\}$ and $\{v_m, ..., v_n\}$.}
     \end{figure}
     \begin{figure}[H]
         \centering
-        \includegraphics[scale=.45]{mid_case8}
-        \caption{Caption}
+        \includegraphics[scale=.35]{mid_case8}
+        \caption{In this case we reduce the problem to finding the minimum of $\{v_1, ..., v_m\}$.}
     \end{figure}
     \begin{figure}[H]
         \centering
-        \includegraphics[scale=.45]{mid_case9}
-        \caption{Caption}
+        \includegraphics[scale=.35]{mid_case9}
+        \caption{In this case we reduce the original problem to finding the minimum of $\{v_m, ..., v_n\}$}
     \end{figure}
 
 
