@@ -6,15 +6,14 @@ from bisection import mid_neighbour_bisection
 from bisection import upb
 from time import time
 
-max_input_size = 500
-test_size = 500.0
+max_input_size = 10000
+test_size = 100.0
 
 
 
 time_file = open ('time_data.txt', 'w')
 evaluations_file = open ('evaluations_data.txt', 'w')
-for j in range (2):
-    max_input_size *= 2
+for j in range (10):
     d_evaluations = 0
     m_evaluations = 0
     s_evaluations = 0
@@ -54,6 +53,8 @@ for j in range (2):
 
     evaluations_file.write (str (max_input_size) + " " + str (d_evaluations / test_size) + " " + str (m_evaluations / test_size) + " " + str (s_evaluations / test_size) + "\n")
     time_file.write (str (max_input_size) + " " + str (d_time) + " " + str (m_time) +  " " + str (s_time) + " " +"\n")
+    
+    max_input_size += 10000
 
 evaluations_file.close ()
 time_file.close ()
@@ -62,7 +63,7 @@ max_input_size = 1000
 correctness_file = open ('correctness_data.txt', 'w')
 # input noise parameter
 alpha = 0
-for j in range (5):
+for j in range (11):
     d_corrects = 0
     m_corrects = 0
     s_corrects = 0
