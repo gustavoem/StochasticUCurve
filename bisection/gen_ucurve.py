@@ -27,18 +27,17 @@ def gen_points (n, max_distance, center):
 
     return points
 
-def input_noise (v):
+def input_noise (v, alpha = 0):
     """ Inserts random noise in the points of v with values in
     [-(amplitude / len (v)) * (alpha), (amplitude / len (v)) * (alpha)] """
     curve_amplitude = max (v) - min (v)
     relative_amplitude = curve_amplitude / len (v)
-    alpha = 6
     v[0:len (v)] = map (lambda x: x + ((random () - .5) * relative_amplitude * alpha * 2), v[0:len (v)])
    
 f = open ('curve_data.txt', 'w')
 v = gen_points (100, .01, 50)
-input_noise (v)
+input_noise (v, 6)
 for x in v:
-    f.write (str (x) + "\n")
+   f.write (str (x) + "\n")
 f.close ()
 
