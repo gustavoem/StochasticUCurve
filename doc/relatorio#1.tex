@@ -195,6 +195,49 @@ The abstracts slopes are reduced to three different cases: 1 for growing, -1 for
         \caption{In this case we reduce the original problem to finding the minimum of $\{v_m, ..., v_n\}$}
     \end{figure}
 
+\subsection{U-Curve Probabilistic Bisection}
+The U-Curve Probabilistic Bisection (UPB) is a stochastic version of the algorithm we called "Traditional Bisection". The UPB algorithm keeps a probability mass function $f_i (x)$, for every iteration $i$ and every node $x$ of the search space, that can represent the algorithm belief, on iteration $i$, that the node $x$ is the answer to the problem. This algorithm has two key points: selecting the node to be evaluated and updating the probability mass function.
+
+Different from the Traditional Bisection, we don't select the element that is the middle of the input to evaluate, instead we select the $m$-th element of the input vector $v$ such that:
+\begin{equation*}
+    m = \min\limits_{1 \leq i \leq n} \{i \mid f (v_i) \geq \frac{1}{2}\}.
+\end{equation*}
+After the $m$-th element is selected we verify if we found a local minimum, and if yes we stop the algorithm with this solution, and then we update the values of $f$ based on the difference of values of $v_{i + 1}$ and $v_{i - 1}$, which indicates in which side of $v_m$ the solution is.
+
+We call $p_c$ the probability that we chose the correct side when evaluating $v_m$'s neighbours and $\alpha = \sum_{j = 1}^m f_i (v_j)$. In the case where the actual solution lies in the right side of $v_m$, the probability mass function update is calculated by:
+\begin{flalign*}
+    f_{i + 1} (y) &=
+    \begin{cases}
+        (\frac{1}{1 - \alpha})p_cf_i (y) \textup{ if } y \geq v_m \\
+        \alpha (1 - p_c) f_i (y) \textup{ if } y < v_m
+    \end{cases}
+\end{flalign*}
+. This update is similar for the case when the solution lies in the left side of $v_m$. If there is no defined value for $f_0$, we simply assume that the probability of being a solution is distributed uniformily between all nodes of the chain.
+
+\begin{algorithm}[h]
+\caption{}
+\begin{algorithmic}[1]
+\Procedure{UPB}{$v$}
+    \State $n \gets v.length$
+    \State $i \gets FindMedian (pmf)$
+    \State $\alpha \gets F (v_i)$
+    \While {not $valley (v, i)$}
+        \State $direction \gets SelectSide (v, i)$
+        
+        \If {direction is Unknown} \Comment Unknown direction
+            \State
+            \Return $SplitUPB (v, pmf, i)$
+        \Else
+            \State $UpdatePMF (pmf, i, alpha, direction)$
+        \EndIf
+    \State $i \gets FindMedian (pmf)$
+    \State $\alpha \gets F (v_i)$
+    \EndWhile
+    \State
+    \Return $v_i$
+\EndProcedure
+\end{algorithmic}
+\end{algorithm}
 
 \end{document}
 
