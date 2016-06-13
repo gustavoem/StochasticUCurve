@@ -41,4 +41,3 @@ input_noise (v, 2)
 for x in v:
    f.write (str (x) + "\n")
 f.close ()
-

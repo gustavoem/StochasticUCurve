@@ -60,7 +60,7 @@ The algorithm receives three parameters: $n$, $max\_distance$ and $center$; and 
     \State
     \State $j \gets n * random ()$
     \State $plain_size \gets (n - j) * random ()$
-    \For {$k \in \{1, ..., plain_size\}$} \Comment Creates a plain area in the chain
+    \For {$k \in \{1, ..., plain\_size\}$} \Comment Creates a plain area in the chain
         \State $points[j + k] \gets points[j]$
     \EndFor
     \Return $points$
@@ -69,25 +69,25 @@ The algorithm receives three parameters: $n$, $max\_distance$ and $center$; and 
 \end{algorithm}
 
 \subsection{Noise}
-The noise is applied to the vector created by $GeneratePoints$, by adding a value uniformily distributed in the interval 
-$[-\alpha \frac{curve\_amplitude}{n}, \alpha \frac{curve\_amplitude}{n}]$, where $curve\_amplitude = max(v) - min (v)$ and $\alpha$ is a noise parameter.
+The noise is applied to the vector created by $GeneratePoints$, by adding that is in the interval 
+$[-\alpha \frac{curve\_amplitude}{n}, \alpha \frac{curve\_amplitude}{n}]$, where $curve\_amplitude = max(v) - min (v)$ and $\alpha$ is a random variable with gaussian distribution with mean $0$ and standard deviation $\sigma$.
 
 \begin{figure}[H]
-\caption{Example of a curve generated with $\alpha = 0$}
+\caption{Example of a curve generated with $\sigma = 0$}
 \centering
-\includegraphics[scale=.5]{alpha_zero_curve}
+\includegraphics[scale=.5]{curve_sigma0}
 \end{figure}
 
 \begin{figure}[H]
-\caption{Example of a curve generated with $\alpha = 1$}
+\caption{Example of a curve generated with $\sigma = 1$}
 \centering
-\includegraphics[scale=.5]{alpha_one_curve}
+\includegraphics[scale=.5]{curve_sigma1}
 \end{figure}
 
 \begin{figure}[H]
-\caption{Example of a curve generated with $\alpha = 2$}
+\caption{Example of a curve generated with $\sigma = 2$}
 \centering
-\includegraphics[scale=.5]{alpha_two_curve}
+\includegraphics[scale=.5]{curve_sigma2}
 \end{figure}
 
 \newpage
