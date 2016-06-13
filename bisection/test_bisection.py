@@ -13,7 +13,7 @@ test_size = 100.0
 
 time_file = open ('time_data.txt', 'w')
 evaluations_file = open ('evaluations_data.txt', 'w')
-for j in range (0):
+for j in range (10):
     d_evaluations = 0
     m_evaluations = 0
     s_evaluations = 0

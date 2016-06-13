@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.14159265-2.6-1.40.16 (TeX Live 2015/Debian) (preloaded format=pdflatex 2016.2.21)  13 JUN 2016 12:53
+This is pdfTeX, Version 3.14159265-2.6-1.40.16 (TeX Live 2015/Debian) (preloaded format=pdflatex 2016.2.21)  13 JUN 2016 13:06
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -1163,7 +1163,7 @@ File: umsb.fd 2013/01/14 v3.01 AMS symbols B
 Package hyperref Info: bookmark level for unknown algorithm defaults to 0 on in
 put line 47.
 
-<./figures/curve_sigma0.png, id=21, 770.88pt x 578.16pt>
+<./figures/curve_sigma0.png, id=41, 770.88pt x 578.16pt>
 File: ./figures/curve_sigma0.png Graphic file (type png)
 
 <use ./figures/curve_sigma0.png>
@@ -1172,77 +1172,77 @@ Package pdftex.def Info: ./figures/curve_sigma0.png used on input line 78.
  [1
 
 {/var/lib/texmf/fonts/map/pdftex/updmap/pdftex.map}] <./figures/curve_sigma1.pn
-g, id=33, 770.88pt x 578.16pt>
+g, id=53, 770.88pt x 578.16pt>
 File: ./figures/curve_sigma1.png Graphic file (type png)
 
 <use ./figures/curve_sigma1.png>
 Package pdftex.def Info: ./figures/curve_sigma1.png used on input line 84.
 (pdftex.def)             Requested size: 385.43906pt x 289.07928pt.
  [2 <./figures/curve_sigma0.png>]
-<./figures/curve_sigma2.png, id=44, 770.88pt x 578.16pt>
+<./figures/curve_sigma2.png, id=64, 770.88pt x 578.16pt>
 File: ./figures/curve_sigma2.png Graphic file (type png)
 
 <use ./figures/curve_sigma2.png>
 Package pdftex.def Info: ./figures/curve_sigma2.png used on input line 90.
 (pdftex.def)             Requested size: 385.43906pt x 289.07928pt.
  [3 <./figures/curve_sigma1.png> <./figures/curve_sigma2.png>] [4] <./figures/m
-id_case1.png, id=62, 770.88pt x 578.16pt>
+id_case1.png, id=80, 770.88pt x 578.16pt>
 File: ./figures/mid_case1.png Graphic file (type png)
 
 <use ./figures/mid_case1.png>
 Package pdftex.def Info: ./figures/mid_case1.png used on input line 154.
 (pdftex.def)             Requested size: 269.81204pt x 202.35902pt.
 
-<./figures/mid_case2.png, id=63, 770.88pt x 578.16pt>
+<./figures/mid_case2.png, id=81, 770.88pt x 578.16pt>
 File: ./figures/mid_case2.png Graphic file (type png)
 
 <use ./figures/mid_case2.png>
 Package pdftex.def Info: ./figures/mid_case2.png used on input line 159.
 (pdftex.def)             Requested size: 269.81204pt x 202.35902pt.
  [5]
-<./figures/mid_case3.png, id=69, 770.88pt x 578.16pt>
+<./figures/mid_case3.png, id=86, 770.88pt x 578.16pt>
 File: ./figures/mid_case3.png Graphic file (type png)
 
 <use ./figures/mid_case3.png>
 Package pdftex.def Info: ./figures/mid_case3.png used on input line 164.
 (pdftex.def)             Requested size: 269.81204pt x 202.35902pt.
 
-<./figures/mid_case4.png, id=70, 770.88pt x 578.16pt>
+<./figures/mid_case4.png, id=87, 770.88pt x 578.16pt>
 File: ./figures/mid_case4.png Graphic file (type png)
 
 <use ./figures/mid_case4.png>
 Package pdftex.def Info: ./figures/mid_case4.png used on input line 169.
 (pdftex.def)             Requested size: 269.81204pt x 202.35902pt.
  [6 <./figures/mid_case1.png> <./figures/mid_case2.png>] <./figures/mid_case5.p
-ng, id=79, 770.88pt x 578.16pt>
+ng, id=96, 770.88pt x 578.16pt>
 File: ./figures/mid_case5.png Graphic file (type png)
 
 <use ./figures/mid_case5.png>
 Package pdftex.def Info: ./figures/mid_case5.png used on input line 174.
 (pdftex.def)             Requested size: 269.81204pt x 202.35902pt.
 
-<./figures/mid_case6.png, id=80, 770.88pt x 578.16pt>
+<./figures/mid_case6.png, id=97, 770.88pt x 578.16pt>
 File: ./figures/mid_case6.png Graphic file (type png)
 
 <use ./figures/mid_case6.png>
 Package pdftex.def Info: ./figures/mid_case6.png used on input line 179.
 (pdftex.def)             Requested size: 269.81204pt x 202.35902pt.
  [7 <./figures/mid_case3.png> <./figures/mid_case4.png>] <./figures/mid_case7.p
-ng, id=90, 770.88pt x 578.16pt>
+ng, id=107, 770.88pt x 578.16pt>
 File: ./figures/mid_case7.png Graphic file (type png)
 
 <use ./figures/mid_case7.png>
 Package pdftex.def Info: ./figures/mid_case7.png used on input line 184.
 (pdftex.def)             Requested size: 269.81204pt x 202.35902pt.
 
-<./figures/mid_case8.png, id=91, 770.88pt x 578.16pt>
+<./figures/mid_case8.png, id=108, 770.88pt x 578.16pt>
 File: ./figures/mid_case8.png Graphic file (type png)
 
 <use ./figures/mid_case8.png>
 Package pdftex.def Info: ./figures/mid_case8.png used on input line 189.
 (pdftex.def)             Requested size: 269.81204pt x 202.35902pt.
  [8 <./figures/mid_case5.png> <./figures/mid_case6.png>] <./figures/mid_case9.p
-ng, id=100, 770.88pt x 578.16pt>
+ng, id=117, 770.88pt x 578.16pt>
 File: ./figures/mid_case9.png Graphic file (type png)
 
 <use ./figures/mid_case9.png>
@@ -1250,14 +1250,14 @@ Package pdftex.def Info: ./figures/mid_case9.png used on input line 194.
 (pdftex.def)             Requested size: 269.81204pt x 202.35902pt.
  [9 <./figures/mid_case7.png> <./figures/mid_case8.png>] [10 <./figures/mid_cas
 e9.png>]
-<./figures/time_plot.png, id=117, 770.88pt x 578.16pt>
+<./figures/time_plot.png, id=133, 770.88pt x 578.16pt>
 File: ./figures/time_plot.png Graphic file (type png)
 
 <use ./figures/time_plot.png>
 Package pdftex.def Info: ./figures/time_plot.png used on input line 245.
 (pdftex.def)             Requested size: 385.43906pt x 289.07928pt.
 
-<./figures/evaluations_plot.png, id=118, 770.88pt x 578.16pt>
+<./figures/evaluations_plot.png, id=134, 770.88pt x 578.16pt>
 File: ./figures/evaluations_plot.png Graphic file (type png)
 
 <use ./figures/evaluations_plot.png>
@@ -1265,7 +1265,7 @@ Package pdftex.def Info: ./figures/evaluations_plot.png used on input line 249.
 
 (pdftex.def)             Requested size: 385.43906pt x 289.07928pt.
  [11]
-<./figures/correctness_plot.png, id=124, 770.88pt x 578.16pt>
+<./figures/correctness_plot.png, id=140, 770.88pt x 578.16pt>
 File: ./figures/correctness_plot.png Graphic file (type png)
 
 <use ./figures/correctness_plot.png>
@@ -1279,21 +1279,15 @@ Package atveryend Info: Empty hook `AfterLastShipout' on input line 256.
  (./relatorio#1.aux)
 Package atveryend Info: Executing hook `AtVeryEndDocument' on input line 256.
 Package atveryend Info: Executing hook `AtEndAfterFileList' on input line 256.
-
-Package rerunfilecheck Warning: File `relatorio#1.out' has changed.
-(rerunfilecheck)                Rerun to get outlines right
-(rerunfilecheck)                or use package `bookmark'.
-
-Package rerunfilecheck Info: Checksums for `relatorio#1.out':
-(rerunfilecheck)             Before: A14E5343DEB6A14EA47479191BDDAC54;170
-(rerunfilecheck)             After:  24BC3BED0D90A7E0ACEC1B1DBADE07AE;489.
+Package rerunfilecheck Info: File `relatorio#1.out' has not changed.
+(rerunfilecheck)             Checksum: 24BC3BED0D90A7E0ACEC1B1DBADE07AE;489.
 Package atveryend Info: Empty hook `AtVeryVeryEnd' on input line 256.
  ) 
 Here is how much of TeX's memory you used:
- 18549 strings out of 493085
- 336636 string characters out of 6136917
+ 18554 strings out of 493085
+ 336706 string characters out of 6136917
  405383 words of memory out of 5000000
- 21630 multiletter control sequences out of 15000+600000
+ 21635 multiletter control sequences out of 15000+600000
  10104 words of font info for 38 fonts, out of 8000000 for 9000
  1141 hyphenation exceptions out of 8191
  55i,16n,54p,790b,352s stack positions out of 5000i,500n,10000p,200000b,80000s
@@ -1308,10 +1302,10 @@ s/type1/public/amsfonts/cm/cmr12.pfb></usr/share/texlive/texmf-dist/fonts/type1
 /amsfonts/cm/cmr8.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/amsfont
 s/cm/cmsy10.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/c
 msy8.pfb>
-Output written on relatorio#1.pdf (13 pages, 382409 bytes).
+Output written on relatorio#1.pdf (13 pages, 376739 bytes).
 PDF statistics:
- 187 PDF objects out of 1000 (max. 8388607)
- 129 compressed objects within 2 object streams
+ 202 PDF objects out of 1000 (max. 8388607)
+ 144 compressed objects within 2 object streams
  38 named destinations out of 1000 (max. 500000)
- 112 words of extra memory for PDF output out of 10000 (max. 10000000)
+ 152 words of extra memory for PDF output out of 10000 (max. 10000000)
 
