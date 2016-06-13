@@ -13,7 +13,7 @@ test_size = 100.0
 
 time_file = open ('time_data.txt', 'w')
 evaluations_file = open ('evaluations_data.txt', 'w')
-for j in range (10):
+for j in range (0):
     d_evaluations = 0
     m_evaluations = 0
     s_evaluations = 0
@@ -63,7 +63,7 @@ time_file.close ()
 max_input_size = 1000
 correctness_file = open ('correctness_data.txt', 'w')
 # input noise parameter
-alpha = 0
+sigma = 0
 for j in range (11):
     d_corrects = 0
     m_corrects = 0
@@ -73,7 +73,7 @@ for j in range (11):
         #n = 1 + int (random () * max_input_size)
         n = max_input_size
         points = gen_points (n, 1.0 / n, int (n * random ()))
-        input_noise (points, alpha)
+        input_noise (points, sigma)
         
         
         [result, evaluations] = bisection_min (points)
@@ -94,7 +94,7 @@ for j in range (11):
     print ("Correctness for mid-neighbour bisection: ", m_corrects / test_size)
     print ("Correctness for probabilistic bisection: ", s_corrects / test_size)
     print ("Average relative error of probabilistic bisection", s_error / test_size)
-    correctness_file.write (str (alpha) + " " + str (d_corrects / test_size) + " " + str (m_corrects / test_size) + " " + str (s_corrects / test_size) + "\n")
+    correctness_file.write (str (sigma) + " " + str (d_corrects / test_size) + " " + str (m_corrects / test_size) + " " + str (s_corrects / test_size) + "\n")
 
-    alpha += 1
+    sigma += 1
 correctness_file.close ()

@@ -15,7 +15,7 @@ set pointintervalbox 1
 # set yrange [0:4]
 
 set title "Average correctness";
-set xlabel "alpha"
+set xlabel "Noise standard deviation"
 plot 'correctness_data.txt' using 1:2 title 'Traditional' with linespoints ls 1, \
     'correctness_data.txt' using 1:3 title 'Mid-neighbour' with linespoints ls 2, \
     'correctness_data.txt' using 1:4 title 'UPB' with linespoints ls 3
