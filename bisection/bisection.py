@@ -182,33 +182,47 @@ def upb (v, pmf = []):
         pmf = [1.0 / n] * n
     
     evaluations = 0
+    
 
-    i = 0
+    eights = find_eighths (pmf)
+    median = eights[4][0]
+    alpha = eights[4][1]
+    first_qt = eights [2][0]
+    third_qt = eights [6][0]
+
     limit = 1000
-    while ((not valley (v, i)) and limit > 0):
+    while (first_qt is not median and \
+           median is not third_qt and limit > 0):
         evaluations += 3
+
         #print ("-------------\nIterating...")
         #print ("Initial pmf: ", pmf)
         #print ("v: ", v)
-        [i, alpha] = find_median (pmf)
         
-        #print ("i, alpha: ", i, ", ", alpha)
-        
-        direction = select_side (v, i)
+        #print ("1st qt: ", first_qt)
+        #print ("median, alpha: ", median, ", ", alpha)
+        #print ("3rd qt: ", third_qt)
+
+        direction = select_side (v, median)
         if (direction is 0):
-            [result, child_eval] = split_upb (v, pmf, i)
+            [result, child_eval] = split_upb (v, pmf, median)
             return [result, evaluations + child_eval]
         
         #print ("direction: ", direction)
-        
-        update_pmf (pmf, i, alpha, direction)
-        
+        update_pmf (pmf, median, alpha, direction)
         #print ("New pmf: ", pmf)
         #print ("pmf sum:", sum(pmf))
+        
+        eights = find_eighths (pmf)
+        median = eights[4][0]
+        alpha = eights[4][1]
+        first_qt = eights [1][0]
+        third_qt = eights [1][0]
+
         limit -= 1
 
     evaluations += 3
-    return [v[i], evaluations]
+    return [v[median], evaluations]
 
 
 def split_upb (v, pmf, i):
@@ -251,17 +265,22 @@ def normalize_pmf (pmf):
     
 
 
-def find_median (pmf):
-    """ Receives v and pmf and returns the index of v and alpha such that:
-        i = argmin {v[i] | P(x* <= i) >= 1/2}, and
-        alpha = P(x <= i) """
+def find_eighths (pmf):
+    """ Returns a vector of size 9 where the index i of the vector contains the 
+    "information" of the element x such that x is the smallest-indexed element where 
+    F (x) >= 8 / i, i.e it fetches the eights of the pmf. The information is a pair with
+    [i, alpha] where i is the index of x in the pmf and alpha is F(x) """
+    eights = [[0, 0]] * 9
     i = 0
     alpha = pmf[i]
-    while (alpha < .5):
-        i += 1
-        alpha += pmf[i]
-
-    return [i, alpha]
+    for j in range (1, 7):
+        
+        x = j / 8.0
+        while (alpha < x):
+            i += 1
+            alpha += pmf[i]
+        eights[j] = [i, alpha]
+    return eights
 
 def update_pmf (pmf, i, alpha, direction):
     """ if direction >= 0
@@ -270,7 +289,7 @@ def update_pmf (pmf, i, alpha, direction):
     and, similarly, for direction = -1 
         pmf_{n+1}(y) = (1/(1 - alpha))*qc*pmf_{n}(y) for y >= x_{n}
         pmf_{n+1}(y) = (1/alpha)*pc*pmf_{n}(y) for y < x_{n} """
-    pc = .75
+    pc = .55
     qc = 1 - pc
     
     if (direction < 0):

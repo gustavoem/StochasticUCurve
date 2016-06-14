@@ -6,14 +6,14 @@ from bisection import mid_neighbour_bisection
 from bisection import upb
 from time import time
 
-max_input_size = 10000
-test_size = 100.0
+max_input_size = 1000
+test_size = 500.0
 
 
 
 time_file = open ('time_data.txt', 'w')
 evaluations_file = open ('evaluations_data.txt', 'w')
-for j in range (10):
+for j in range (0):
     d_evaluations = 0
     m_evaluations = 0
     s_evaluations = 0
@@ -55,12 +55,12 @@ for j in range (10):
     evaluations_file.write (str (max_input_size) + " " + str (d_evaluations / test_size) + " " + str (m_evaluations / test_size) + " " + str (s_evaluations / test_size) + "\n")
     time_file.write (str (max_input_size) + " " + str (d_time) + " " + str (m_time) +  " " + str (s_time) + " " +"\n")
     
-    max_input_size += 10000
+    max_input_size += 1000
 
 evaluations_file.close ()
 time_file.close ()
 
-max_input_size = 1000
+max_input_size = 100
 correctness_file = open ('correctness_data.txt', 'w')
 # input noise parameter
 sigma = 0
@@ -85,16 +85,17 @@ for j in range (11):
             m_corrects = m_corrects + 1
 
         [result, evaluations] = upb (points)
-        if min (points) is result:
+        if abs (min (points) - result) / abs (min (points)) < .05:
             s_corrects = s_corrects + 1
-        else:
-            s_error = s_error + abs (min (points) - result) / min (points)    
+        
+        s_error = s_error + abs (min (points) - result) / abs (min (points))
 
     print ("Correctness for traditional bisection: ", d_corrects / test_size)
     print ("Correctness for mid-neighbour bisection: ", m_corrects / test_size)
     print ("Correctness for probabilistic bisection: ", s_corrects / test_size)
     print ("Average relative error of probabilistic bisection", s_error / test_size)
     correctness_file.write (str (sigma) + " " + str (d_corrects / test_size) + " " + str (m_corrects / test_size) + " " + str (s_corrects / test_size) + "\n")
-
+    
     sigma += 1
+
 correctness_file.close ()

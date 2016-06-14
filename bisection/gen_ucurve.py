@@ -10,7 +10,7 @@ def gen_points (n, center):
     p = [0, 0, 0] # a, b, c
     p[0] = random.random () # a
     p[1] = -2 * p[0] * center  # b
-    p[2] = (p[1] * p[1]) / (4 * p[0])
+    p[2] = (p[1] * p[1] - .1) / (4 * p[0])
     
     dx = 1.0 / n
     x = 0
