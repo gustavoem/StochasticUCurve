@@ -24,7 +24,7 @@ for j in range (10):
     for i in range (int (test_size)):
         #n = 1 + int (random () * max_input_size)
         n = max_input_size
-        points = gen_points (n, 1.0 / n, int (n * random ()))
+        points = gen_points (n, random ())
         input_noise (points, 0)
         
         s = time ()
@@ -72,7 +72,7 @@ for j in range (11):
     for i in range (int (test_size)):
         #n = 1 + int (random () * max_input_size)
         n = max_input_size
-        points = gen_points (n, 1.0 / n, int (n * random ()))
+        points = gen_points (n, random ())
         input_noise (points, sigma)
         
         
