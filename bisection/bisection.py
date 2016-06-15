@@ -289,7 +289,7 @@ def update_pmf (pmf, i, alpha, direction):
     and, similarly, for direction = -1 
         pmf_{n+1}(y) = (1/(1 - alpha))*qc*pmf_{n}(y) for y >= x_{n}
         pmf_{n+1}(y) = (1/alpha)*pc*pmf_{n}(y) for y < x_{n} """
-    pc = .8
+    pc = .90
     qc = 1 - pc
     
     if (direction < 0):
