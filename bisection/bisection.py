@@ -170,7 +170,7 @@ def int_log2 (x):
     return i
 
 
-def upb (v, pmf = []):
+def upb (v, pc, pmf = []):
     """ U-Curve Probabilistic Bisection 
     This function receives a vector, that describes approximately u-shaped curve, as
     argument and return the minimum element of this vector """
@@ -205,11 +205,11 @@ def upb (v, pmf = []):
 
         direction = select_side (v, median)
         if (direction is 0):
-            [result, child_eval] = split_upb (v, pmf, median)
+            [result, child_eval] = split_upb (v, pc, pmf, median)
             return [result, evaluations + child_eval]
         
         #print ("direction: ", direction)
-        update_pmf (pmf, median, alpha, direction)
+        update_pmf (pmf, pc, median, alpha, direction)
         #print ("New pmf: ", pmf)
         #print ("pmf sum:", sum(pmf))
         
@@ -225,7 +225,7 @@ def upb (v, pmf = []):
     return [v[median], evaluations]
 
 
-def split_upb (v, pmf, i):
+def split_upb (v, pc, pmf, i):
     """ Splits the orginal problem v with pmf in two parts, from 0 to i - 1 and from
     i + 1 to len (v) """
     v1 = v[0:i]
@@ -241,9 +241,9 @@ def split_upb (v, pmf, i):
     sol2 = None
     eval2 = 0
     if (len (v1) > 0):
-        [sol1, eval1] = upb (v1, pmf1)
+        [sol1, eval1] = upb (v1, pc, pmf1)
     if (len (v2) > 0):
-        [sol2, eval2] = upb (v2, pmf2)
+        [sol2, eval2] = upb (v2, pc, pmf2)
     
     return [min (min_with_none (sol1, sol2), v[i]), eval1 + eval2]
 
@@ -282,14 +282,13 @@ def find_eighths (pmf):
         eights[j] = [i, alpha]
     return eights
 
-def update_pmf (pmf, i, alpha, direction):
+def update_pmf (pmf, pc, i, alpha, direction):
     """ if direction >= 0
         pmf_{n+1}(y) = (1/(1 - alpha))*pc*pmf_{n}(y) for y >= x_{n}
         pmf_{n+1}(y) = (1/alpha)*qc*pmf_{n}(y) for y < x_{n}
     and, similarly, for direction = -1 
         pmf_{n+1}(y) = (1/(1 - alpha))*qc*pmf_{n}(y) for y >= x_{n}
         pmf_{n+1}(y) = (1/alpha)*pc*pmf_{n}(y) for y < x_{n} """
-    pc = .90
     qc = 1 - pc
     
     if (direction < 0):
