@@ -216,8 +216,8 @@ def upb (v, pmf = []):
         eights = find_eighths (pmf)
         median = eights[4][0]
         alpha = eights[4][1]
-        first_qt = eights [1][0]
-        third_qt = eights [1][0]
+        first_qt = eights [2][0]
+        third_qt = eights [6][0]
 
         limit -= 1
 
@@ -289,7 +289,7 @@ def update_pmf (pmf, i, alpha, direction):
     and, similarly, for direction = -1 
         pmf_{n+1}(y) = (1/(1 - alpha))*qc*pmf_{n}(y) for y >= x_{n}
         pmf_{n+1}(y) = (1/alpha)*pc*pmf_{n}(y) for y < x_{n} """
-    pc = .55
+    pc = .9
     qc = 1 - pc
     
     if (direction < 0):

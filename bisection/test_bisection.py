@@ -61,6 +61,7 @@ evaluations_file.close ()
 time_file.close ()
 
 max_input_size = 100
+test_size = 1000.0
 correctness_file = open ('correctness_data.txt', 'w')
 # input noise parameter
 sigma = 0
@@ -72,7 +73,7 @@ for j in range (11):
     for i in range (int (test_size)):
         #n = 1 + int (random () * max_input_size)
         n = max_input_size
-        points = gen_points (n, random ())
+        points = gen_points (n, .5)
         input_noise (points, sigma)
         
         
