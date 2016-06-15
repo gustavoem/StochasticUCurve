@@ -13,7 +13,7 @@ test_size = 100.0
 
 time_file = open ('time_data.txt', 'w')
 evaluations_file = open ('evaluations_data.txt', 'w')
-for j in range (11):
+for j in range (0):
     d_evaluations = 0
     m_evaluations = 0
     s_evaluations = 0
@@ -65,7 +65,7 @@ test_size = 1000.0
 correctness_file = open ('correctness_data.txt', 'w')
 # input noise parameter
 sigma = 0
-for j in range (0):
+for j in range (11):
     d_corrects = 0
     m_corrects = 0
     s_corrects = 0
@@ -78,17 +78,16 @@ for j in range (0):
         
         
         [result, evaluations] = bisection_min (points)
-        if min (points) is result:
+        if abs (min (points) - result) / abs (min (points)) < .05:
             d_corrects = d_corrects + 1
 
         [result, evaluations] = mid_neighbour_bisection (points)
-        if min (points) is result:
+        if abs (min (points) - result) / abs (min (points)) < .05:
             m_corrects = m_corrects + 1
 
         [result, evaluations] = upb (points)
         if abs (min (points) - result) / abs (min (points)) < .05:
             s_corrects = s_corrects + 1
-        
         s_error = s_error + abs (min (points) - result) / abs (min (points))
 
     print ("Correctness for traditional bisection: ", d_corrects / test_size)
