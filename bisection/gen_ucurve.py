@@ -49,7 +49,7 @@ def input_noise (v, sigma):
 random.seed (datetime.now ())
 f = open ('curve_data.txt', 'w')
 v = gen_points (100, 1.0 / 2)
-input_noise (v, 0)
+input_noise (v, 2)
 for x in v:
    f.write (str (x) + "\n")
 f.close ()

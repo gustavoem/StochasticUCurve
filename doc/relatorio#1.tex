@@ -41,28 +41,28 @@
 To generate the input for the problem we created two functions. The first creates a vector of floating points that simulates the values of a chain of a boolean lattice that respects the U-Curve assumption; and the second one adds a random noise to the values of the vector.
 
 \subsection{Chain Generation}
-The algorithm receives three parameters: $n$, $max\_distance$ and $center$; and returns as output a vector that has values from $0$ to $1$ and respects the U-Curve assumption. The first parameter defines the size of the chain; the second represents the greatest possible difference between the values of neighbour nodes, which is a random value uniformily distributed between $0$ and $max\_distance$; and the last represents the index of the node with minimum value.
+The chain is generated based on a polynomial of second degree with positive leading coefficient. This polynomial has the minimum value of $0.1$ evaluated at some point $x^* \in [0, 1]$ which is determined by the user. The algorithm receives two arguments: the first one, $n$, represents the size of the chain; and the second one, $center \in [0, 1]$, specifies where is the minimum of the polynom. After creating a random polynom that holds our constraints, we split the $[0,1]$ interval in $n$ equaly spaced points, and evaluate the polynomial at these points, generating the curve.
 
 \begin{algorithm}[t]
 \caption{U-Curve Input Creator}
 \begin{algorithmic}[1]
 \Procedure{GeneratePoints}{$n, max\_distance, center$}
     \State $points \gets \{0, ..., 0\}$
-    \State $minimum \gets \frac{random ()}{2}$
-    \State $points[center] \gets minimum$
-    \State
-    \For {$i \in \{0, ..., center - 1\}$}
-        \State $points[i] \gets points[i + 1] + (1 - points[i + 1]) * random ()$
+    \State $p.a \gets random ()$
+    \State $p.b \gets -2 * p.a * center$
+    \State $p.c = (p.a^2 - 0.1) / (4 * p.a)$
+    \State $dx \gets 1 / n$
+    \State $x \gets 0$
+    \For {$i \in \{0, ..., n\}$}
+        \State $points_i \gets p (x)$
+        \State $x \gets x + dx$
     \EndFor
-    \For {$i \in \{center + 1, ..., n - 1\}$}
-        \State $points[i] \gets points[i - 1] + (1 - points[i - 1]) * random ()$
-    \EndFor
-    \State
     \State $j \gets n * random ()$
-    \State $plain_size \gets (n - j) * random ()$
+    \State $plain\_size \gets (n - j) * random ()$
     \For {$k \in \{1, ..., plain\_size\}$} \Comment Creates a plain area in the chain
         \State $points[j + k] \gets points[j]$
     \EndFor
+    \State
     \Return $points$
 \EndProcedure
 \end{algorithmic}
