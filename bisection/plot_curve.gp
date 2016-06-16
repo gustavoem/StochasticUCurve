@@ -1,7 +1,7 @@
 reset
 set term png
 set term png size 1024, 768
-set output 'image_plot.png'
+set output 'curve_plot.png'
 
 # color definitions
 set border linewidth .5
