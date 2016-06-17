@@ -224,6 +224,74 @@ def upb (v, pc, pmf = []):
     evaluations += 3
     return [v[median], evaluations]
 
+def mupb (v, pc, pmf = []):
+    """ Mid-neighbour U-Curve Probabilistic Bisection 
+    This function receives a vector, that describes approximately u-shaped curve, as
+    argument and return the minimum element of this vector """
+    n = len (v)
+    # probability mass function
+    # Suppose that the minimum element of v is in v[x*], then, we say that 
+    #       P(x* = i) = pmf[i]
+    if (pmf == []):
+        pmf = [1.0 / n] * n
+    
+    evaluations = 0
+
+    eights = find_eighths (pmf)
+    median = eights[4][0]
+    alpha = eights[4][1]
+    first_qt = eights [2][0]
+    third_qt = eights [6][0]
+
+    limit = 10000
+    while (first_qt is not median and \
+           median is not third_qt and limit > 0):
+        evaluations += 3
+
+        #print ("-------------\nIterating...")
+        #print ("Initial pmf: ", pmf)
+        ##print ("v: ", v)
+        
+        #print ("1st qt: ", first_qt)
+        #print ("median, alpha: ", median, ", ", alpha)
+        #print ("3rd qt: ", third_qt)
+        
+        d = float (v[third_qt] - v[first_qt])
+        if (abs (d) < 1e-8):
+            d = 0
+        else:
+            d = d / abs (d)
+        
+        #print ("direction: ", d)
+
+        if (d is 0):
+            if (v[median] < v[first_qt]):
+                update_pmf (pmf, pc, first_qt, eights [2][1], 1)
+                update_pmf (pmf, pc, third_qt, eights [6][1], -1)
+            else:
+                [result, child_eval] = split_upb (v, pc, pmf, median)
+                return [result, evaluations + child_eval]
+        else:
+            if (d is 1):
+                update_pmf (pmf, pc, third_qt, eights [6][1], -1)
+            else:
+                update_pmf (pmf, pc, first_qt, eights [2][1], 1)
+        
+        #print ("New pmf: ", pmf)
+        #print ("pmf sum:", sum(pmf))
+        
+        eights = find_eighths (pmf)
+        median = eights[4][0]
+        alpha = eights[4][1]
+        first_qt = eights [2][0]
+        third_qt = eights [6][0]
+
+        limit -= 1
+
+    evaluations += 3
+    return [v[median], evaluations]
+
+
 
 def split_upb (v, pc, pmf, i):
     """ Splits the orginal problem v with pmf in two parts, from 0 to i - 1 and from

@@ -3,7 +3,7 @@ from gen_ucurve import gen_points
 from gen_ucurve import input_noise
 from bisection import bisection_min
 from bisection import mid_neighbour_bisection 
-from bisection import upb
+from bisection import mupb
 from time import time
 
 max_input_size = 1000
@@ -13,7 +13,7 @@ test_size = 100.0
 
 time_file = open ('time_data.txt', 'w')
 evaluations_file = open ('evaluations_data.txt', 'w')
-for j in range (10):
+for j in range (0):
     d_evaluations = 0
     m_evaluations = 0
     s_evaluations = 0
@@ -40,7 +40,7 @@ for j in range (10):
         m_time = m_time + e - s
 
         s = time ()
-        [result, evaluations] = upb (points, .80)
+        [result, evaluations] = mupb (points, .80)
         s_evaluations += evaluations / (n * 1.0)
         e = time ()
         s_time = s_time + e - s
@@ -85,7 +85,7 @@ for j in range (5):
         if abs (min (points) - result) / abs (min (points)) < .05:
             m_corrects = m_corrects + 1
 
-        [result, evaluations] = upb (points, .8)
+        [result, evaluations] = mupb (points, .8)
         if abs (min (points) - result) / abs (min (points)) < .05:
             s_corrects = s_corrects + 1
         s_error = s_error + abs (min (points) - result) / abs (min (points))
@@ -121,19 +121,19 @@ for j in range (0):
         input_noise (points, 0)
 
         s = time ()
-        [result, evaluations] = upb (points, .7)
+        [result, evaluations] = mupb (points, .7)
         p7_evaluations += evaluations / (n * 1.0)
         e = time ()
         p7_time = p7_time + e - s
 
         s = time ()
-        [result, evaluations] = upb (points, .8)
+        [result, evaluations] = mupb (points, .8)
         p8_evaluations += evaluations / (n * 1.0)
         e = time ()
         p8_time = p8_time + e - s
 
         s = time ()
-        [result, evaluations] = upb (points, .9)
+        [result, evaluations] = mupb (points, .9)
         p9_evaluations += evaluations / (n * 1.0)
         e = time ()
         p9_time = p9_time + e - s
