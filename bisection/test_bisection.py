@@ -13,7 +13,7 @@ test_size = 100.0
 
 time_file = open ('time_data.txt', 'w')
 evaluations_file = open ('evaluations_data.txt', 'w')
-for j in range (0):
+for j in range (10):
     d_evaluations = 0
     m_evaluations = 0
     s_evaluations = 0
@@ -60,12 +60,12 @@ for j in range (0):
 evaluations_file.close ()
 time_file.close ()
 
-max_input_size = 100
+max_input_size = 500
 test_size = 100.0
 correctness_file = open ('correctness_data.txt', 'w')
 # input noise parameter
 sigma = 0
-for j in range (0):
+for j in range (5):
     d_corrects = 0
     m_corrects = 0
     s_corrects = 0
@@ -107,7 +107,7 @@ pc_time_file = open ('pc_time_data.txt', 'w')
 pc_evaluations_file = open ('pc_evaluations_data.txt', 'w')
 
 max_input_size = 32
-for j in range (11):
+for j in range (0):
     p7_evaluations = 0
     p8_evaluations = 0
     p9_evaluations = 0
