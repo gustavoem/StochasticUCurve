@@ -248,13 +248,13 @@ def mupb (v, pc, pmf = []):
            median is not third_qt and limit > 0):
         evaluations += 3
 
-        #print ("-------------\nIterating...")
-        #print ("Initial pmf: ", pmf)
-        ##print ("v: ", v)
+       #print ("-------------\nIterating...")
+       #print ("Initial pmf: ", pmf)
+       #print ("v: ", v)
         
-        #print ("1st qt: ", first_qt)
-        #print ("median, alpha: ", median, ", ", alpha)
-        #print ("3rd qt: ", third_qt)
+       #print ("1st qt: ", first_qt)
+       #print ("median, alpha: ", median, ", ", alpha)
+       #print ("3rd qt: ", third_qt)
         
         d = float (v[third_qt] - v[first_qt])
         if (abs (d) < 1e-8):
@@ -262,23 +262,24 @@ def mupb (v, pc, pmf = []):
         else:
             d = d / abs (d)
         
-        #print ("direction: ", d)
+       #print ("direction: ", d)
 
         if (d is 0):
             if (v[median] < v[first_qt]):
                 update_pmf (pmf, pc, first_qt, eights [2][1], 1)
                 update_pmf (pmf, pc, third_qt, eights [6][1], -1)
             else:
+                # obs: need to change this to split_mubp ()
                 [result, child_eval] = split_upb (v, pc, pmf, median)
                 return [result, evaluations + child_eval]
         else:
-            if (d is 1):
+            if (d == 1.0):
                 update_pmf (pmf, pc, third_qt, eights [6][1], -1)
             else:
                 update_pmf (pmf, pc, first_qt, eights [2][1], 1)
         
-        #print ("New pmf: ", pmf)
-        #print ("pmf sum:", sum(pmf))
+       #print ("New pmf: ", pmf)
+       #print ("pmf sum:", sum(pmf))
         
         eights = find_eighths (pmf)
         median = eights[4][0]
@@ -358,6 +359,8 @@ def update_pmf (pmf, pc, i, alpha, direction):
         pmf_{n+1}(y) = (1/(1 - alpha))*qc*pmf_{n}(y) for y >= x_{n}
         pmf_{n+1}(y) = (1/alpha)*pc*pmf_{n}(y) for y < x_{n} """
     qc = 1 - pc
+
+   #print ("preferred side: ", direction)
     
     if (direction < 0):
         # beta = P (x* < X_n)
