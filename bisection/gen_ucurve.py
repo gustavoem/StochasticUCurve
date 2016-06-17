@@ -10,7 +10,7 @@ def gen_points (n, center):
     p = [0, 0, 0] # a, b, c
     p[0] = random.random () # a
     p[1] = -2 * p[0] * center  # b
-    p[2] = (p[1] * p[1] - .1) / (4 * p[0])
+    p[2] = (p[1] * p[1] + .1) / (4 * p[0])
     
     dx = 1.0 / n
     x = 0
@@ -49,7 +49,7 @@ def input_noise (v, sigma):
 random.seed (datetime.now ())
 f = open ('curve_data.txt', 'w')
 v = gen_points (100, 1.0 / 2)
-input_noise (v, 2)
+input_noise (v, 0)
 for x in v:
    f.write (str (x) + "\n")
 f.close ()
