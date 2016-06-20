@@ -269,7 +269,7 @@ def mupb (v, pc, pmf = []):
                 update_pmf (pmf, pc, first_qt, eights [2][1], 1)
                 update_pmf (pmf, pc, third_qt, eights [6][1], -1)
             else:
-                [result, child_eval] = split_upb (v, pc, pmf, median)
+                [result, child_eval] = split_mupb (v, pc, pmf, median)
                 return [result, evaluations + child_eval]
         else:
             if (d == 1.0):
@@ -314,6 +314,30 @@ def split_upb (v, pc, pmf, i):
         [sol2, eval2] = upb (v2, pc, pmf2)
     
     return [min (min_with_none (sol1, sol2), v[i]), eval1 + eval2]
+
+
+def split_mupb (v, pc, pmf, i):
+    """ Splits the orginal problem v with pmf in two parts, from 0 to i - 1 and from
+    i + 1 to len (v) """
+    v1 = v[0:i]
+    v2 = v[i + 1:len (v)]
+    
+    pmf1 = pmf[0:i]
+    pmf2 = pmf[i + 1:len (v)]
+    normalize_pmf (pmf1)
+    normalize_pmf (pmf2)
+    
+    sol1 = None
+    eval1 = 0
+    sol2 = None
+    eval2 = 0
+    if (len (v1) > 0):
+        [sol1, eval1] = mupb (v1, pc, pmf1)
+    if (len (v2) > 0):
+        [sol2, eval2] = mupb (v2, pc, pmf2)
+    
+    return [min (min_with_none (sol1, sol2), v[i]), eval1 + eval2]
+
 
 
 def min_with_none (a, b):
