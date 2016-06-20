@@ -202,7 +202,8 @@ Different from the Traditional Bisection, we don't select the element that is th
 \begin{equation*}
     m = \min\limits_{1 \leq i \leq n} \{i \mid f (v_i) \geq \frac{1}{2}\}.
 \end{equation*}
-After the $m$-th element is selected we verify if we found a local minimum, and if yes we stop the algorithm with this solution, and then we update the values of $f$ based on the difference of values of $v_{i + 1}$ and $v_{i - 1}$, which indicates in which side of $v_m$ the solution is.
+, i.e the median of the possible solutions. The algorithm then compares the adjacent nodes of $v_m$ and decides which side the solution should be the same way it was done in the traditional bisection.
+
 
 We call $p_c$ the probability that we chose the correct side when evaluating $v_m$'s neighbours and $\alpha = \sum_{j = 1}^m f_i (v_j)$. In the case where the actual solution lies in the right side of $v_m$, the probability mass function update is calculated by:
 \begin{flalign*}
@@ -214,14 +215,14 @@ We call $p_c$ the probability that we chose the correct side when evaluating $v_
 \end{flalign*}
 . This update is similar for the case when the solution lies in the left side of $v_m$. If there is no defined value for $f_0$, we simply assume that the probability of being a solution is distributed uniformily between all nodes of the chain.
 
+The algorithm terminates when the first, second (median) and third quartile of the possible solution lies exactly in the same node, the solution given by the algorithm. This termination condition avoids an early termination, that would be caused by a local minimal element if we used the same termination condition as we did in the traditional bisection.
 \begin{algorithm}[h]
 \caption{}
 \begin{algorithmic}[1]
-\Procedure{UPB}{$v$}
+\Procedure{UPB}{$v, pmf$}
     \State $n \gets v.length$
-    \State $i \gets FindMedian (pmf)$
-    \State $\alpha \gets F (v_i)$
-    \While {not $valley (v, i)$}
+    \State $Quartiles \gets FindQuartiles (pmf)$
+    \While {$Quartiles_1 \neq Quartiles_2 \textbf{ and } Quartiles_2 \neq Quartiles_3$}
         \State $direction \gets SelectSide (v, i)$
         
         \If {direction is Unknown} \Comment Unknown direction

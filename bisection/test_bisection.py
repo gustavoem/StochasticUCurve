@@ -40,7 +40,7 @@ for j in range (0):
         m_time = m_time + e - s
 
         s = time ()
-        [result, evaluations] = mupb (points, .80)
+        [result, evaluations] = mupb (points, .85)
         s_evaluations += evaluations / (n * 1.0)
         e = time ()
         s_time = s_time + e - s
@@ -85,7 +85,7 @@ for j in range (5):
         if abs (min (points) - result) / abs (min (points)) < .05:
             m_corrects = m_corrects + 1
 
-        [result, evaluations] = mupb (points, .8)
+        [result, evaluations] = mupb (points, .95)
         if abs (min (points) - result) / abs (min (points)) < .05:
             s_corrects = s_corrects + 1
         s_error = s_error + abs (min (points) - result) / abs (min (points))
