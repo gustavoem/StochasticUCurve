@@ -60,7 +60,7 @@ for j in range (0):
 evaluations_file.close ()
 time_file.close ()
 
-max_input_size = 500
+max_input_size = 100
 test_size = 100.0
 correctness_file = open ('correctness_data.txt', 'w')
 # input noise parameter
@@ -85,7 +85,7 @@ for j in range (5):
         if abs (min (points) - result) / abs (min (points)) < .05:
             m_corrects = m_corrects + 1
 
-        [result, evaluations] = mupb (points, .95)
+        [result, evaluations] = mupb (points, .8)
         if abs (min (points) - result) / abs (min (points)) < .05:
             s_corrects = s_corrects + 1
         s_error = s_error + abs (min (points) - result) / abs (min (points))

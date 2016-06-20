@@ -191,8 +191,8 @@ def upb (v, pc, pmf = []):
     third_qt = eights [6][0]
 
     limit = 1000
-    while (first_qt is not median or \
-           median is not third_qt and limit > 0):
+    while ((first_qt is not median and \
+           median is not third_qt) and limit > 0):
         evaluations += 3
 
         #print ("-------------\nIterating...")
@@ -269,7 +269,6 @@ def mupb (v, pc, pmf = []):
                 update_pmf (pmf, pc, first_qt, eights [2][1], 1)
                 update_pmf (pmf, pc, third_qt, eights [6][1], -1)
             else:
-                # obs: need to change this to split_mubp ()
                 [result, child_eval] = split_upb (v, pc, pmf, median)
                 return [result, evaluations + child_eval]
         else:
@@ -342,8 +341,8 @@ def find_eighths (pmf):
     eights = [[0, 0]] * 9
     i = 0
     alpha = pmf[i]
+    
     for j in range (1, 7):
-        
         x = j / 8.0
         while (alpha < x):
             i += 1
@@ -360,12 +359,14 @@ def update_pmf (pmf, pc, i, alpha, direction):
         pmf_{n+1}(y) = (1/alpha)*pc*pmf_{n}(y) for y < x_{n} """
     qc = 1 - pc
 
-   #print ("preferred side: ", direction)
+    #print ("preferred side: ", direction)
+    #print ("sum before: ", sum (pmf))
     
     if (direction < 0):
         # beta = P (x* < X_n)
         # beta < 1 
         beta = alpha - pmf[i]
+        #print ("alpha: ", alpha, "| beta: ", beta, "| pmf[i]: ", pmf[i])
         if (1 - beta < 1e-8):
             return
         
@@ -380,3 +381,4 @@ def update_pmf (pmf, pc, i, alpha, direction):
                 map (lambda x: (1.0 / (1 - alpha)) * pc * x, pmf[i + 1: len (pmf)])
         pmf[0:i + 1] = map (lambda x: (1.0 / alpha) * qc * x, pmf[0:i + 1])
 
+    #print ("sum after: ", sum (pmf))
