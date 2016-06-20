@@ -215,7 +215,7 @@ We call $p_c$ the probability that we chose the correct side when evaluating $v_
 \end{flalign*}
 . This update is similar for the case when the solution lies in the left side of $v_m$. If there is no defined value for $f_0$, we simply assume that the probability of being a solution is distributed uniformily between all nodes of the chain.
 
-The algorithm terminates when the first, second (median) and third quartile of the possible solution lies exactly in the same node, the solution given by the algorithm. This termination condition avoids an early termination, that would be caused by a local minimal element if we used the same termination condition as we did in the traditional bisection.
+The algorithm terminates when the first quartile or when the third quartile, of the possible solutions, are the same node as the second quartile (median), which is the solution given by the algorithm. This termination condition avoids an early termination, that would be caused by a local minimal element if we used the same termination condition as we did in the traditional bisection.
 \begin{algorithm}[h]
 \caption{}
 \begin{algorithmic}[1]
@@ -224,21 +224,24 @@ The algorithm terminates when the first, second (median) and third quartile of t
     \State $Quartiles \gets FindQuartiles (pmf)$
     \While {$Quartiles_1 \neq Quartiles_2 \textbf{ and } Quartiles_2 \neq Quartiles_3$}
         \State $direction \gets SelectSide (v, i)$
-        
         \If {direction is Unknown} \Comment Unknown direction
             \State
-            \Return $SplitUPB (v, pmf, i)$
+            \Return $SplitUPB (v, pmf, Quartile_2)$
         \Else
-            \State $UpdatePMF (pmf, i, alpha, direction)$
+        \State $UpdatePMF (pmf, Quartile_2, F (Quartile_2), direction)$
         \EndIf
-    \State $i \gets FindMedian (pmf)$
-    \State $\alpha \gets F (v_i)$
+    \State $Quartiles \gets FindQuartiles (pmf)$
     \EndWhile
     \State
-    \Return $v_i$
+    \Return $Quartile_2$
 \EndProcedure
 \end{algorithmic}
 \end{algorithm}
+
+
+\subsection{Mid-neighbour Probabilistic Bisection}
+The Mid-neighbour Probabilistic Bisection (MPB) is 
+
 
 \section{Results}
 \begin{figure}[H]
@@ -253,6 +256,7 @@ The algorithm terminates when the first, second (median) and third quartile of t
         \centering
         \includegraphics[scale=.5]{correctness_plot}
 \end{figure}
+
 
 \end{document}
 
