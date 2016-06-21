@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.14159265-2.6-1.40.16 (TeX Live 2015/Debian) (preloaded format=pdflatex 2016.2.21)  21 JUN 2016 12:09
+This is pdfTeX, Version 3.14159265-2.6-1.40.16 (TeX Live 2015/Debian) (preloaded format=pdflatex 2016.2.21)  21 JUN 2016 14:05
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -1253,30 +1253,31 @@ e9.png>] [11]
 
 LaTeX Warning: `h' float specifier changed to `ht'.
 
-<./figures/time_plot.png, id=142, 770.88pt x 578.16pt>
-File: ./figures/time_plot.png Graphic file (type png)
+<./figures/time_plot_result.png, id=142, 770.88pt x 578.16pt>
+File: ./figures/time_plot_result.png Graphic file (type png)
 
-<use ./figures/time_plot.png>
-Package pdftex.def Info: ./figures/time_plot.png used on input line 298.
+<use ./figures/time_plot_result.png>
+Package pdftex.def Info: ./figures/time_plot_result.png used on input line 298.
+
 (pdftex.def)             Requested size: 385.43906pt x 289.07928pt.
 
-<./figures/evaluations_plot.png, id=143, 770.88pt x 578.16pt>
-File: ./figures/evaluations_plot.png Graphic file (type png)
+<./figures/evaluations_plot_result.png, id=143, 770.88pt x 578.16pt>
+File: ./figures/evaluations_plot_result.png Graphic file (type png)
 
-<use ./figures/evaluations_plot.png>
-Package pdftex.def Info: ./figures/evaluations_plot.png used on input line 302.
-
+<use ./figures/evaluations_plot_result.png>
+Package pdftex.def Info: ./figures/evaluations_plot_result.png used on input li
+ne 302.
 (pdftex.def)             Requested size: 385.43906pt x 289.07928pt.
  [12] [13]
-<./figures/correctness_plot.png, id=155, 770.88pt x 578.16pt>
-File: ./figures/correctness_plot.png Graphic file (type png)
+<./figures/correctness_plot_result.png, id=155, 770.88pt x 578.16pt>
+File: ./figures/correctness_plot_result.png Graphic file (type png)
 
-<use ./figures/correctness_plot.png>
-Package pdftex.def Info: ./figures/correctness_plot.png used on input line 306.
-
+<use ./figures/correctness_plot_result.png>
+Package pdftex.def Info: ./figures/correctness_plot_result.png used on input li
+ne 306.
 (pdftex.def)             Requested size: 385.43906pt x 289.07928pt.
- [14 <./figures/time_plot.png> <./figures/evaluations_plot.png>] [15 <./figures
-/correctness_plot.png>]
+ [14 <./figures/time_plot_result.png> <./figures/evaluations_plot_result.png>] 
+[15 <./figures/correctness_plot_result.png>]
 Package atveryend Info: Empty hook `BeforeClearDocument' on input line 310.
 Package atveryend Info: Empty hook `AfterLastShipout' on input line 310.
  (./relatorio#1.aux)
@@ -1288,7 +1289,7 @@ Package atveryend Info: Empty hook `AtVeryVeryEnd' on input line 310.
  ) 
 Here is how much of TeX's memory you used:
  18570 strings out of 493085
- 336895 string characters out of 6136917
+ 337000 string characters out of 6136917
  407383 words of memory out of 5000000
  21644 multiletter control sequences out of 15000+600000
  11062 words of font info for 41 fonts, out of 8000000 for 9000
@@ -1306,7 +1307,7 @@ onts/cm/cmr12.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm
 fb></usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy10.pfb></u
 sr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy8.pfb></usr/shar
 e/texmf/fonts/type1/public/cm-super/sfrm1200.pfb>
-Output written on relatorio#1.pdf (15 pages, 392337 bytes).
+Output written on relatorio#1.pdf (15 pages, 399634 bytes).
 PDF statistics:
  220 PDF objects out of 1000 (max. 8388607)
  159 compressed objects within 2 object streams

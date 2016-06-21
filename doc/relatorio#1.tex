@@ -215,32 +215,32 @@ We call $p_c$ the probability that we chose the correct side when evaluating $v_
 \end{flalign*}
 . This update is similar for the case when the solution lies in the left side of $v_m$. If there is no defined value for $f_0$, we simply assume that the probability of being a solution is distributed uniformily between all nodes of the chain.
 
-The algorithm terminates when the first quartile or when the third quartile, of the possible solutions, are the same node as the second quartile (median), which is the solution given by the algorithm. This termination condition avoids an early termination, that would be caused by a local minimal element if we used the same termination condition as we did in the traditional bisection.
+The algorithm terminates when the first quantile or when the third quantile, of the possible solutions, are the same node as the second quantile (median), which is the solution given by the algorithm. This termination condition avoids an early termination, that would be caused by a local minimal element if we used the same termination condition as we did in the traditional bisection.
 \begin{algorithm}[h]
 \caption{}
 \begin{algorithmic}[1]
 \Procedure{UPB}{$v, pmf$}
     \State $n \gets v.length$
-    \State $Quartiles \gets FindQuartiles (pmf)$
-    \While {$Quartiles_1 \neq Quartiles_2 \textbf{ and } Quartiles_2 \neq Quartiles_3$}
+    \State $Quantiles \gets FindQuantiles (pmf)$
+    \While {$Quantiles_1 \neq Quantiles_2 \textbf{ and } Quantiles_2 \neq Quantiles_3$}
         \State $direction \gets SelectSide (v, i)$
         \If {direction is Unknown} \Comment Unknown direction
             \State
-            \Return $SplitUPB (v, pmf, Quartile_2)$
+            \Return $SplitUPB (v, pmf, Quantile_2)$
         \Else
-        \State $UpdatePMF (pmf, Quartile_2, F (Quartile_2), direction)$
+        \State $UpdatePMF (pmf, Quantile_2, F (Quantile_2), direction)$
         \EndIf
-    \State $Quartiles \gets FindQuartiles (pmf)$
+    \State $Quantiles \gets FindQuantiles (pmf)$
     \EndWhile
     \State
-    \Return $Quartile_2$
+    \Return $Quantile_2$
 \EndProcedure
 \end{algorithmic}
 \end{algorithm}
 
 
 \subsection{Mid-neighbour Probabilistic Bisection}
-The Mid-neighbour Probabilistic Bisection (MPB) is a probabilistic algorithm that partitionates the search space into four different parts and, according to the value of the points between the subsets, decides in which portion of the chain the minimum should be. The partition on the chain is made according to the quartiles of the $pmf$ and the points we evaluate are $v_{lm}$, $v_{m}$ and $v_{rm}$, which we define as:
+The Mid-neighbour Probabilistic Bisection (MPB) is a probabilistic algorithm that partitionates the search space into four different parts and, according to the value of the points between the subsets, decides in which portion of the chain the minimum should be. The partition on the chain is made according to the quantiles of the $pmf$ and the points we evaluate are $v_{lm}$, $v_{m}$ and $v_{rm}$, which we define as:
 \begin{itemize}
     \item{$lm = \min\limits_{1 \leq i \leq n} \{i \mid f (v_i) \geq \frac{1}{4}\}$.}
     \item{$m = \min\limits_{1 \leq i \leq n} \{i \mid f (v_i) \geq \frac{2}{4}\}$.}
@@ -260,7 +260,7 @@ After finding the points $v_{lm}$, $v_m$ and $v_{rm}$ we calculate the cost $c$ 
 \begin{algorithmic}[1]
 \Procedure{MPB}{$v, pmf$}
     \State $n \gets v.length$
-    \State $Quartiles \gets FindQuartiles (pmf)$
+    \State $Quantiles \gets FindQuantiles (pmf)$
     \State $v_{lm} \gets Quatile_1$
     \State $v_{m} \gets Quatile_2$
     \State $v_{rm} \gets Quatile_3$
@@ -279,7 +279,7 @@ After finding the points $v_{lm}$, $v_m$ and $v_{rm}$ we calculate the cost $c$ 
             \Else
                 \State $UpdatePMF (omf, v_{lm}, F (v_{lm}), Right)$
         \EndIf
-        \State $Quartiles \gets FindQuartiles (pmf)$
+        \State $Quantiles \gets FindQuantiles (pmf)$
         \State $v_{lm} \gets Quatile_1$
         \State $v_{m} \gets Quatile_2$
         \State $v_{rm} \gets Quatile_3$
@@ -295,15 +295,15 @@ After finding the points $v_{lm}$, $v_m$ and $v_{rm}$ we calculate the cost $c$ 
 \section{Results}
 \begin{figure}[H]
         \centering
-        \includegraphics[scale=.5]{time_plot}
+        \includegraphics[scale=.5]{time_plot_result}
 \end{figure}
 \begin{figure}[H]
         \centering
-        \includegraphics[scale=.5]{evaluations_plot}
+        \includegraphics[scale=.5]{evaluations_plot_result}
 \end{figure}
 \begin{figure}[H]
         \centering
-        \includegraphics[scale=.5]{correctness_plot}
+        \includegraphics[scale=.5]{correctness_plot_result}
 \end{figure}
 
 
