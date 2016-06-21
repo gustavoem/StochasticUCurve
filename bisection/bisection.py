@@ -195,7 +195,7 @@ def int_log2 (x):
     return i
 
 
-def upb (v, pc, pmf = []):
+def upb (v, pc, pmf = [], limit = None):
     """ U-Curve Probabilistic Bisection 
     This function receives a vector, that describes approximately u-shaped curve, as
     argument and return the minimum element of this vector """
@@ -215,7 +215,9 @@ def upb (v, pc, pmf = []):
     first_qt = eights [2][0]
     third_qt = eights [6][0]
 
-    limit = n
+    if (limit is None):
+        limit = n
+
     while ((first_qt is not median and \
            median is not third_qt) and limit > 0):
         evaluations += 3
@@ -230,7 +232,7 @@ def upb (v, pc, pmf = []):
 
         direction = select_side (v, median)
         if (direction is 0):
-            [result, child_eval] = split_upb (v, pc, pmf, median)
+            [result, child_eval] = split_upb (v, pc, pmf, median, limit)
             return [result, evaluations + child_eval]
         
         #print ("direction: ", direction)
@@ -243,13 +245,12 @@ def upb (v, pc, pmf = []):
         alpha = eights[4][1]
         first_qt = eights [2][0]
         third_qt = eights [6][0]
-
         limit -= 1
 
     evaluations += 3
     return [v[median], evaluations]
 
-def mupb (v, pc, pmf = []):
+def mupb (v, pc, pmf = [], limit = None):
     """ Mid-neighbour U-Curve Probabilistic Bisection 
     This function receives a vector, that describes approximately u-shaped curve, as
     argument and return the minimum element of this vector """
@@ -267,8 +268,9 @@ def mupb (v, pc, pmf = []):
     alpha = eights[4][1]
     first_qt = eights [2][0]
     third_qt = eights [6][0]
-
-    limit = n
+    
+    if (limit is None):
+        limit = n
     while (first_qt is not median and \
            median is not third_qt and limit > 0):
         evaluations += 3
@@ -294,7 +296,7 @@ def mupb (v, pc, pmf = []):
                 update_pmf (pmf, pc, first_qt, eights [2][1], 1)
                 update_pmf (pmf, pc, third_qt, eights [6][1], -1)
             else:
-                [result, child_eval] = split_mupb (v, pc, pmf, median)
+                [result, child_eval] = split_mupb (v, pc, pmf, median, limit)
                 return [result, evaluations + child_eval]
         else:
             if (d == 1.0):
@@ -318,7 +320,7 @@ def mupb (v, pc, pmf = []):
 
 
 
-def split_upb (v, pc, pmf, i):
+def split_upb (v, pc, pmf, i, limit):
     """ Splits the orginal problem v with pmf in two parts, from 0 to i - 1 and from
     i + 1 to len (v) """
     v1 = v[0:i]
@@ -334,14 +336,15 @@ def split_upb (v, pc, pmf, i):
     sol2 = None
     eval2 = 0
     if (len (v1) > 0):
-        [sol1, eval1] = upb (v1, pc, pmf1)
+        [sol1, eval1] = upb (v1, pc, pmf1, limit)
+        limit -= eval1
     if (len (v2) > 0):
-        [sol2, eval2] = upb (v2, pc, pmf2)
+        [sol2, eval2] = upb (v2, pc, pmf2, limit)
     
     return [min (min_with_none (sol1, sol2), v[i]), eval1 + eval2]
 
 
-def split_mupb (v, pc, pmf, i):
+def split_mupb (v, pc, pmf, i, limit):
     """ Splits the orginal problem v with pmf in two parts, from 0 to i - 1 and from
     i + 1 to len (v) """
     v1 = v[0:i]
@@ -357,9 +360,10 @@ def split_mupb (v, pc, pmf, i):
     sol2 = None
     eval2 = 0
     if (len (v1) > 0):
-        [sol1, eval1] = mupb (v1, pc, pmf1)
+        [sol1, eval1] = mupb (v1, pc, pmf1, limit)
+        limit -= eval1
     if (len (v2) > 0):
-        [sol2, eval2] = mupb (v2, pc, pmf2)
+        [sol2, eval2] = mupb (v2, pc, pmf2, limit)
     
     return [min (min_with_none (sol1, sol2), v[i]), eval1 + eval2]
 

@@ -16,7 +16,7 @@ test_size = 100.0
 ##
 time_file = open ('time_data.txt', 'w')
 evaluations_file = open ('evaluations_data.txt', 'w')
-for j in range (3):
+for j in range (0):
     d_evaluations = 0
     m_evaluations = 0
     s_evaluations = 0
@@ -81,7 +81,7 @@ max_input_size = 100
 test_size = 1000.0
 correctness_file = open ('correctness_data.txt', 'w')
 sigma = 0 # input noise parameter
-for j in range (0):#10):
+for j in range (10):
     d_corrects = 0
     m_corrects = 0
     s_corrects = 0
@@ -106,7 +106,7 @@ for j in range (0):#10):
             s_corrects = s_corrects + 1
         s_error = s_error + abs (min (points) - result) / abs (min (points))
 
-        [result, evaluations] = mupb (points, .8)
+        [result, evaluations] = mupb (points, .85)
         if abs (min (points) - result) / abs (min (points)) < .05:
             s2_corrects = s2_corrects + 1
         s2_error = s2_error + abs (min (points) - result) / abs (min (points))
