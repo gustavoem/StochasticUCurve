@@ -27,7 +27,7 @@ def bisection_min_step (v, limit = None):
                 new_limit = limit - 1
             [result1, evaluations1] = bisection_min_step (v[0:i], new_limit)
             if (limit is not None):
-                new_limit = limit - 1
+                new_limit = limit - evaluations1
             [result2, evaluations2] = bisection_min_step (v[i:len (v)], new_limit)
             return [min (result1, result2), evaluations1 + evaluations2 + 3] 
 
@@ -65,15 +65,15 @@ def valley (v, i):
     return v[i] < min (vl, vr)
 
 
-def mid_neighbour_bisection (v):
+def mid_neighbour_bisection (v, limit = None):
     """ This function receives a vector, that describes approximately u-shaped curve, as
     argument and return the minimum element of this vector """
     #print ("Bisection on v: ", v)
     
-    return mid_neighbour_step (v, 1, -1.0 / int_log2 (len (v)))
+    return mid_neighbour_step (v, 1, -1.0 / int_log2 (len (v)), limit)
     
 
-def mid_neighbour_step (v, reliance, reliance_increment):
+def mid_neighbour_step (v, reliance, reliance_increment, limit = None):
     """ Receives a vector v, a reliance and a reliance increment. This function divides
     the vector in 4 equal pieces with 3 different points lm, m and rm. The value of the 
     vector is calculated in these points and an abstract slope is calculated. This 
@@ -93,7 +93,7 @@ def mid_neighbour_step (v, reliance, reliance_increment):
     #print ("lm, m, rm: ", lm, ", ", m, ", ", m)
 
     # minimum of a vector of one element
-    if lm is rm:
+    if (lm is rm or (limit is not None and limit <= 0)):
         return [v[m], 0]
 
     ld = v[m] - v[lm]
@@ -108,8 +108,14 @@ def mid_neighbour_step (v, reliance, reliance_increment):
     #      m    ,   lm -- m -- rm 
     # lm /   \ rm
     if ((l_slope is 1 and r_slope is -1) or (l_slope is 0 and r_slope is 0)):
-        [result1, evaluations1] = mid_neighbour_step (v[0:m], new_reliance, reliance_increment)
-        [result2, evaluations2] = mid_neighbour_step (v[m:len(v)], new_reliance, reliance_increment)
+        if (limit is not None):
+            limit -= 1
+        [result1, evaluations1] = \
+                mid_neighbour_step (v[0:m], new_reliance, reliance_increment, limit)
+        if (limit is not None):
+            limit -= evaluations1
+        [result2, evaluations2] = \
+                mid_neighbour_step (v[m:len(v)], new_reliance, reliance_increment, limit)
         return [min (result1, result2), evaluations1 + evaluations2 + 3]
 
     # cases:
@@ -117,8 +123,10 @@ def mid_neighbour_step (v, reliance, reliance_increment):
     # lm       rm
     #    \ m /
     elif (l_slope is -1 and r_slope is 1):
+        if (limit is not None):
+            limit -= 1
         [result, evaluations] = \
-                mid_neighbour_step (v[lm + 1:rm], new_reliance, reliance_increment)
+                mid_neighbour_step (v[lm + 1:rm], new_reliance, reliance_increment, limit)
         return [result, evaluations + 3]
 
     # cases:
@@ -127,8 +135,10 @@ def mid_neighbour_step (v, reliance, reliance_increment):
     #      m /      lm /            
     # lm /
     elif (l_slope is 1 and (r_slope is 1 or r_slope is 0)):
+        if (limit is not None):
+            limit -= 1
         [result, evaluations] = \
-                mid_neighbour_step (v[0:m + 1], new_reliance, reliance_increment)
+                mid_neighbour_step (v[0:m + 1], new_reliance, reliance_increment, limit)
         return [result, evaluations + 3]
 
     # cases:
@@ -136,7 +146,10 @@ def mid_neighbour_step (v, reliance, reliance_increment):
     # lm            
     #    \ m -- rm 
     elif (l_slope is -1 and r_slope is 0):
-        [result, evaluations] =  mid_neighbour_step (v[lm:len(v)], new_reliance, reliance_increment)
+        if (limit is not None):
+            limit -= 1
+        [result, evaluations] = \
+                mid_neighbour_step (v[lm:len(v)], new_reliance, reliance_increment, limit)
         return [result, evaluations + 3]
 
     # cases:
@@ -144,8 +157,10 @@ def mid_neighbour_step (v, reliance, reliance_increment):
     # lm -- m
     #         \ rm
     elif (l_slope is 0 and r_slope is 1):
+        if (limit is not None):
+            limit -= 1
         [result, evaluations] = \
-                mid_neighbour_step (v[0:rm], new_reliance, reliance_increment)
+                mid_neighbour_step (v[0:rm], new_reliance, reliance_increment, limit)
         return [result, evaluations + 3]
 
     # cases:
@@ -154,8 +169,10 @@ def mid_neighbour_step (v, reliance, reliance_increment):
     #    \ m      ,         \ rm
     #        \ rm
     else:
+        if (limit is not None):
+            limit -= 1
         [result, evaluations] = \
-                mid_neighbour_step (v[m:len (v)], new_reliance, reliance_increment)
+                mid_neighbour_step (v[m:len (v)], new_reliance, reliance_increment, limit)
         return [result, evaluations + 3]
 
 
