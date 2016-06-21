@@ -1,27 +1,35 @@
-def bisection_min (v):
-    return bisection_min_step (v, 0)
+def bisection_min (v, limit = None):
+    #print (limit)
+    return bisection_min_step (v, limit)
 
-def bisection_min_step (v, evaluations):
+def bisection_min_step (v, limit = None):
     """ This function receives a vector, that describes a u-shaped curve, as argument
     and return the minimum element of this vector """
     i = len (v) // 2
-    if (len (v) is 1):
-        evaluations += 1
-    else:
-        evaluations += 3
 
-    if (valley (v, i)):
-        return [v[i], evaluations]
+    if (valley (v, i) or (limit is not None and limit <= 0)):
+        return [v[i], 3]
     else:
         direction = select_side (v, i)
+        new_limit = None
         if (direction is 1):
-            return bisection_min_step (v[i:len (v)], evaluations)
+            if (limit is not None):
+                new_limit = limit - 1
+            [result, evaluations] = bisection_min_step (v[i:len (v)], new_limit)
+            return [result, evaluations + 3]
         elif (direction is -1):
-            return bisection_min_step (v[0:i], evaluations)
+            if (limit is not None):
+                new_limit = limit - 1
+            [result, evaluations] = bisection_min_step (v[0:i], new_limit)
+            return [result, evaluations + 3]
         else:
-            [result1, evaluations1] = bisection_min_step (v[0:i], 0)
-            [result2, evaluations2] = bisection_min_step (v[i:len (v)], 0)
-            return [min (result1, result2), evaluations1 + evaluations2] 
+            if (limit is not None):
+                new_limit = limit - 1
+            [result1, evaluations1] = bisection_min_step (v[0:i], new_limit)
+            if (limit is not None):
+                new_limit = limit - 1
+            [result2, evaluations2] = bisection_min_step (v[i:len (v)], new_limit)
+            return [min (result1, result2), evaluations1 + evaluations2 + 3] 
 
 
 def select_side (v, i):
