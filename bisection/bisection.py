@@ -190,7 +190,7 @@ def upb (v, pc, pmf = []):
     first_qt = eights [2][0]
     third_qt = eights [6][0]
 
-    limit = 1000
+    limit = n
     while ((first_qt is not median and \
            median is not third_qt) and limit > 0):
         evaluations += 3
@@ -243,7 +243,7 @@ def mupb (v, pc, pmf = []):
     first_qt = eights [2][0]
     third_qt = eights [6][0]
 
-    limit = 10000
+    limit = n
     while (first_qt is not median and \
            median is not third_qt and limit > 0):
         evaluations += 3
