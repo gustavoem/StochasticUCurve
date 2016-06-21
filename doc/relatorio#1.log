@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.14159265-2.6-1.40.16 (TeX Live 2015/Debian) (preloaded format=pdflatex 2016.2.21)  20 JUN 2016 15:33
+This is pdfTeX, Version 3.14159265-2.6-1.40.16 (TeX Live 2015/Debian) (preloaded format=pdflatex 2016.2.21)  21 JUN 2016 12:09
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -1163,7 +1163,7 @@ File: umsb.fd 2013/01/14 v3.01 AMS symbols B
 Package hyperref Info: bookmark level for unknown algorithm defaults to 0 on in
 put line 47.
 
-<./figures/curve_sigma0.png, id=41, 770.88pt x 578.16pt>
+<./figures/curve_sigma0.png, id=45, 770.88pt x 578.16pt>
 File: ./figures/curve_sigma0.png Graphic file (type png)
 
 <use ./figures/curve_sigma0.png>
@@ -1172,146 +1172,144 @@ Package pdftex.def Info: ./figures/curve_sigma0.png used on input line 78.
  [1
 
 {/var/lib/texmf/fonts/map/pdftex/updmap/pdftex.map}] <./figures/curve_sigma1.pn
-g, id=54, 770.88pt x 578.16pt>
+g, id=58, 770.88pt x 578.16pt>
 File: ./figures/curve_sigma1.png Graphic file (type png)
 
 <use ./figures/curve_sigma1.png>
 Package pdftex.def Info: ./figures/curve_sigma1.png used on input line 84.
 (pdftex.def)             Requested size: 385.43906pt x 289.07928pt.
  [2 <./figures/curve_sigma0.png>]
-<./figures/curve_sigma2.png, id=65, 770.88pt x 578.16pt>
+<./figures/curve_sigma2.png, id=69, 770.88pt x 578.16pt>
 File: ./figures/curve_sigma2.png Graphic file (type png)
 
 <use ./figures/curve_sigma2.png>
 Package pdftex.def Info: ./figures/curve_sigma2.png used on input line 90.
 (pdftex.def)             Requested size: 385.43906pt x 289.07928pt.
  [3 <./figures/curve_sigma1.png> <./figures/curve_sigma2.png>] [4] <./figures/m
-id_case1.png, id=80, 770.88pt x 578.16pt>
+id_case1.png, id=84, 770.88pt x 578.16pt>
 File: ./figures/mid_case1.png Graphic file (type png)
 
 <use ./figures/mid_case1.png>
 Package pdftex.def Info: ./figures/mid_case1.png used on input line 154.
 (pdftex.def)             Requested size: 269.81204pt x 202.35902pt.
 
-<./figures/mid_case2.png, id=81, 770.88pt x 578.16pt>
+<./figures/mid_case2.png, id=85, 770.88pt x 578.16pt>
 File: ./figures/mid_case2.png Graphic file (type png)
 
 <use ./figures/mid_case2.png>
 Package pdftex.def Info: ./figures/mid_case2.png used on input line 159.
 (pdftex.def)             Requested size: 269.81204pt x 202.35902pt.
  [5]
-<./figures/mid_case3.png, id=86, 770.88pt x 578.16pt>
+<./figures/mid_case3.png, id=90, 770.88pt x 578.16pt>
 File: ./figures/mid_case3.png Graphic file (type png)
 
 <use ./figures/mid_case3.png>
 Package pdftex.def Info: ./figures/mid_case3.png used on input line 164.
 (pdftex.def)             Requested size: 269.81204pt x 202.35902pt.
 
-<./figures/mid_case4.png, id=87, 770.88pt x 578.16pt>
+<./figures/mid_case4.png, id=91, 770.88pt x 578.16pt>
 File: ./figures/mid_case4.png Graphic file (type png)
 
 <use ./figures/mid_case4.png>
 Package pdftex.def Info: ./figures/mid_case4.png used on input line 169.
 (pdftex.def)             Requested size: 269.81204pt x 202.35902pt.
  [6 <./figures/mid_case1.png> <./figures/mid_case2.png>] <./figures/mid_case5.p
-ng, id=96, 770.88pt x 578.16pt>
+ng, id=100, 770.88pt x 578.16pt>
 File: ./figures/mid_case5.png Graphic file (type png)
 
 <use ./figures/mid_case5.png>
 Package pdftex.def Info: ./figures/mid_case5.png used on input line 174.
 (pdftex.def)             Requested size: 269.81204pt x 202.35902pt.
 
-<./figures/mid_case6.png, id=97, 770.88pt x 578.16pt>
+<./figures/mid_case6.png, id=101, 770.88pt x 578.16pt>
 File: ./figures/mid_case6.png Graphic file (type png)
 
 <use ./figures/mid_case6.png>
 Package pdftex.def Info: ./figures/mid_case6.png used on input line 179.
 (pdftex.def)             Requested size: 269.81204pt x 202.35902pt.
  [7 <./figures/mid_case3.png> <./figures/mid_case4.png>] <./figures/mid_case7.p
-ng, id=107, 770.88pt x 578.16pt>
+ng, id=111, 770.88pt x 578.16pt>
 File: ./figures/mid_case7.png Graphic file (type png)
 
 <use ./figures/mid_case7.png>
 Package pdftex.def Info: ./figures/mid_case7.png used on input line 184.
 (pdftex.def)             Requested size: 269.81204pt x 202.35902pt.
 
-<./figures/mid_case8.png, id=108, 770.88pt x 578.16pt>
+<./figures/mid_case8.png, id=112, 770.88pt x 578.16pt>
 File: ./figures/mid_case8.png Graphic file (type png)
 
 <use ./figures/mid_case8.png>
 Package pdftex.def Info: ./figures/mid_case8.png used on input line 189.
 (pdftex.def)             Requested size: 269.81204pt x 202.35902pt.
  [8 <./figures/mid_case5.png> <./figures/mid_case6.png>] <./figures/mid_case9.p
-ng, id=117, 770.88pt x 578.16pt>
+ng, id=121, 770.88pt x 578.16pt>
 File: ./figures/mid_case9.png Graphic file (type png)
 
 <use ./figures/mid_case9.png>
 Package pdftex.def Info: ./figures/mid_case9.png used on input line 194.
 (pdftex.def)             Requested size: 269.81204pt x 202.35902pt.
  [9 <./figures/mid_case7.png> <./figures/mid_case8.png>] [10 <./figures/mid_cas
-e9.png>]
-<./figures/time_plot.png, id=133, 770.88pt x 578.16pt>
+e9.png>] [11]
+
+LaTeX Warning: `h' float specifier changed to `ht'.
+
+<./figures/time_plot.png, id=142, 770.88pt x 578.16pt>
 File: ./figures/time_plot.png Graphic file (type png)
 
 <use ./figures/time_plot.png>
-Package pdftex.def Info: ./figures/time_plot.png used on input line 244.
+Package pdftex.def Info: ./figures/time_plot.png used on input line 298.
 (pdftex.def)             Requested size: 385.43906pt x 289.07928pt.
 
-<./figures/evaluations_plot.png, id=134, 770.88pt x 578.16pt>
+<./figures/evaluations_plot.png, id=143, 770.88pt x 578.16pt>
 File: ./figures/evaluations_plot.png Graphic file (type png)
 
 <use ./figures/evaluations_plot.png>
-Package pdftex.def Info: ./figures/evaluations_plot.png used on input line 248.
+Package pdftex.def Info: ./figures/evaluations_plot.png used on input line 302.
 
 (pdftex.def)             Requested size: 385.43906pt x 289.07928pt.
- [11]
-<./figures/correctness_plot.png, id=140, 770.88pt x 578.16pt>
+ [12] [13]
+<./figures/correctness_plot.png, id=155, 770.88pt x 578.16pt>
 File: ./figures/correctness_plot.png Graphic file (type png)
 
 <use ./figures/correctness_plot.png>
-Package pdftex.def Info: ./figures/correctness_plot.png used on input line 252.
+Package pdftex.def Info: ./figures/correctness_plot.png used on input line 306.
 
 (pdftex.def)             Requested size: 385.43906pt x 289.07928pt.
- [12 <./figures/time_plot.png> <./figures/evaluations_plot.png>] [13 <./figures
+ [14 <./figures/time_plot.png> <./figures/evaluations_plot.png>] [15 <./figures
 /correctness_plot.png>]
-Package atveryend Info: Empty hook `BeforeClearDocument' on input line 257.
-Package atveryend Info: Empty hook `AfterLastShipout' on input line 257.
+Package atveryend Info: Empty hook `BeforeClearDocument' on input line 310.
+Package atveryend Info: Empty hook `AfterLastShipout' on input line 310.
  (./relatorio#1.aux)
-Package atveryend Info: Executing hook `AtVeryEndDocument' on input line 257.
-Package atveryend Info: Executing hook `AtEndAfterFileList' on input line 257.
-
-Package rerunfilecheck Warning: File `relatorio#1.out' has changed.
-(rerunfilecheck)                Rerun to get outlines right
-(rerunfilecheck)                or use package `bookmark'.
-
-Package rerunfilecheck Info: Checksums for `relatorio#1.out':
-(rerunfilecheck)             Before: 24BC3BED0D90A7E0ACEC1B1DBADE07AE;489
-(rerunfilecheck)             After:  BD6164995673FB5A7FBB62CCAE89F528;583.
-Package atveryend Info: Empty hook `AtVeryVeryEnd' on input line 257.
+Package atveryend Info: Executing hook `AtVeryEndDocument' on input line 310.
+Package atveryend Info: Executing hook `AtEndAfterFileList' on input line 310.
+Package rerunfilecheck Info: File `relatorio#1.out' has not changed.
+(rerunfilecheck)             Checksum: 8E8D27D1024D2E3E1029C93A181ADCBF;575.
+Package atveryend Info: Empty hook `AtVeryVeryEnd' on input line 310.
  ) 
 Here is how much of TeX's memory you used:
- 18559 strings out of 493085
- 336758 string characters out of 6136917
- 405383 words of memory out of 5000000
- 21637 multiletter control sequences out of 15000+600000
- 10725 words of font info for 40 fonts, out of 8000000 for 9000
+ 18570 strings out of 493085
+ 336895 string characters out of 6136917
+ 407383 words of memory out of 5000000
+ 21644 multiletter control sequences out of 15000+600000
+ 11062 words of font info for 41 fonts, out of 8000000 for 9000
  1141 hyphenation exceptions out of 8191
- 55i,16n,54p,790b,352s stack positions out of 5000i,500n,10000p,200000b,80000s
-</usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmbx12.pfb></us
-r/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmcsc10.pfb></usr/sha
-re/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmex10.pfb></usr/share/tex
-live/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi12.pfb></usr/share/texlive/t
-exmf-dist/fonts/type1/public/amsfonts/cm/cmmi8.pfb></usr/share/texlive/texmf-di
-st/fonts/type1/public/amsfonts/cm/cmr10.pfb></usr/share/texlive/texmf-dist/font
-s/type1/public/amsfonts/cm/cmr12.pfb></usr/share/texlive/texmf-dist/fonts/type1
-/public/amsfonts/cm/cmr17.pfb></usr/share/texlive/texmf-dist/fonts/type1/public
-/amsfonts/cm/cmr8.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/amsfont
-s/cm/cmsy10.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/c
-msy8.pfb>
-Output written on relatorio#1.pdf (13 pages, 378717 bytes).
+ 55i,16n,54p,790b,377s stack positions out of 5000i,500n,10000p,200000b,80000s
+{/usr/share/texmf/fonts/enc/dvips/cm-super/cm-super-ts1.enc}</usr/share/texli
+ve/texmf-dist/fonts/type1/public/amsfonts/cm/cmbx12.pfb></usr/share/texlive/tex
+mf-dist/fonts/type1/public/amsfonts/cm/cmcsc10.pfb></usr/share/texlive/texmf-di
+st/fonts/type1/public/amsfonts/cm/cmex10.pfb></usr/share/texlive/texmf-dist/fon
+ts/type1/public/amsfonts/cm/cmmi12.pfb></usr/share/texlive/texmf-dist/fonts/typ
+e1/public/amsfonts/cm/cmmi8.pfb></usr/share/texlive/texmf-dist/fonts/type1/publ
+ic/amsfonts/cm/cmr10.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/amsf
+onts/cm/cmr12.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm
+/cmr17.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmr8.p
+fb></usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy10.pfb></u
+sr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy8.pfb></usr/shar
+e/texmf/fonts/type1/public/cm-super/sfrm1200.pfb>
+Output written on relatorio#1.pdf (15 pages, 392337 bytes).
 PDF statistics:
- 203 PDF objects out of 1000 (max. 8388607)
- 145 compressed objects within 2 object streams
- 39 named destinations out of 1000 (max. 500000)
- 152 words of extra memory for PDF output out of 10000 (max. 10000000)
+ 220 PDF objects out of 1000 (max. 8388607)
+ 159 compressed objects within 2 object streams
+ 42 named destinations out of 1000 (max. 500000)
+ 160 words of extra memory for PDF output out of 10000 (max. 10000000)
 

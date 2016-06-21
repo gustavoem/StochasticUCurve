@@ -240,7 +240,56 @@ The algorithm terminates when the first quartile or when the third quartile, of 
 
 
 \subsection{Mid-neighbour Probabilistic Bisection}
-The Mid-neighbour Probabilistic Bisection (MPB) is 
+The Mid-neighbour Probabilistic Bisection (MPB) is a probabilistic algorithm that partitionates the search space into four different parts and, according to the value of the points between the subsets, decides in which portion of the chain the minimum should be. The partition on the chain is made according to the quartiles of the $pmf$ and the points we evaluate are $v_{lm}$, $v_{m}$ and $v_{rm}$, which we define as:
+\begin{itemize}
+    \item{$lm = \min\limits_{1 \leq i \leq n} \{i \mid f (v_i) \geq \frac{1}{4}\}$.}
+    \item{$m = \min\limits_{1 \leq i \leq n} \{i \mid f (v_i) \geq \frac{2}{4}\}$.}
+    \item{$rm = \min\limits_{1 \leq i \leq n} \{i \mid f (v_i) \geq \frac{3}{4}\}$.}
+\end{itemize}
+
+After finding the points $v_{lm}$, $v_m$ and $v_{rm}$ we calculate the cost $c$ of these points and update the $pmf$ according to the following rules:
+\begin{itemize}
+    \item{If $c (v_{rm}) - c (v_{lm}) > \epsilon:$} then we guess that the minimum should be to the left of $v_{rm}$.
+    \item{If $c (v_{rm}) - c (v_{lm}) < -\epsilon:$} then we guess that the minimum should be to the right of $v_{lm}$.
+    \item{If $|c (v_{rm}) - c (v_{lm})| < \epsilon$ and $v_m < {min (v_{rm}, v_{lm})}:$} then we guess that the minimum should be between $v_{lm}$ and $v_{rm}$
+    \item{If $|c (v_{rm}) - c (v_{lm})| < \epsilon$ and $v_m \geq {min (v_{rm}, v_{lm})}:$} then we can't guess where the minimum is. To overcome this, we divide the problem in the node $v_m$ so we can solve, recursively, two problems and return the minimum of the two solutions.
+\end{itemize}
+
+\begin{algorithm}[h]
+\caption{}
+\begin{algorithmic}[1]
+\Procedure{MPB}{$v, pmf$}
+    \State $n \gets v.length$
+    \State $Quartiles \gets FindQuartiles (pmf)$
+    \State $v_{lm} \gets Quatile_1$
+    \State $v_{m} \gets Quatile_2$
+    \State $v_{rm} \gets Quatile_3$
+    \While {$v_{lm} \neq v_m \textbf{ and } v_{rm} \neq v_m$}
+        \State $d \gets c (v_{rm}) - c (v_{lm})$
+        \If {$abs (d) < \epsilon$}
+            \If {$v_m < min (v_{rm}, v_{lm})$}
+                \State $UpdatePMF (pmf, v_{lm}, F (v_{lm}), Right)$
+                \State $UpdatePMF (pmf, v_{rm}, F (v_{lm}), Left)$
+             \Else \Comment Unknown direction
+                \State
+                \Return $SplitMPB (v, pmf, v_m)$
+            \EndIf
+            \ElsIf {$d > \epsilon$}
+                \State $UpdatePMF (pmf, v_{rm}, F (v_{rm}), Left)$
+            \Else
+                \State $UpdatePMF (omf, v_{lm}, F (v_{lm}), Right)$
+        \EndIf
+        \State $Quartiles \gets FindQuartiles (pmf)$
+        \State $v_{lm} \gets Quatile_1$
+        \State $v_{m} \gets Quatile_2$
+        \State $v_{rm} \gets Quatile_3$
+    \EndWhile
+    \State
+    \Return $v_m$
+\EndProcedure
+\end{algorithmic}
+\end{algorithm}
+
 
 
 \section{Results}
