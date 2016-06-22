@@ -5,6 +5,7 @@ from bisection import bisection_min
 from bisection import mid_neighbour_bisection 
 from bisection import upb
 from bisection import mupb
+from math import log
 from time import time
 
 max_input_size = 1000
@@ -81,7 +82,7 @@ max_input_size = 100
 test_size = 1000.0
 correctness_file = open ('correctness_data.txt', 'w')
 sigma = 0 # input noise parameter
-for j in range (10):
+for j in range (0):
     d_corrects = 0
     m_corrects = 0
     s_corrects = 0
@@ -92,24 +93,25 @@ for j in range (10):
         n = max_input_size
         points = gen_points (n, .25)
         input_noise (points, sigma)
+        expected_solution = min (points)
         
         [result, evaluations] = bisection_min (points)
-        if abs (min (points) - result) / abs (min (points)) < .05:
+        if abs (expected_solution - result) / abs (expected_solution) < .05:
             d_corrects = d_corrects + 1
 
         [result, evaluations] = mid_neighbour_bisection (points)
-        if abs (min (points) - result) / abs (min (points)) < .05:
+        if abs (expected_solution - result) / abs (expected_solution) < .05:
             m_corrects = m_corrects + 1
 
         [result, evaluations] = upb (points, .8)
-        if abs (min (points) - result) / abs (min (points)) < .05:
+        if abs (expected_solution - result) / abs (expected_solution) < .05:
             s_corrects = s_corrects + 1
-        s_error = s_error + abs (min (points) - result) / abs (min (points))
+        s_error = s_error + abs (expected_solution - result) / abs (expected_solution)
 
         [result, evaluations] = mupb (points, .85)
-        if abs (min (points) - result) / abs (min (points)) < .05:
+        if abs (expected_solution - result) / abs (expected_solution) < .05:
             s2_corrects = s2_corrects + 1
-        s2_error = s2_error + abs (min (points) - result) / abs (min (points))
+        s2_error = s2_error + abs (expected_solution - result) / abs (expected_solution)
 
     print ("Correctness for traditional bisection: ", d_corrects / test_size)
     print ("Correctness for mid-neighbour bisection: ", m_corrects / test_size)
@@ -173,3 +175,48 @@ for j in range (0):
     max_input_size *= 2
 pc_time_file.close ()
 pc_evaluations_file.close ()
+
+
+
+# Test how close each algorithm gets to the solution with a limit of iterations
+#
+#
+convergence_file = open ('convergence_data.txt', 'w')
+test_size = 500.0
+max_input_size = 10000
+sigma = 10
+percentage = 0.05
+
+for j in range (10):
+    eval_limit = int (log (max_input_size, 2) * percentage)
+    d_distance = 0
+    m_distance = 0
+    s_distance = 0
+    s2_distance = 0
+    for i in range (int (test_size)):
+        n = max_input_size
+        points = gen_points (n, random ())
+        input_noise (points, sigma)
+        expected_solution = min (points)
+        
+        [result, evaluations] = bisection_min (points, limit = eval_limit)
+        d_distance += abs (expected_solution - result) / abs (expected_solution)
+
+        [result, evaluations] = mid_neighbour_bisection (points, limit = eval_limit)
+        m_distance += abs (expected_solution - result) / abs (expected_solution)
+
+        [result, evaluations] = upb (points, .85, limit = eval_limit)
+        s_distance += abs (expected_solution - result) / abs (expected_solution)
+
+        [result, evaluations] = mupb (points, .85, limit = eval_limit)
+        s2_distance += abs (expected_solution - result) / abs (expected_solution)
+
+    print ("Eval percentage = ", percentage)
+    print ("Avg. relative distance for traditional bisection: ", d_distance / test_size)
+    print ("Avg. relative distance for mid-neighbour bisection: ", m_distance / test_size)
+    print ("Avg. relative distance for UPB: ", s_distance / test_size)
+    print ("Avg. relative distance for MPB: ", s2_distance / test_size)
+    convergence_file.write (str (percentage) + " " + str (d_distance / test_size) + " " + str (m_distance / test_size) + " " + str (s_distance / test_size) + " " + str (s2_distance / test_size) + "\n")
+    percentage += 0.05
+
+convergence_file.close ()
