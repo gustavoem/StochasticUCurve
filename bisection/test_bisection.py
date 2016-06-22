@@ -184,7 +184,7 @@ pc_evaluations_file.close ()
 convergence_file = open ('convergence_data.txt', 'w')
 test_size = 500.0
 max_input_size = 10000
-sigma = 10
+sigma = 2
 percentage = 0.05
 
 for j in range (10):
