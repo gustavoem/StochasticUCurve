@@ -200,11 +200,12 @@ def upb (v, pc, pmf = [], limit = None):
     This function receives a vector, that describes approximately u-shaped curve, as
     argument and return the minimum element of this vector """
     n = len (v)
+    
     # probability mass function
     # Suppose that the minimum element of v is in v[x*], then, we say that 
     #       P(x* = i) = pmf[i]
-    if (pmf == []):
-        pmf = [1.0 / n] * n
+    if (pmf is None):
+        pmf = PMF (n)
     
     evaluations = 0
     
