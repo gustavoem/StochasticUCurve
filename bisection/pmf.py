@@ -35,14 +35,36 @@ class PMF:
         #print ("preferred side: ", direction)
         #print ("sum before: ", sum (pmf))
         # calculates alpha and beta
-        mid_block = __find_mid_block (mid)
-        alpha = __calculate_alpha (mid)
-        beta = alpha - mid_block.p
+        mid_block = self.__find_mid_block (mid)
+        alpha = self.calculate_alpha (mid)
+        beta = alpha - self.blocks[mid_block].p
 
         if (direction < 0):
+            # what does this mean now? 
             if (1 - beta < 1e-8):
                 return
 
+            self.split_in (mid, mid_block)
+            for i in range (len (self.blocks)):
+                if (self.blocks[i].start < mid):
+                    self.blocks[i].p *= (pc * (1.0 / beta))
+                else:
+                    self.blocks[i].p *= (qc * (1.0 / (1 - beta)))
+
+        else:
+            if (1 - alpha < 1e-8):
+                return
+
+            if (mid == self.blocks[mid_block].end - 1):
+                mid_block += 1
+            mid = mid + 1
+            
+            self.split_in (mid, mid_block)
+            for i in range (len (self.blocks)):
+                if (self.blocks[i].start < mid):
+                    self.blocks[i].p *= (qc * (1.0 /  alpha))
+                else:
+                    self.blocks[i].p *= (pc * (1.0 / (1 - alpha)))
 
 
             
@@ -90,9 +112,13 @@ class PMF:
 
 
 pmf = PMF (7)
-alpha = pmf.calculate_alpha (1)
-print (alpha)
+# alpha = pmf.calculate_alpha (1)
+# print (alpha)
 
-print ("before split: " + pmf.toString ())
-pmf.split_in (2, 0)
-print ("after split: " + pmf.toString ())
+# print ("before split: " + pmf.toString ())
+# pmf.split_in (2, 0)
+# print ("after split: " + pmf.toString ())
+
+print ("before update: " + pmf.toString ())
+pmf.update (2, -1, 0.7)
+print ("after update: " + pmf.toString ())
