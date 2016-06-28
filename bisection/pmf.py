@@ -54,17 +54,23 @@ class PMF:
         return block_i
         
 
-    def __split_in (self, i, block_i):
+    def split_in (self, i, block_i):
         """ Splits the block block_i, which contains the element i in two blocks. The i
-        element will be in the last element of the first block """
+        element will be in the first element of the second block """
+        # careful here, what does this imply in the later update?
+        if (self.blocks[block_i].end - self.blocks[block_i].start < 2):
+            return
 
-
+        old_block = self.blocks[block_i]
+        first_block = Block (old_block.p, old_block.start, i)
+        second_block = Block (old_block.p, i, old_block.end)
+        self.blocks[block_i:block_i + 1] = [first_block, second_block]
 
 
     def calculate_alpha (self, mid):
         """ Calculates alpha and beta where:
             alpha = P (i* <= mid) """
-        alpha = 0
+        alpha = 0   
         block_i = 0
 
         while (self.blocks[block_i].end < mid):
@@ -86,3 +92,7 @@ class PMF:
 pmf = PMF (7)
 alpha = pmf.calculate_alpha (1)
 print (alpha)
+
+print ("before split: " + pmf.toString ())
+pmf.split_in (2, 0)
+print ("after split: " + pmf.toString ())
