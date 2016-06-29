@@ -64,7 +64,7 @@ class PMF:
 
         #print ("preferred side: ", direction)
         #print ("sum before: ", sum (pmf))
-        # calculates alpha and beta
+        # calculates alpha
         self.__mid_block = self.find_block (mid)
         beta = alpha - self.__blocks[self.__mid_block].p
 

@@ -30,7 +30,7 @@ for j in range (5):
 
     for i in range (int (test_size)):
         n = max_input_size
-        points = gen_points (n, random ())
+        points = gen_points (n, .5)
         input_noise (points, 0)
         
         s = time ()
@@ -47,8 +47,7 @@ for j in range (5):
 
         # print ("--------------New problem!!")
         s = time ()
-        [result, evaluations, pieces] = upb (points, .85)
-        s_pieces += pieces
+        [result, evaluations] = upb (points, .85)
         s_evaluations += evaluations / (n * 1.0)
         e = time ()
         s_time +=  e - s
@@ -68,12 +67,11 @@ for j in range (5):
     print ("Time used for mid-neighbour bisection (seconds): ", m_time)
     print ("Time used for UPB (seconds): ", s_time)
     print ("Time used for MUPB (seconds): ", s2_time)
-    print ("Average number of pieces a problem was split in UPB: ", s_pieces / test_size)
 
     evaluations_file.write (str (max_input_size) + " " + str (d_evaluations / test_size) + " " + str (m_evaluations / test_size) + " " + str (s_evaluations / test_size) + " " + str (s2_evaluations / test_size) + "\n")
     time_file.write (str (max_input_size) + " " + str (d_time) + " " + str (m_time) +  " " + str (s_time) + " " + str (s2_time) + " " +"\n")
     
-    max_input_size += 1000
+    max_input_size += 0
 
 evaluations_file.close ()
 time_file.close ()
