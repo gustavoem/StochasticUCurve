@@ -21,6 +21,7 @@ for j in range (5):
     d_evaluations = 0
     m_evaluations = 0
     s_evaluations = 0
+    s_pieces = 0
     s2_evaluations = 0
     d_time = 0
     m_time = 0
@@ -44,11 +45,14 @@ for j in range (5):
         e = time ()
         m_time += e - s
 
+        # print ("--------------New problem!!")
         s = time ()
-        [result, evaluations] = upb (points, .85)
+        [result, evaluations, pieces] = upb (points, .85)
+        s_pieces += pieces
         s_evaluations += evaluations / (n * 1.0)
         e = time ()
         s_time +=  e - s
+        # print ("----------------------------")
 
         s = time ()
         # [result, evaluations] = mupb (points, .85)
@@ -64,6 +68,7 @@ for j in range (5):
     print ("Time used for mid-neighbour bisection (seconds): ", m_time)
     print ("Time used for UPB (seconds): ", s_time)
     print ("Time used for MUPB (seconds): ", s2_time)
+    print ("Average number of pieces a problem was split in UPB: ", s_pieces / test_size)
 
     evaluations_file.write (str (max_input_size) + " " + str (d_evaluations / test_size) + " " + str (m_evaluations / test_size) + " " + str (s_evaluations / test_size) + " " + str (s2_evaluations / test_size) + "\n")
     time_file.write (str (max_input_size) + " " + str (d_time) + " " + str (m_time) +  " " + str (s_time) + " " + str (s2_time) + " " +"\n")

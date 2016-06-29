@@ -231,8 +231,8 @@ def upb (v, pc, pmf = None, limit = None):
 
         direction = select_side (v, median)
         if (direction is 0):
-            [result, child_eval] = split_upb (v, pc, pmf, median, limit)
-            return [result, evaluations + child_eval]
+            [result, child_eval, pieces] = split_upb (v, pc, pmf, median, limit)
+            return [result, evaluations + child_eval, pieces + 1]
         
         #print ("direction: ", direction)
         alpha = pmf.get_quarter_mass (2)
@@ -246,7 +246,7 @@ def upb (v, pc, pmf = None, limit = None):
         limit -= 1
 
     evaluations += 3
-    return [v[median], evaluations]
+    return [v[median], evaluations, 1]
 
 def mupb (v, pc, pmf = [], limit = None):
     """ Mid-neighbour U-Curve Probabilistic Bisection 
@@ -323,6 +323,8 @@ def split_upb (v, pc, pmf, i, limit):
     i + 1 to len (v) """
     pmf.split_in (pmf.get_quarter (2), pmf.get_mid_block ())
 
+    # print ("Splitting")
+
     blocks = pmf.get_blocks ()
     half_size = len (blocks) // 2
     # print ("Dividing the stuff: ")
@@ -342,15 +344,17 @@ def split_upb (v, pc, pmf, i, limit):
     
     sol1 = None
     eval1 = 0
+    pieces1 = 0
     sol2 = None
     eval2 = 0
+    pieces2 = 0
     if (len (v1) > 0):
-        [sol1, eval1] = upb (v1, pc, pmf1, limit)
+        [sol1, eval1, pieces1] = upb (v1, pc, pmf1, limit)
         limit -= eval1
     if (len (v2) > 0):
-        [sol2, eval2] = upb (v2, pc, pmf2, limit)
+        [sol2, eval2, pieces2] = upb (v2, pc, pmf2, limit)
     
-    return [min (min_with_none (sol1, sol2), v[i]), eval1 + eval2]
+    return [min (min_with_none (sol1, sol2), v[i]), eval1 + eval2, pieces1 + pieces2]
 
 
 def translate_blocks (blocks):
