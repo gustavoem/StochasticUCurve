@@ -8,7 +8,7 @@ from bisection import mupb
 from math import log
 from time import time
 
-max_input_size = 1000
+max_input_size = 10000
 test_size = 100.0
 
 
@@ -17,7 +17,7 @@ test_size = 100.0
 ##
 time_file = open ('time_data.txt', 'w')
 evaluations_file = open ('evaluations_data.txt', 'w')
-for j in range (0):
+for j in range (5):
     d_evaluations = 0
     m_evaluations = 0
     s_evaluations = 0
@@ -51,7 +51,7 @@ for j in range (0):
         s_time +=  e - s
 
         s = time ()
-        [result, evaluations] = mupb (points, .85)
+        # [result, evaluations] = mupb (points, .85)
         s2_evaluations += evaluations / (n * 1.0)
         e = time ()
         s2_time +=  e - s
@@ -68,7 +68,7 @@ for j in range (0):
     evaluations_file.write (str (max_input_size) + " " + str (d_evaluations / test_size) + " " + str (m_evaluations / test_size) + " " + str (s_evaluations / test_size) + " " + str (s2_evaluations / test_size) + "\n")
     time_file.write (str (max_input_size) + " " + str (d_time) + " " + str (m_time) +  " " + str (s_time) + " " + str (s2_time) + " " +"\n")
     
-    max_input_size += 500
+    max_input_size += 1000
 
 evaluations_file.close ()
 time_file.close ()
@@ -187,7 +187,7 @@ max_input_size = 10000
 sigma = 2
 percentage = 0.05
 
-for j in range (10):
+for j in range (0):
     eval_limit = int (log (max_input_size, 2) * percentage)
     d_distance = 0
     m_distance = 0

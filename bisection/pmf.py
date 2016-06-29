@@ -9,19 +9,49 @@ class Block:
 
     def mass (self):
         """ Returns the probability mass of the block """
-        return p * (end - start)
+        return self.p * (self.end - self.start)
 
 
 
 
 class PMF:
 
-    def __init__(self, n):
+    def __init__(self, n, blocks = None):
         """ Creates a PMF represented with blocks with same probability """
-        self.blocks = [Block (1.0 / n, 0, n)]
+        self.__quarters = None
+
+        if (blocks is not None):
+            self.__blocks = blocks
+            self.normalize_blocks ()
+        else:
+            self.__blocks = [Block (1.0 / n, 0, n)]
+        
+        self.find_quarters ()
+        self.__mid_block = self.find_block (self.__quarters[2][0])
 
 
-    def update (self, mid, direction, pc):
+    def normalize_blocks (self):
+        """ Used when copying part of a pmf. This normalilzes the pmf so the sum of
+        all blocks is one """
+        total_mass = 0
+        for block in self.__blocks:
+            total_mass += block.mass ()
+
+        for i in range (len (self.__blocks)):
+            self.__blocks[i].p /= total_mass
+
+
+    def get_blocks (self):
+        """ Return the list of blocks """
+        return self.__blocks
+
+
+    def get_mid_block (self):
+        """ Return the index of the block that has the median of the PMF """
+        return self.__mid_block
+
+
+    def update (self, pc, mid, alpha, direction):
         """ Updates the pfm 
         if direction >= 0
             pmf_{n+1}(y) = (1/(1 - alpha))*pc*pmf_{n}(y) for y >= mid
@@ -35,43 +65,74 @@ class PMF:
         #print ("preferred side: ", direction)
         #print ("sum before: ", sum (pmf))
         # calculates alpha and beta
-        mid_block = self.__find_mid_block (mid)
-        alpha = self.calculate_alpha (mid)
-        beta = alpha - self.blocks[mid_block].p
+        self.__mid_block = self.find_block (mid)
+        beta = alpha - self.__blocks[self.__mid_block].p
 
         if (direction < 0):
             # what does this mean now? 
             if (1 - beta < 1e-8):
                 return
 
-            self.split_in (mid, mid_block)
-            for i in range (len (self.blocks)):
-                if (self.blocks[i].start < mid):
-                    self.blocks[i].p *= (pc * (1.0 / beta))
+            self.split_in (mid, self.__mid_block)
+            for i in range (len (self.__blocks)):
+                if (self.__blocks[i].start < mid):
+                    self.__blocks[i].p *= (pc * (1.0 / beta))
                 else:
-                    self.blocks[i].p *= (qc * (1.0 / (1 - beta)))
+                    self.__blocks[i].p *= (qc * (1.0 / (1 - beta)))
 
         else:
             if (1 - alpha < 1e-8):
                 return
 
-            if (mid == self.blocks[mid_block].end - 1):
-                mid_block += 1
+            if (mid == self.__blocks[self.__mid_block].end - 1):
+                self.__mid_block += 1
             mid = mid + 1
             
-            self.split_in (mid, mid_block)
-            for i in range (len (self.blocks)):
-                if (self.blocks[i].start < mid):
-                    self.blocks[i].p *= (qc * (1.0 /  alpha))
+            self.split_in (mid, self.__mid_block)
+            for i in range (len (self.__blocks)):
+                if (self.__blocks[i].start < mid):
+                    self.__blocks[i].p *= (qc * (1.0 /  alpha))
                 else:
-                    self.blocks[i].p *= (pc * (1.0 / (1 - alpha)))
+                    self.__blocks[i].p *= (pc * (1.0 / (1 - alpha)))
 
+        self.find_quarters ()
+
+
+    def find_quarters (self):
+        """ Updates the listing of the PMF quarters """
+        self.__quarters = [(0, 0)] * 4
+        # print ("Finding quarters on these blocks: ")
+        # print (len(self.__blocks))
+        # print (self.toString ())
+        # print ("dump it")
+        accumulated = 0
+        block_i = 0
+        for i in range (1, 4):
+            x =  i / 4.0
+            while (accumulated + self.__blocks[block_i].mass () < x):
+                accumulated += self.__blocks[block_i].mass ()
+
+            remainder = x - accumulated
+            block_p = self.__blocks[block_i].p
+            intra_block_i = int (remainder / block_p)
+            accumulated += block_p * intra_block_i
+            self.__quarters[i] = (intra_block_i, accumulated)
+
+
+    def get_quarter (self, i):
+        """ Return the index of the i-th quarter of the PMF """
+        return self.__quarters[i][0]
+
+
+    def get_quarter_mass (self, i):
+        """ Return the mass of the i-th quarter of the PMF """
+        return self.__quarters[i][1]
 
             
-    def __find_mid_block (self, mid):
-        """ Finds the block that contains the mid element probability """
+    def find_block (self, i):
+        """ Finds the block that contains the i-th element probability """
         block_i = 0
-        while (self.blocks[block_i].end < mid):
+        while (self.__blocks[block_i].end < i):
             block_i += 1
         return block_i
         
@@ -80,13 +141,13 @@ class PMF:
         """ Splits the block block_i, which contains the element i in two blocks. The i
         element will be in the first element of the second block """
         # careful here, what does this imply in the later update?
-        if (self.blocks[block_i].end - self.blocks[block_i].start < 2):
+        if (i - self.__blocks[block_i].start < 1):
             return
 
-        old_block = self.blocks[block_i]
+        old_block = self.__blocks[block_i]
         first_block = Block (old_block.p, old_block.start, i)
         second_block = Block (old_block.p, i, old_block.end)
-        self.blocks[block_i:block_i + 1] = [first_block, second_block]
+        self.__blocks[block_i:block_i + 1] = [first_block, second_block]
 
 
     def calculate_alpha (self, mid):
@@ -95,30 +156,29 @@ class PMF:
         alpha = 0   
         block_i = 0
 
-        while (self.blocks[block_i].end < mid):
-            alpha += self.blocks[block_i].mass
+        while (self.__blocks[block_i].end < mid):
+            alpha += self.__blocks[block_i].mass ()
             block_i += 1
 
-        block_start = self.blocks[block_i].start
-        alpha += self.blocks[block_i].p * (mid - block_start + 1)
+        block_start = self.__blocks[block_i].start
+        alpha += self.__blocks[block_i].p * (mid - block_start + 1)
         return alpha
 
 
     def toString (self):
         s = ""
-        for block in self.blocks:
+        for block in self.__blocks:
             s += "-| " + str (block.p) + ": " + str (block.start) + "-" + str (block.end) + " |-"
         return s
 
 
 pmf = PMF (7)
-# alpha = pmf.calculate_alpha (1)
-# print (alpha)
 
 # print ("before split: " + pmf.toString ())
 # pmf.split_in (2, 0)
 # print ("after split: " + pmf.toString ())
 
-print ("before update: " + pmf.toString ())
-pmf.update (2, -1, 0.7)
-print ("after update: " + pmf.toString ())
+# print ("before update: " + pmf.toString ())
+# pmf.update (4, -1, 0.7)
+# pmf.update (2, 1, 0.7)
+# print ("after update: " + pmf.toString ())

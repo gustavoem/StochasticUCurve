@@ -1,3 +1,6 @@
+from pmf import PMF
+from math import log
+
 def bisection_min (v, limit = None):
     #print (limit)
     return bisection_min_step (v, limit)
@@ -195,7 +198,7 @@ def int_log2 (x):
     return i
 
 
-def upb (v, pc, pmf = [], limit = None):
+def upb (v, pc, pmf = None, limit = None):
     """ U-Curve Probabilistic Bisection 
     This function receives a vector, that describes approximately u-shaped curve, as
     argument and return the minimum element of this vector """
@@ -209,24 +212,19 @@ def upb (v, pc, pmf = [], limit = None):
     
     evaluations = 0
     
-
-    eights = find_eighths (pmf)
-    median = eights[4][0]
-    alpha = eights[4][1]
-    first_qt = eights [2][0]
-    third_qt = eights [6][0]
-
     if (limit is None):
-        limit = n
+        limit = log (n, 2)
 
-    while ((first_qt is not median and \
+    first_qt = pmf.get_quarter (1)
+    median = pmf.get_quarter (2)
+    third_qt = pmf.get_quarter (3)
+    while ((first_qt is not pmf.get_quarter (2) and \
            median is not third_qt) and limit > 0):
         evaluations += 3
 
         #print ("-------------\nIterating...")
         #print ("Initial pmf: ", pmf)
         #print ("v: ", v)
-        
         #print ("1st qt: ", first_qt)
         #print ("median, alpha: ", median, ", ", alpha)
         #print ("3rd qt: ", third_qt)
@@ -237,15 +235,14 @@ def upb (v, pc, pmf = [], limit = None):
             return [result, evaluations + child_eval]
         
         #print ("direction: ", direction)
-        update_pmf (pmf, pc, median, alpha, direction)
+        alpha = pmf.get_quarter_mass (2)
+        pmf.update (pc, median, alpha, direction)
         #print ("New pmf: ", pmf)
         #print ("pmf sum:", sum(pmf))
         
-        eights = find_eighths (pmf)
-        median = eights[4][0]
-        alpha = eights[4][1]
-        first_qt = eights [2][0]
-        third_qt = eights [6][0]
+        first_qt = pmf.get_quarter (1)
+        median = pmf.get_quarter (2)
+        third_qt = pmf.get_quarter (3)
         limit -= 1
 
     evaluations += 3
@@ -324,13 +321,24 @@ def mupb (v, pc, pmf = [], limit = None):
 def split_upb (v, pc, pmf, i, limit):
     """ Splits the orginal problem v with pmf in two parts, from 0 to i - 1 and from
     i + 1 to len (v) """
-    v1 = v[0:i]
-    v2 = v[i + 1:len (v)]
+    pmf.split_in (pmf.get_quarter (2), pmf.get_mid_block ())
+
+    blocks = pmf.get_blocks ()
+    half_size = len (blocks) // 2
+    # print ("Dividing the stuff: ")
+    blocks1 = blocks[0:half_size]
+    blocks2 = blocks[half_size:len (blocks)]
+    translate_blocks (blocks1)
+    translate_blocks (blocks2)
     
-    pmf1 = pmf[0:i]
-    pmf2 = pmf[i + 1:len (v)]
-    normalize_pmf (pmf1)
-    normalize_pmf (pmf2)
+    n1 = sum ((block.end - block.start) for block in blocks1)
+    n2 = len (v) - n1
+    v1 = v[0:n1]
+    v2 = v[n1:len (v)]
+    # print ("n = ", len (v), ", |blocks| = ", len (blocks), ", half_size = ", half_size, ", n1 = ", n1, ", n2 = ", n2)
+    
+    pmf1 = PMF (n1, blocks1)
+    pmf2 = PMF (n2, blocks2)
     
     sol1 = None
     eval1 = 0
@@ -344,6 +352,12 @@ def split_upb (v, pc, pmf, i, limit):
     
     return [min (min_with_none (sol1, sol2), v[i]), eval1 + eval2]
 
+
+def translate_blocks (blocks):
+    offset = blocks[0].start
+    for i in range (len (blocks)):
+        blocks[i].start -= offset
+        blocks[i].end -= offset
 
 def split_mupb (v, pc, pmf, i, limit):
     """ Splits the orginal problem v with pmf in two parts, from 0 to i - 1 and from
