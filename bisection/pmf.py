@@ -64,11 +64,11 @@ class PMF:
 
 
         direction = -1
-        
+
         print ("\n\n")
         print ("preferred side: ", direction)
         # calculates alpha
-
+        print ("Quarters: ", self.__quarters[1][0], ", ", self.__quarters[2][0], ", ", self.__quarters[3][0])
 
         if (direction < 0):
             # what does this mean now? 
@@ -96,9 +96,8 @@ class PMF:
             print ("after splitting: " + self.toString ()) 
             print ("alpha: ", alpha)
 
-            self.split_in (mid, mid_block)
             for i in range (len (self.__blocks)):
-                if (self.__blocks[i].start <= mid):
+                if (self.__blocks[i].start < mid):
                     self.__blocks[i].p *= (qc * (1.0 /  alpha))
                 else:
                     self.__blocks[i].p *= (pc * (1.0 / (1 - alpha)))
@@ -106,7 +105,8 @@ class PMF:
         print ("Updated PMF: " + self.toString ())
         print ("Sum: ", sum (block.mass () for block in self.__blocks))
         self.find_quarters ()
-        if (abs (sum (block.mass () for block in self.__blocks) - 1) > 1e-3):
+        # if (abs (sum (block.mass () for block in self.__blocks) - 1) > 1e-3):
+        if (True):
             while (True):
                 pass
 
@@ -129,9 +129,9 @@ class PMF:
             if (i == 2):
                 self.__median_block = block_i
 
-            remainder = x - accumulated
             block_p = self.__blocks[block_i].p
-            intra_block_i = int (remainder / block_p)
+            remainder = x - accumulated - block_p
+            intra_block_i = 1 + int (remainder / block_p)
             print ("i: ", i, " | intra_block_i: ", intra_block_i, " | block_i: ", block_i, " | block_p: ", block_p, " | alpha: ", accumulated + intra_block_i * block_p)
             self.__quarters[i] = (intra_block_i, accumulated + intra_block_i * block_p)
 
