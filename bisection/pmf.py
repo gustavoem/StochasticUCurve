@@ -113,6 +113,7 @@ class PMF:
             x =  i / 4.0
             while (accumulated + self.__blocks[block_i].mass () < x):
                 accumulated += self.__blocks[block_i].mass ()
+                block_i += 1
 
             if (i == 2):
                 self.__median_block = block_i
@@ -120,7 +121,7 @@ class PMF:
             remainder = x - accumulated
             block_p = self.__blocks[block_i].p
             intra_block_i = int (remainder / block_p)
-            accumulated += block_p * intra_block_i
+            print ("i: ", i, " | remainder: ", remainder, " | block_i: ", block_i, " | block_p: ", block_p)
             self.__quarters[i] = (intra_block_i, accumulated)
 
 
