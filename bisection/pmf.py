@@ -62,6 +62,7 @@ class PMF:
         Where alpha is the accumulate density of the mid element """
         qc = 1 - pc
 
+        print ("Original PMF: " + self.toString ())
         print ("preferred side: ", direction)
         #print ("sum before: ", sum (pmf))
         # calculates alpha
@@ -96,7 +97,7 @@ class PMF:
                     self.__blocks[i].p *= (pc * (1.0 / (1 - alpha)))
 
         print ("Updated PMF: " + self.toString ())
-        print ("Sum: ", sum (block.mass for block in self.__blocks))
+        print ("Sum: ", sum (block.mass () for block in self.__blocks))
         self.find_quarters ()
 
 
@@ -121,8 +122,8 @@ class PMF:
             remainder = x - accumulated
             block_p = self.__blocks[block_i].p
             intra_block_i = int (remainder / block_p)
-            print ("i: ", i, " | remainder: ", remainder, " | block_i: ", block_i, " | block_p: ", block_p)
-            self.__quarters[i] = (intra_block_i, accumulated)
+            print ("i: ", i, " | remainder: ", remainder, " | block_i: ", block_i, " | block_p: ", block_p, " | alpha: ", accumulated)
+            self.__quarters[i] = (intra_block_i, accumulated + intra_block_i * block_p)
 
 
     def get_quarter (self, i):
