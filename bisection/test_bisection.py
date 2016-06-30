@@ -106,7 +106,7 @@ for j in range (1):
         if abs (expected_solution - result) / abs (expected_solution) < .05:
             m_corrects = m_corrects + 1
 
-        [result, evaluations] = upb (points, .8)
+        [result, evaluations] = upb (points, .85)
         if abs (expected_solution - result) / abs (expected_solution) < .05:
             s_corrects = s_corrects + 1
         s_error = s_error + abs (expected_solution - result) / abs (expected_solution)
@@ -123,7 +123,7 @@ for j in range (1):
     print ("Average relative error of UPB:", s_error / test_size)
     print ("Average relative error of MPB:", s2_error / test_size)
     correctness_file.write (str (sigma) + " " + str (d_corrects / test_size) + " " + str (m_corrects / test_size) + " " + str (s_corrects / test_size) + " " + str (s2_corrects / test_size) + "\n")
-    # sigma += 1
+    sigma += 1
 
 correctness_file.close ()
 

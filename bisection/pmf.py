@@ -25,7 +25,7 @@ class PMF:
             self.normalize_blocks ()
         else:
             self.__blocks = [Block (1.0 / n, 0, n)]
-        
+
         self.find_quarters ()
         self.__median_block = self.find_block (self.__quarters[2][0])
 
@@ -62,10 +62,10 @@ class PMF:
         Where alpha is the accumulate density of the mid element """
         qc = 1 - pc
 
-        #print ("preferred side: ", direction)
+        print ("preferred side: ", direction)
         #print ("sum before: ", sum (pmf))
         # calculates alpha
-        mid_block = self.find_block (mid) ## this will get messed up at some point in the mupb
+        mid_block = self.find_block (mid)
         beta = alpha - self.__blocks[mid_block].p
 
         if (direction < 0):
@@ -95,7 +95,8 @@ class PMF:
                 else:
                     self.__blocks[i].p *= (pc * (1.0 / (1 - alpha)))
 
-        # print ("Updated PMF: " + self.toString ())
+        print ("Updated PMF: " + self.toString ())
+        print ("Sum: ", sum (block.mass for block in self.__blocks))
         self.find_quarters ()
 
 

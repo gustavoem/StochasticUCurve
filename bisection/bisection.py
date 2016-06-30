@@ -219,6 +219,7 @@ def upb (v, pc, pmf = None, limit = None):
     first_qt = pmf.get_quarter (1)
     median = pmf.get_quarter (2)
     third_qt = pmf.get_quarter (3)
+    print (first_qt, ", ", median, ", ", third_qt)
     while ((first_qt is not median and \
            median is not third_qt) and limit > 0):
         evaluations += 3
