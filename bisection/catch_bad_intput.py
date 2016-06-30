@@ -6,7 +6,7 @@ from math import log
 from time import time
 
 
-input_size = 10000
+input_size = 5100
 test_size = 100
 
 points = gen_points (input_size, random ())
@@ -27,7 +27,8 @@ for i in range (test_size):
     e = time ()
     
     current_time = e - s
-    if ((current_time - last_time) / last_time > 1):
+    if ((current_time - last_time) / last_time > 5000):
+        print ("Current time, last time: ", current_time, ", ", last_time)
         input_file1 = open ('bad_input1.txt', 'w')
         input_file2 = open ('bad_input2.txt', 'w')
         for i in range (len (last_input)):

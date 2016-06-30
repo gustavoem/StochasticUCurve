@@ -17,7 +17,7 @@ test_size = 100.0
 ##
 time_file = open ('time_data.txt', 'w')
 evaluations_file = open ('evaluations_data.txt', 'w')
-for j in range (5):
+for j in range (0):
     d_evaluations = 0
     m_evaluations = 0
     s_evaluations = 0
@@ -31,7 +31,7 @@ for j in range (5):
     for i in range (int (test_size)):
         n = max_input_size
         points = gen_points (n, .5)
-        input_noise (points, 0)
+        input_noise  (points, 0)
         
         s = time ()
         [result, evaluations] = bisection_min (points)
@@ -85,7 +85,7 @@ max_input_size = 100
 test_size = 1000.0
 correctness_file = open ('correctness_data.txt', 'w')
 sigma = 0 # input noise parameter
-for j in range (0):
+for j in range (1):
     d_corrects = 0
     m_corrects = 0
     s_corrects = 0
@@ -123,7 +123,7 @@ for j in range (0):
     print ("Average relative error of UPB:", s_error / test_size)
     print ("Average relative error of MPB:", s2_error / test_size)
     correctness_file.write (str (sigma) + " " + str (d_corrects / test_size) + " " + str (m_corrects / test_size) + " " + str (s_corrects / test_size) + " " + str (s2_corrects / test_size) + "\n")
-    sigma += 1
+    # sigma += 1
 
 correctness_file.close ()
 

@@ -15,8 +15,11 @@ def gen_points (n, center):
     dx = 1.0 / n
     x = 0
     for i in range (n):
-        points[i] = evaluate_pol (p, x)
-        x += dx
+        points[i] = random.random ()
+        # points[i] = evaluate_pol (p, x)
+        # x += dx
+    points.sort ()
+    points[0:n] = map (lambda x: evaluate_pol (p, x), points[0:n])
 
     # creates some plain sequence of points 
     j = int (n * random.random ())

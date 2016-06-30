@@ -27,7 +27,7 @@ class PMF:
             self.__blocks = [Block (1.0 / n, 0, n)]
         
         self.find_quarters ()
-        self.__mid_block = self.find_block (self.__quarters[2][0])
+        self.__median_block = self.find_block (self.__quarters[2][0])
 
 
     def normalize_blocks (self):
@@ -46,9 +46,9 @@ class PMF:
         return self.__blocks
 
 
-    def get_mid_block (self):
+    def get_median_block (self):
         """ Return the index of the block that has the median of the PMF """
-        return self.__mid_block
+        return self.__median_block
 
 
     def update (self, pc, mid, alpha, direction):
@@ -65,15 +65,15 @@ class PMF:
         #print ("preferred side: ", direction)
         #print ("sum before: ", sum (pmf))
         # calculates alpha
-        self.__mid_block = self.find_block (mid)
-        beta = alpha - self.__blocks[self.__mid_block].p
+        mid_block = self.find_block (mid) ## this will get messed up at some point in the mupb
+        beta = alpha - self.__blocks[mid_block].p
 
         if (direction < 0):
             # what does this mean now? 
-            if (1 - beta < 1e-8):
-                return
+            #if (1 - beta < 1e-8):
+            #    return
 
-            self.split_in (mid, self.__mid_block)
+            self.split_in (mid, mid_block)
             for i in range (len (self.__blocks)):
                 if (self.__blocks[i].start < mid):
                     self.__blocks[i].p *= (pc * (1.0 / beta))
@@ -81,20 +81,21 @@ class PMF:
                     self.__blocks[i].p *= (qc * (1.0 / (1 - beta)))
 
         else:
-            if (1 - alpha < 1e-8):
-                return
+            # if (1 - alpha < 1e-8):
+            #     return
 
-            if (mid == self.__blocks[self.__mid_block].end - 1):
-                self.__mid_block += 1
+            if (mid == self.__blocks[mid_block].end - 1):
+                mid_block += 1
             mid = mid + 1
             
-            self.split_in (mid, self.__mid_block)
+            self.split_in (mid, mid_block)
             for i in range (len (self.__blocks)):
                 if (self.__blocks[i].start < mid):
                     self.__blocks[i].p *= (qc * (1.0 /  alpha))
                 else:
                     self.__blocks[i].p *= (pc * (1.0 / (1 - alpha)))
 
+        # print ("Updated PMF: " + self.toString ())
         self.find_quarters ()
 
 
@@ -111,6 +112,9 @@ class PMF:
             x =  i / 4.0
             while (accumulated + self.__blocks[block_i].mass () < x):
                 accumulated += self.__blocks[block_i].mass ()
+
+            if (i == 2):
+                self.__median_block = block_i
 
             remainder = x - accumulated
             block_p = self.__blocks[block_i].p

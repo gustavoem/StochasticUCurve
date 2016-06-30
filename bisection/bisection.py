@@ -1,5 +1,6 @@
 from pmf import PMF
 from math import log
+from math import floor
 
 def bisection_min (v, limit = None):
     #print (limit)
@@ -43,7 +44,7 @@ def select_side (v, i):
     r = min (len(v) - 1, i + 1)
     d = v[l] - v[r]
 
-    if (abs (d) < 1e-10): # if we don't know where to go
+    if (abs (d) < 1e-20): # if we don't know where to go
         return 0
     
     return int(d / abs (d))
@@ -213,7 +214,7 @@ def upb (v, pc, pmf = None, limit = None):
     evaluations = 0
     
     if (limit is None):
-        limit = log (n, 2)
+        limit = int_log2 (n)
 
     first_qt = pmf.get_quarter (1)
     median = pmf.get_quarter (2)
@@ -231,8 +232,13 @@ def upb (v, pc, pmf = None, limit = None):
 
         direction = select_side (v, median)
         if (direction is 0):
-            [result, child_eval] = split_upb (v, pc, pmf, median, limit)
-            return [result, evaluations + child_eval]
+            if (median - first_qt > third_qt - median):
+                direction = -1
+            else:
+                direction = 1
+            # print ("Split!!")
+            # [result, child_eval] = split_upb (v, pc, pmf, median, limit)
+            # return [result, evaluations + child_eval]
         
         #print ("direction: ", direction)
         alpha = pmf.get_quarter_mass (2)
@@ -321,13 +327,13 @@ def mupb (v, pc, pmf = [], limit = None):
 def split_upb (v, pc, pmf, i, limit):
     """ Splits the orginal problem v with pmf in two parts, from 0 to i - 1 and from
     i + 1 to len (v) """
-    pmf.split_in (pmf.get_quarter (2), pmf.get_mid_block ())
+    pmf.split_in (pmf.get_quarter (2), pmf.get_median_block ())
 
     # print ("Splitting")
 
     blocks = pmf.get_blocks ()
     half_size = len (blocks) // 2
-    # print ("Dividing the stuff: ")
+    # print ("Dividing: ")
     blocks1 = blocks[0:half_size]
     blocks2 = blocks[half_size:len (blocks)]
     translate_blocks (blocks1)
