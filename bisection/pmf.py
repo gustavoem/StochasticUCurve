@@ -62,12 +62,8 @@ class PMF:
         Where alpha is the accumulate density of the mid element """
         qc = 1 - pc
 
-
-        direction = -1
-
         print ("\n\n")
         print ("preferred side: ", direction)
-        # calculates alpha
         print ("Quarters: ", self.__quarters[1][0], ", ", self.__quarters[2][0], ", ", self.__quarters[3][0])
 
         if (direction < 0):
@@ -77,7 +73,7 @@ class PMF:
             mid_block = self.find_block (mid)
             beta = alpha - self.__blocks[mid_block].p
             print ("before splitting: " + self.toString ()) 
-            self.split_in (mid - 1, mid_block)
+            self.split_in (mid, mid_block)
             print ("after splitting: " + self.toString ()) 
             print ("beta: ", beta)
 
@@ -90,14 +86,14 @@ class PMF:
         else:
             # if (1 - alpha < 1e-8):
             #     return
-            mid_block = self.find_block (mid)
+            mid_block = self.find_block (mid + 1)
             print ("before splitting: " + self.toString ()) 
-            self.split_in (mid, mid_block)
+            self.split_in (mid + 1, mid_block)
             print ("after splitting: " + self.toString ()) 
             print ("alpha: ", alpha)
 
             for i in range (len (self.__blocks)):
-                if (self.__blocks[i].start < mid):
+                if (self.__blocks[i].start < mid + 1):
                     self.__blocks[i].p *= (qc * (1.0 /  alpha))
                 else:
                     self.__blocks[i].p *= (pc * (1.0 / (1 - alpha)))
@@ -105,10 +101,10 @@ class PMF:
         print ("Updated PMF: " + self.toString ())
         print ("Sum: ", sum (block.mass () for block in self.__blocks))
         self.find_quarters ()
-        #if (abs (sum (block.mass () for block in self.__blocks) - 1) > 1e-3):
-        if (True):
-            while (True):
-                pass
+        # if (abs (sum (block.mass () for block in self.__blocks) - 1) > 1e-3):
+        # # if (True):
+        #     while (True):
+        #         pass
 
 
     def find_quarters (self):
@@ -118,23 +114,26 @@ class PMF:
         # print (len(self.__blocks))
         # print (self.toString ())
         # print ("dump it")
-        accumulated = 0
+        past_blocks_mass = 0
+        past_blocks_size = 0
         block_i = 0
         for i in range (1, 4):
             x =  i / 4.0
-            while (accumulated + self.__blocks[block_i].mass () < x):
-                accumulated += self.__blocks[block_i].mass ()
+            while (past_blocks_mass + self.__blocks[block_i].mass () < x):
+                past_blocks_mass += self.__blocks[block_i].mass ()
+                past_blocks_size += \
+                    self.__blocks[block_i].end - self.__blocks[block_i].start
                 block_i += 1
 
             if (i == 2):
                 self.__median_block = block_i
 
             block_p = self.__blocks[block_i].p
-            remainder = x - accumulated - block_p
+            remainder = x - past_blocks_mass - block_p
             intra_block_i = int (remainder / block_p)
-            alpha = accumulated + (1 + intra_block_i) * block_p
-            self.__quarters[i] = (intra_block_i, alpha)
-            print ("i: ", i, " | intra_block_i: ", intra_block_i, " | block_i: ", block_i, " | block_p: ", block_p, " | alpha: ", alpha)
+            alpha = past_blocks_mass + (1 + intra_block_i) * block_p
+            self.__quarters[i] = (past_blocks_size + intra_block_i, alpha)
+            # print ("i: ", i, " | intra_block_i: ", intra_block_i, " | block_i: ", block_i, " | block_p: ", block_p, " | alpha: ", alpha)
 
 
     def get_quarter (self, i):
@@ -150,7 +149,7 @@ class PMF:
     def find_block (self, i):
         """ Finds the block that contains the i-th element probability """
         block_i = 0
-        while (self.__blocks[block_i].end < i):
+        while (self.__blocks[block_i].end <= i):
             block_i += 1
         return block_i
         
