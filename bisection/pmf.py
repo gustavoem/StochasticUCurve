@@ -74,7 +74,7 @@ class PMF:
             # what does this mean now? 
             #if (1 - beta < 1e-8):
             #    return
-            mid_block = self.find_block (mid - 1)
+            mid_block = self.find_block (mid)
             beta = alpha - self.__blocks[mid_block].p
             print ("before splitting: " + self.toString ()) 
             self.split_in (mid - 1, mid_block)
@@ -105,7 +105,7 @@ class PMF:
         print ("Updated PMF: " + self.toString ())
         print ("Sum: ", sum (block.mass () for block in self.__blocks))
         self.find_quarters ()
-        # if (abs (sum (block.mass () for block in self.__blocks) - 1) > 1e-3):
+        #if (abs (sum (block.mass () for block in self.__blocks) - 1) > 1e-3):
         if (True):
             while (True):
                 pass
@@ -131,9 +131,10 @@ class PMF:
 
             block_p = self.__blocks[block_i].p
             remainder = x - accumulated - block_p
-            intra_block_i = 1 + int (remainder / block_p)
-            print ("i: ", i, " | intra_block_i: ", intra_block_i, " | block_i: ", block_i, " | block_p: ", block_p, " | alpha: ", accumulated + intra_block_i * block_p)
-            self.__quarters[i] = (intra_block_i, accumulated + intra_block_i * block_p)
+            intra_block_i = int (remainder / block_p)
+            alpha = accumulated + (1 + intra_block_i) * block_p
+            self.__quarters[i] = (intra_block_i, alpha)
+            print ("i: ", i, " | intra_block_i: ", intra_block_i, " | block_i: ", block_i, " | block_p: ", block_p, " | alpha: ", alpha)
 
 
     def get_quarter (self, i):
