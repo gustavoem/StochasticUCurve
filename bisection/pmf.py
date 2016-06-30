@@ -62,21 +62,27 @@ class PMF:
         Where alpha is the accumulate density of the mid element """
         qc = 1 - pc
 
-        print ("Original PMF: " + self.toString ())
+
+        direction = -1
+        
+        print ("\n\n")
         print ("preferred side: ", direction)
-        #print ("sum before: ", sum (pmf))
         # calculates alpha
-        mid_block = self.find_block (mid)
-        beta = alpha - self.__blocks[mid_block].p
+
 
         if (direction < 0):
             # what does this mean now? 
             #if (1 - beta < 1e-8):
             #    return
+            mid_block = self.find_block (mid - 1)
+            beta = alpha - self.__blocks[mid_block].p
+            print ("before splitting: " + self.toString ()) 
+            self.split_in (mid - 1, mid_block)
+            print ("after splitting: " + self.toString ()) 
+            print ("beta: ", beta)
 
-            self.split_in (mid, mid_block)
             for i in range (len (self.__blocks)):
-                if (self.__blocks[i].start < mid):
+                if (self.__blocks[i].start < mid - 1):
                     self.__blocks[i].p *= (pc * (1.0 / beta))
                 else:
                     self.__blocks[i].p *= (qc * (1.0 / (1 - beta)))
@@ -84,14 +90,15 @@ class PMF:
         else:
             # if (1 - alpha < 1e-8):
             #     return
+            mid_block = self.find_block (mid)
+            print ("before splitting: " + self.toString ()) 
+            self.split_in (mid, mid_block)
+            print ("after splitting: " + self.toString ()) 
+            print ("alpha: ", alpha)
 
-            if (mid == self.__blocks[mid_block].end - 1):
-                mid_block += 1
-            mid = mid + 1
-            
             self.split_in (mid, mid_block)
             for i in range (len (self.__blocks)):
-                if (self.__blocks[i].start < mid):
+                if (self.__blocks[i].start <= mid):
                     self.__blocks[i].p *= (qc * (1.0 /  alpha))
                 else:
                     self.__blocks[i].p *= (pc * (1.0 / (1 - alpha)))
@@ -99,6 +106,9 @@ class PMF:
         print ("Updated PMF: " + self.toString ())
         print ("Sum: ", sum (block.mass () for block in self.__blocks))
         self.find_quarters ()
+        if (abs (sum (block.mass () for block in self.__blocks) - 1) > 1e-3):
+            while (True):
+                pass
 
 
     def find_quarters (self):
@@ -122,7 +132,7 @@ class PMF:
             remainder = x - accumulated
             block_p = self.__blocks[block_i].p
             intra_block_i = int (remainder / block_p)
-            print ("i: ", i, " | remainder: ", remainder, " | block_i: ", block_i, " | block_p: ", block_p, " | alpha: ", accumulated)
+            print ("i: ", i, " | intra_block_i: ", intra_block_i, " | block_i: ", block_i, " | block_p: ", block_p, " | alpha: ", accumulated + intra_block_i * block_p)
             self.__quarters[i] = (intra_block_i, accumulated + intra_block_i * block_p)
 
 
