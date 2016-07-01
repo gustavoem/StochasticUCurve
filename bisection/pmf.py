@@ -62,9 +62,9 @@ class PMF:
         Where alpha is the accumulate density of the mid element """
         qc = 1 - pc
 
-        print ("\n\n")
-        print ("preferred side: ", direction)
-        print ("Quarters: ", self.__quarters[1][0], ", ", self.__quarters[2][0], ", ", self.__quarters[3][0])
+        # print ("\n\n")
+        # print ("preferred side: ", direction)
+        # print ("Quarters: ", self.__quarters[1][0], ", ", self.__quarters[2][0], ", ", self.__quarters[3][0])
 
         if (direction < 0):
             # what does this mean now? 
@@ -135,6 +135,15 @@ class PMF:
             self.__quarters[i] = (past_blocks_size + intra_block_i, alpha)
             # print ("i: ", i, " | intra_block_i: ", intra_block_i, " | block_i: ", block_i, " | block_p: ", block_p, " | alpha: ", alpha)
 
+        # This is being necessary because the successive additions of block probabilities
+        # create a bigger and bigger floating point error.
+        while (block_i < len (self.__blocks)):
+            past_blocks_mass += self.__blocks[block_i].mass ()
+            block_i += 1
+
+        if (abs (past_blocks_mass - 1) > 1e-2):
+            self.normalize_blocks ()
+        
 
     def get_quarter (self, i):
         """ Return the index of the i-th quarter of the PMF """

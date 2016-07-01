@@ -8,7 +8,7 @@ from bisection import mupb
 from math import log
 from time import time
 
-max_input_size = 10000
+max_input_size = 2500
 test_size = 100.0
 
 
@@ -17,7 +17,7 @@ test_size = 100.0
 ##
 time_file = open ('time_data.txt', 'w')
 evaluations_file = open ('evaluations_data.txt', 'w')
-for j in range (0):
+for j in range (1):
     d_evaluations = 0
     m_evaluations = 0
     s_evaluations = 0
@@ -58,7 +58,7 @@ for j in range (0):
         # print ("----------------------------")
 
         s = time ()
-        # [result, evaluations] = mupb (points, .85)
+        [result, evaluations] = mupb (points, .85)
         s2_evaluations += evaluations / (n * 1.0)
         e = time ()
         s2_time +=  e - s
@@ -87,11 +87,11 @@ time_file.close ()
 # Correctness
 #
 #
-max_input_size = 1000
+max_input_size = 100
 test_size = 1000.0
 correctness_file = open ('correctness_data.txt', 'w')
 sigma = 0 # input noise parameter
-for j in range (5):
+for j in range (0):
     d_corrects = 0
     m_corrects = 0
     s_corrects = 0
@@ -192,8 +192,8 @@ pc_evaluations_file.close ()
 #
 convergence_file = open ('convergence_data.txt', 'w')
 test_size = 500.0
-max_input_size = 10000
-sigma = 2
+max_input_size = 100
+sigma = 1
 percentage = 0.05
 
 for j in range (0):

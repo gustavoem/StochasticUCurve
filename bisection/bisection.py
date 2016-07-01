@@ -214,8 +214,8 @@ def upb (v, pc, pmf = None, limit = None):
     evaluations = 0
     
     if (limit is None):
-        limit = int_log2 (n)
-        # limit = .5 * n
+        # limit = int_log2 (n)
+        limit = .5 * n
 
     first_qt = pmf.get_quarter (1)
     median = pmf.get_quarter (2)
@@ -245,7 +245,6 @@ def upb (v, pc, pmf = None, limit = None):
         third_qt = pmf.get_quarter (3)
         limit -= 1
 
-    evaluations += 3
     return [v[median], evaluations]
 
 def mupb (v, pc, pmf = None, limit = None):
@@ -260,8 +259,8 @@ def mupb (v, pc, pmf = None, limit = None):
     
     evaluations = 0
     if (limit is None):
-        limit = int_log2 (n)
-        limit = n
+        # limit = 2 * int_log2 (n)
+        limit = .5 * n
 
     first_qt = pmf.get_quarter (1)
     median = pmf.get_quarter (2)
@@ -281,11 +280,16 @@ def mupb (v, pc, pmf = None, limit = None):
         if (d is 0):
             if (v[median] < v[first_qt]):
                 pmf.update (pc, first_qt, pmf.get_quarter_mass (1), 1)
-                if (pmf.get_quarter (1) != pmf.get_quarter (2)):
+                if (pmf.get_quarter (1) != pmf.get_quarter (2) and \
+                    pmf.get_quarter (3) != pmf.get_quarter (2)):
                     pmf.update (pc, third_qt, pmf.get_quarter_mass (3), -1)
             else:
-                [result, child_eval] = split_mupb (v, pc, pmf, median, limit)
-                return [result, evaluations + child_eval]
+                # [result, child_eval] = split_mupb (v, pc, pmf, median, limit)
+                # return [result, evaluations + child_eval]
+                if (median - first_qt > third_qt - median):
+                    direction = -1
+                else:
+                    direction = 1
         else:
             if (d == 1.0):
                 pmf.update (pc, third_qt, pmf.get_quarter_mass (3), -1)
@@ -297,7 +301,6 @@ def mupb (v, pc, pmf = None, limit = None):
         third_qt = pmf.get_quarter (3)
         limit -= 1
 
-    evaluations += 3
     return [v[median], evaluations]
 
 
@@ -364,7 +367,7 @@ def split_mupb (v, pc, pmf, i, limit):
     n2 = len (v) - n1
     v1 = v[0:n1]
     v2 = v[n1:len (v)]
-    # print ("n = ", len (v), ", |blocks| = ", len (blocks), ", half_size = ", half_size, ", n1 = ", n1, ", n2 = ", n2)
+    print ("n = ", len (v), ", |blocks| = ", len (blocks), ", half_size = ", half_size, ", n1 = ", n1, ", n2 = ", n2)
     
     pmf1 = PMF (n1, blocks1)
     pmf2 = PMF (n2, blocks2)
