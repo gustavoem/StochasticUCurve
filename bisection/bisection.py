@@ -73,7 +73,7 @@ def mid_neighbour_bisection (v, limit = None):
     """ This function receives a vector, that describes approximately u-shaped curve, as
     argument and return the minimum element of this vector """
     #print ("Bisection on v: ", v)
-    
+    limit = .4 * len(v)
     return mid_neighbour_step (v, 1, -1.0 / int_log2 (len (v)), limit)
     
 
@@ -214,8 +214,8 @@ def upb (v, pc, pmf = None, limit = None):
     evaluations = 0
     
     if (limit is None):
-        # limit = int_log2 (n)
-        limit = .5 * n
+        limit = 1 + 2 * int_log2 (n) * int_log2 (n)
+        # limit = .5 * n
 
     first_qt = pmf.get_quarter (1)
     median = pmf.get_quarter (2)
@@ -259,8 +259,8 @@ def mupb (v, pc, pmf = None, limit = None):
     
     evaluations = 0
     if (limit is None):
-        # limit = 2 * int_log2 (n)
-        limit = .5 * n
+        limit = 1 + 2 * int_log2 (n) * int_log2 (n)
+        # limit = .5 * n
 
     first_qt = pmf.get_quarter (1)
     median = pmf.get_quarter (2)
