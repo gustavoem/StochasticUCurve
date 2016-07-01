@@ -224,13 +224,6 @@ def upb (v, pc, pmf = None, limit = None):
            median is not third_qt) and limit > 0):
         evaluations += 3
 
-        #print ("-------------\nIterating...")
-        #print ("Initial pmf: ", pmf)
-        #print ("v: ", v)
-        #print ("1st qt: ", first_qt)
-        #print ("median, alpha: ", median, ", ", alpha)
-        #print ("3rd qt: ", third_qt)
-
         direction = select_side (v, median)
         if (direction is 0):
             if (median - first_qt > third_qt - median):
@@ -255,69 +248,53 @@ def upb (v, pc, pmf = None, limit = None):
     evaluations += 3
     return [v[median], evaluations]
 
-def mupb (v, pc, pmf = [], limit = None):
+def mupb (v, pc, pmf = None, limit = None):
     """ Mid-neighbour U-Curve Probabilistic Bisection 
     This function receives a vector, that describes approximately u-shaped curve, as
     argument and return the minimum element of this vector """
     n = len (v)
-    # probability mass function
-    # Suppose that the minimum element of v is in v[x*], then, we say that 
-    #       P(x* = i) = pmf[i]
-    if (pmf == []):
-        pmf = [1.0 / n] * n
+
+    # Probability Mass Function
+    if (pmf is None):
+        pmf = PMF (n)
     
     evaluations = 0
-
-    eights = find_eighths (pmf)
-    median = eights[4][0]
-    alpha = eights[4][1]
-    first_qt = eights [2][0]
-    third_qt = eights [6][0]
-    
     if (limit is None):
+        limit = int_log2 (n)
         limit = n
+
+    first_qt = pmf.get_quarter (1)
+    median = pmf.get_quarter (2)
+    third_qt = pmf.get_quarter (3)
     while (first_qt is not median and \
            median is not third_qt and limit > 0):
         evaluations += 3
 
        #print ("-------------\nIterating...")
-       #print ("Initial pmf: ", pmf)
-       #print ("v: ", v)
-        
-       #print ("1st qt: ", first_qt)
-       #print ("median, alpha: ", median, ", ", alpha)
-       #print ("3rd qt: ", third_qt)
-        
         d = float (v[third_qt] - v[first_qt])
         if (abs (d) < 1e-8):
             d = 0
         else:
             d = d / abs (d)
-        
-       #print ("direction: ", d)
+       # print ("direction: ", d)
 
         if (d is 0):
             if (v[median] < v[first_qt]):
-                update_pmf (pmf, pc, first_qt, eights [2][1], 1)
-                update_pmf (pmf, pc, third_qt, eights [6][1], -1)
+                pmf.update (pc, first_qt, pmf.get_quarter_mass (1), 1)
+                if (pmf.get_quarter (1) != pmf.get_quarter (2)):
+                    pmf.update (pc, third_qt, pmf.get_quarter_mass (3), -1)
             else:
                 [result, child_eval] = split_mupb (v, pc, pmf, median, limit)
                 return [result, evaluations + child_eval]
         else:
             if (d == 1.0):
-                update_pmf (pmf, pc, third_qt, eights [6][1], -1)
+                pmf.update (pc, third_qt, pmf.get_quarter_mass (3), -1)
             else:
-                update_pmf (pmf, pc, first_qt, eights [2][1], 1)
+                pmf.update (pc, first_qt, pmf.get_quarter_mass (1), 1)
         
-       #print ("New pmf: ", pmf)
-       #print ("pmf sum:", sum(pmf))
-        
-        eights = find_eighths (pmf)
-        median = eights[4][0]
-        alpha = eights[4][1]
-        first_qt = eights [2][0]
-        third_qt = eights [6][0]
-
+        first_qt = pmf.get_quarter (1)
+        median = pmf.get_quarter (2)
+        third_qt = pmf.get_quarter (3)
         limit -= 1
 
     evaluations += 3
@@ -371,13 +348,26 @@ def translate_blocks (blocks):
 def split_mupb (v, pc, pmf, i, limit):
     """ Splits the orginal problem v with pmf in two parts, from 0 to i - 1 and from
     i + 1 to len (v) """
-    v1 = v[0:i]
-    v2 = v[i + 1:len (v)]
+    pmf.split_in (pmf.get_quarter (2), pmf.get_median_block ())
+
+    # print ("Splitting")
+
+    blocks = pmf.get_blocks ()
+    half_size = len (blocks) // 2
+    # print ("Dividing: ")
+    blocks1 = blocks[0:half_size]
+    blocks2 = blocks[half_size:len (blocks)]
+    translate_blocks (blocks1)
+    translate_blocks (blocks2)
     
-    pmf1 = pmf[0:i]
-    pmf2 = pmf[i + 1:len (v)]
-    normalize_pmf (pmf1)
-    normalize_pmf (pmf2)
+    n1 = sum ((block.end - block.start) for block in blocks1)
+    n2 = len (v) - n1
+    v1 = v[0:n1]
+    v2 = v[n1:len (v)]
+    # print ("n = ", len (v), ", |blocks| = ", len (blocks), ", half_size = ", half_size, ", n1 = ", n1, ", n2 = ", n2)
+    
+    pmf1 = PMF (n1, blocks1)
+    pmf2 = PMF (n2, blocks2)
     
     sol1 = None
     eval1 = 0

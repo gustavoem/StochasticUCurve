@@ -62,9 +62,9 @@ class PMF:
         Where alpha is the accumulate density of the mid element """
         qc = 1 - pc
 
-        # print ("\n\n")
-        # print ("preferred side: ", direction)
-        # print ("Quarters: ", self.__quarters[1][0], ", ", self.__quarters[2][0], ", ", self.__quarters[3][0])
+        print ("\n\n")
+        print ("preferred side: ", direction)
+        print ("Quarters: ", self.__quarters[1][0], ", ", self.__quarters[2][0], ", ", self.__quarters[3][0])
 
         if (direction < 0):
             # what does this mean now? 

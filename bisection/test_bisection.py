@@ -87,7 +87,7 @@ time_file.close ()
 # Correctness
 #
 #
-max_input_size = 100
+max_input_size = 1000
 test_size = 1000.0
 correctness_file = open ('correctness_data.txt', 'w')
 sigma = 0 # input noise parameter
