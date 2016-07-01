@@ -214,7 +214,8 @@ def upb (v, pc, pmf = None, limit = None):
     evaluations = 0
     
     if (limit is None):
-        limit = int_log2 (n)
+        # limit = int_log2 (n)
+        limit = .5 * n
 
     first_qt = pmf.get_quarter (1)
     median = pmf.get_quarter (2)

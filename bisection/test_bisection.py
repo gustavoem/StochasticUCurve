@@ -17,7 +17,7 @@ test_size = 100.0
 ##
 time_file = open ('time_data.txt', 'w')
 evaluations_file = open ('evaluations_data.txt', 'w')
-for j in range (0):
+for j in range (10):
     d_evaluations = 0
     m_evaluations = 0
     s_evaluations = 0
@@ -29,9 +29,13 @@ for j in range (0):
     s2_time = 0
 
     for i in range (int (test_size)):
+        input_file = open ('input_file.txt', 'w')
         n = max_input_size
         points = gen_points (n, .5)
         input_noise  (points, 0)
+
+        for i in range (len (points)):
+            input_file.write (str (points[i]) + "\n")
         
         s = time ()
         [result, evaluations] = bisection_min (points)
@@ -58,6 +62,8 @@ for j in range (0):
         s2_evaluations += evaluations / (n * 1.0)
         e = time ()
         s2_time +=  e - s
+        
+        input_file.close ()
 
     print ("Average percentage of evaluated nodes for traditional bisection: ", d_evaluations / test_size)
     print ("Average percentage of evaluated nodes for mid-neighbour bisection: ", m_evaluations / test_size)
