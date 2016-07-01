@@ -17,7 +17,7 @@ test_size = 100.0
 ##
 time_file = open ('time_data.txt', 'w')
 evaluations_file = open ('evaluations_data.txt', 'w')
-for j in range (10):
+for j in range (0):
     d_evaluations = 0
     m_evaluations = 0
     s_evaluations = 0
@@ -77,7 +77,7 @@ for j in range (10):
     evaluations_file.write (str (max_input_size) + " " + str (d_evaluations / test_size) + " " + str (m_evaluations / test_size) + " " + str (s_evaluations / test_size) + " " + str (s2_evaluations / test_size) + "\n")
     time_file.write (str (max_input_size) + " " + str (d_time) + " " + str (m_time) +  " " + str (s_time) + " " + str (s2_time) + " " +"\n")
     
-    max_input_size += 0
+    max_input_size *= 2
 
 evaluations_file.close ()
 time_file.close ()
@@ -91,7 +91,7 @@ max_input_size = 100
 test_size = 1000.0
 correctness_file = open ('correctness_data.txt', 'w')
 sigma = 0 # input noise parameter
-for j in range (0):
+for j in range (5):
     d_corrects = 0
     m_corrects = 0
     s_corrects = 0
