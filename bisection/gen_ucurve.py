@@ -49,6 +49,21 @@ def input_noise (v, sigma):
     v[0:len (v)] = map (lambda x: x + ((random.gauss (0, sigma)) * relative_amplitude), v[0:len (v)])
 
 
+def input_file (file_name):
+    """ Reads a file file_name and returns a vector with the numbers of the file. The
+    input numbers should be separated by line breaks """
+    f = open (file_name, 'r')
+    v = []
+    
+    line = f.readline ()
+    while (line is not ''):
+        v.append (float (line))
+        line = f.readline ()
+    f.close ()
+
+    return v
+
+
 random.seed (datetime.now ())
 f = open ('curve_data.txt', 'w')
 v = gen_points (100, 1.0 / 2)

@@ -62,9 +62,9 @@ class PMF:
         Where alpha is the accumulate density of the mid element """
         qc = 1 - pc
 
-        # print ("\n\n")
-        # print ("preferred side: ", direction)
-        # print ("Quarters: ", self.__quarters[1][0], ", ", self.__quarters[2][0], ", ", self.__quarters[3][0])
+        print ("\n\n")
+        print ("preferred side: ", direction)
+        print ("Quarters: ", self.__quarters[1][0], ", ", self.__quarters[2][0], ", ", self.__quarters[3][0])
 
         if (direction < 0):
             # what does this mean now? 
@@ -72,10 +72,10 @@ class PMF:
             beta = alpha - self.__blocks[mid_block].p
             if (1 - beta < 1e-8):
                return
-            # print ("before splitting: " + self.toString ()) 
+            print ("before splitting: " + self.toString ()) 
             self.split_in (mid, mid_block)
-            # print ("after splitting: " + self.toString ()) 
-            # print ("beta: ", beta)
+            print ("after splitting: " + self.toString ()) 
+            print ("beta: ", beta)
 
             for i in range (len (self.__blocks)):
                 if (self.__blocks[i].start < mid):
@@ -87,10 +87,10 @@ class PMF:
             if (1 - alpha < 1e-8):
                 return
             mid_block = self.find_block (mid + 1)
-            # print ("before splitting: " + self.toString ()) 
+            print ("before splitting: " + self.toString ()) 
             self.split_in (mid + 1, mid_block)
-            # print ("after splitting: " + self.toString ()) 
-            # print ("alpha: ", alpha)
+            print ("after splitting: " + self.toString ()) 
+            print ("alpha: ", alpha)
 
             for i in range (len (self.__blocks)):
                 if (self.__blocks[i].start < mid + 1):
@@ -98,8 +98,8 @@ class PMF:
                 else:
                     self.__blocks[i].p *= (pc / (1 - alpha))
 
-        # print ("Updated PMF: " + self.toString ())
-        # print ("Sum: ", sum (block.mass () for block in self.__blocks))
+        print ("Updated PMF: " + self.toString ())
+        print ("Sum: ", sum (block.mass () for block in self.__blocks))
         self.find_quarters ()
         # if (abs (sum (block.mass () for block in self.__blocks) - 1) > 1e-3):
         # # if (True):
@@ -114,12 +114,15 @@ class PMF:
         # print (len(self.__blocks))
         # print (self.toString ())
         # print ("dump it")
+
         past_blocks_mass = 0
         past_blocks_size = 0
         block_i = 0
         for i in range (1, 4):
             x =  i / 4.0
-            while (past_blocks_mass + self.__blocks[block_i].mass () < x):
+            
+            while (block_i < len (self.__blocks) and \
+                past_blocks_mass + self.__blocks[block_i].mass () < x):
                 past_blocks_mass += self.__blocks[block_i].mass ()
                 past_blocks_size += \
                     self.__blocks[block_i].end - self.__blocks[block_i].start
@@ -127,22 +130,20 @@ class PMF:
 
             if (i == 2):
                 self.__median_block = block_i
+            
+            # This is necessary because the successive additions of block probabilities
+            # create a bigger and bigger floating point error.
+            if (block_i >= len (self.__blocks)):
+                self.normalize_blocks ()
+                self.find_quarters ()
+            else:
+                block_p = self.__blocks[block_i].p
+                remainder = x - past_blocks_mass - block_p
+                intra_block_i = int (remainder / block_p)
+                alpha = past_blocks_mass + (1 + intra_block_i) * block_p
+                self.__quarters[i] = (past_blocks_size + intra_block_i, alpha)
+                # print ("i: ", i, " | intra_block_i: ", intra_block_i, " | block_i: ", block_i, " | block_p: ", block_p, " | alpha: ", alpha)
 
-            block_p = self.__blocks[block_i].p
-            remainder = x - past_blocks_mass - block_p
-            intra_block_i = int (remainder / block_p)
-            alpha = past_blocks_mass + (1 + intra_block_i) * block_p
-            self.__quarters[i] = (past_blocks_size + intra_block_i, alpha)
-            # print ("i: ", i, " | intra_block_i: ", intra_block_i, " | block_i: ", block_i, " | block_p: ", block_p, " | alpha: ", alpha)
-
-        # This is being necessary because the successive additions of block probabilities
-        # create a bigger and bigger floating point error.
-        while (block_i < len (self.__blocks)):
-            past_blocks_mass += self.__blocks[block_i].mass ()
-            block_i += 1
-
-        if (abs (past_blocks_mass - 1) > 1e-2):
-            self.normalize_blocks ()
         
 
     def get_quarter (self, i):
