@@ -44,7 +44,7 @@ def select_side (v, i):
     r = min (len(v) - 1, i + 1)
     d = v[l] - v[r]
 
-    if (abs (d) < 1e-20): # if we don't know where to go
+    if (abs (d) < 1e-10): # if we don't know where to go
         return 0
     
     return int(d / abs (d))
@@ -72,8 +72,6 @@ def valley (v, i):
 def mid_neighbour_bisection (v, limit = None):
     """ This function receives a vector, that describes approximately u-shaped curve, as
     argument and return the minimum element of this vector """
-    #print ("Bisection on v: ", v)
-    limit = .4 * len(v)
     return mid_neighbour_step (v, 1, -1.0 / int_log2 (len (v)), limit)
     
 
@@ -203,6 +201,7 @@ def upb (v, pc, pmf = None, limit = None):
     """ U-Curve Probabilistic Bisection 
     This function receives a vector, that describes approximately u-shaped curve, as
     argument and return the minimum element of this vector """
+    print ("Start UPB")
     n = len (v)
     
     # probability mass function
@@ -212,7 +211,6 @@ def upb (v, pc, pmf = None, limit = None):
         pmf = PMF (n)
     
     evaluations = 0
-    
     if (limit is None):
         limit = 1 + 2 * int_log2 (n) * int_log2 (n)
         # limit = .5 * n
@@ -230,9 +228,6 @@ def upb (v, pc, pmf = None, limit = None):
                 direction = -1
             else:
                 direction = 1
-            # print ("Split!!")
-            # [result, child_eval] = split_upb (v, pc, pmf, median, limit)
-            # return [result, evaluations + child_eval]
         
         #print ("direction: ", direction)
         alpha = pmf.get_quarter_mass (2)
@@ -245,14 +240,16 @@ def upb (v, pc, pmf = None, limit = None):
         third_qt = pmf.get_quarter (3)
         limit -= 1
 
+    print ("UPB:", len (pmf.get_blocks ()))
+    print ("End UPB")
     return [v[median], evaluations]
 
 def mupb (v, pc, pmf = None, limit = None):
     """ Mid-neighbour U-Curve Probabilistic Bisection 
     This function receives a vector, that describes approximately u-shaped curve, as
     argument and return the minimum element of this vector """
+    print ("Start MPB")
     n = len (v)
-
     # Probability Mass Function
     if (pmf is None):
         pmf = PMF (n)
@@ -300,6 +297,9 @@ def mupb (v, pc, pmf = None, limit = None):
         median = pmf.get_quarter (2)
         third_qt = pmf.get_quarter (3)
         limit -= 1
+
+    print ("MPB: ", len (pmf.get_blocks ()))
+    print ("End MPB")
 
     return [v[median], evaluations]
 

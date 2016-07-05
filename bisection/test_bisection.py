@@ -49,13 +49,11 @@ for j in range (5):
         e = time ()
         m_time += e - s
 
-        # print ("--------------New problem!!")
         s = time ()
         [result, evaluations] = upb (points, .85)
         s_evaluations += evaluations / (n * 1.0)
         e = time ()
         s_time +=  e - s
-        # print ("----------------------------")
 
         s = time ()
         [result, evaluations] = mupb (points, .85)
@@ -88,10 +86,10 @@ time_file.close ()
 #
 #
 max_input_size = 100
-test_size = 1000.0
+test_size = 10000.0
 correctness_file = open ('correctness_data.txt', 'w')
 sigma = 0 # input noise parameter
-for j in range (5):
+for j in range (0):
     d_corrects = 0
     m_corrects = 0
     s_corrects = 0
@@ -100,7 +98,7 @@ for j in range (5):
     s2_error = 0.0
     for i in range (int (test_size)):
         n = max_input_size
-        points = gen_points (n, .25)
+        points = gen_points (n, random ())
         input_noise (points, sigma)
         expected_solution = min (points)
         
