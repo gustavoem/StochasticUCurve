@@ -1,6 +1,7 @@
 from pmf import PMF
 from math import log
 from math import floor
+from time import time
 
 def bisection_min (v, limit = None):
     #print (limit)
@@ -206,6 +207,10 @@ def upb (v, pc, pmf = None, limit = None):
     This function receives a vector, that describes approximately u-shaped curve, as
     argument and return the minimum element of this vector """
     n = len (v)
+
+    total_s = time ()
+    update_time = 0
+    nof_updates = 0
     
     # Probability Mass Function
     if (pmf is None):
@@ -213,8 +218,8 @@ def upb (v, pc, pmf = None, limit = None):
     
     evaluations = 0
     if (limit is None):
-        limit = 1 + 2 * int_log2 (n) * int_log2 (n)
-        # limit = .5 * n
+        # limit = 1 + 2 * int_log2 (n) * int_log2 (n)
+        limit = n 
 
     first_qt = pmf.get_quarter (1)
     median = pmf.get_quarter (2)
@@ -232,7 +237,11 @@ def upb (v, pc, pmf = None, limit = None):
         
         #print ("direction: ", direction)
         alpha = pmf.get_quarter_mass (2)
+        s = time ()
         pmf.update (pc, median, alpha, direction)
+        nof_updates += 1
+        e = time ()
+        update_time += e - s
         #print ("New pmf: ", pmf)
         #print ("pmf sum:", sum(pmf))
         
@@ -241,6 +250,9 @@ def upb (v, pc, pmf = None, limit = None):
         third_qt = pmf.get_quarter (3)
         limit -= 1
 
+    total_e = time ()
+    # print ("Total time for UPB: ", total_e - total_s, " | Updating: ", update_time, " | Nof updates: ", nof_updates)
+    # print (limit)
     return [v[median], evaluations]
 
 def mupb (v, pc, pmf = None, limit = None):
@@ -249,14 +261,18 @@ def mupb (v, pc, pmf = None, limit = None):
     argument and return the minimum element of this vector """
     n = len (v)
     
+    total_s = time ()
+    update_time = 0
+    nof_updates = 0
+
     # Probability Mass Function
     if (pmf is None):
         pmf = PMF (n)
     
     evaluations = 0
     if (limit is None):
-        limit = 1 + 2 * int_log2 (n) * int_log2 (n)
-        # limit = .5 * n
+        # limit = 1 + 2 * int_log2 (n) * int_log2 (n)
+        limit = n
 
     first_qt = pmf.get_quarter (1)
     median = pmf.get_quarter (2)
@@ -275,26 +291,57 @@ def mupb (v, pc, pmf = None, limit = None):
 
         if (d is 0):
             if (v[median] < v[first_qt]):
+                s = time ()
                 pmf.update (pc, first_qt, pmf.get_quarter_mass (1), 1)
+                e = time ()
+                nof_updates += 1
+                update_time += e - s
                 if (pmf.get_quarter (1) != pmf.get_quarter (2) and \
                     pmf.get_quarter (3) != pmf.get_quarter (2)):
+                    s = time ()
                     pmf.update (pc, third_qt, pmf.get_quarter_mass (3), -1)
+                    e = time ()
+                    nof_updates += 1
+                    update_time += e - s
             else:
                 if (median - first_qt > third_qt - median):
-                    d = 1.0
+                    s = time ()
+                    pmf.update (pc, first_qt, pmf.get_quarter_mass (1), 1)
+                    e = time ()
+                    nof_updates += 1
+                    update_time += e - s
                 else:
-                    d = -1.0
+                    s = time ()
+                    pmf.update (pc, third_qt, pmf.get_quarter_mass (3), -1)
+                    e = time ()
+                    nof_updates += 1
+                    update_time += e - s
+
+                    
         else:
             if (d > 0):
+                # print ("Left")
+                s = time ()
                 pmf.update (pc, third_qt, pmf.get_quarter_mass (3), -1)
+                e = time ()
+                nof_updates += 1
+                update_time += e - s
             else:
+                # print ("Right")
+                s = time ()
                 pmf.update (pc, first_qt, pmf.get_quarter_mass (1), 1)
+                e = time ()
+                nof_updates += 1
+                update_time += e - s
         
         first_qt = pmf.get_quarter (1)
         median = pmf.get_quarter (2)
         third_qt = pmf.get_quarter (3)
         limit -= 1
 
+    total_e = time ()
+    # print ("Total time for MPB: ", total_e - total_s, " | Updating: ", update_time, " | Nof updates: ", nof_updates)
+    # print (limit) 
     return [v[median], evaluations]
 
 
