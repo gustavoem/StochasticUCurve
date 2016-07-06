@@ -40,14 +40,18 @@ def select_side (v, i):
     """ This function receives a vector v and an index i and, based on the elements
     v[i - 1], v[i] and v[i + 1] decides if the points are decreasing returning 1 if
     they are and -1 if they are increasing """
-    l = max (0, i - 1)
-    r = min (len(v) - 1, i + 1)
-    d = v[l] - v[r]
+    l = i - 1
+    if (l < 0):
+        l = 0
+    r = i + 1
+    if (r >= len (v)):
+        r = len (v) - 1
 
-    if (abs (d) < 1e-10): # if we don't know where to go
+    d = v[l] - v[r]
+    if (abs (d) < 1e-20): # if we don't know where to go
         return 0
     
-    return int(d / abs (d))
+    return int (d / abs (d))
 
 
 def valley (v, i):
@@ -201,12 +205,9 @@ def upb (v, pc, pmf = None, limit = None):
     """ U-Curve Probabilistic Bisection 
     This function receives a vector, that describes approximately u-shaped curve, as
     argument and return the minimum element of this vector """
-    print ("Start UPB")
     n = len (v)
     
-    # probability mass function
-    # Suppose that the minimum element of v is in v[x*], then, we say that 
-    #       P(x* = i) = pmf[i]
+    # Probability Mass Function
     if (pmf is None):
         pmf = PMF (n)
     
@@ -240,16 +241,14 @@ def upb (v, pc, pmf = None, limit = None):
         third_qt = pmf.get_quarter (3)
         limit -= 1
 
-    print ("UPB:", len (pmf.get_blocks ()))
-    print ("End UPB")
     return [v[median], evaluations]
 
 def mupb (v, pc, pmf = None, limit = None):
     """ Mid-neighbour U-Curve Probabilistic Bisection 
     This function receives a vector, that describes approximately u-shaped curve, as
     argument and return the minimum element of this vector """
-    print ("Start MPB")
     n = len (v)
+    
     # Probability Mass Function
     if (pmf is None):
         pmf = PMF (n)
@@ -266,7 +265,7 @@ def mupb (v, pc, pmf = None, limit = None):
            median is not third_qt and limit > 0):
         evaluations += 3
 
-       #print ("-------------\nIterating...")
+        # print ("-------------\nIterating...")
         d = float (v[third_qt] - v[first_qt])
         if (abs (d) < 1e-8):
             d = 0
@@ -281,14 +280,12 @@ def mupb (v, pc, pmf = None, limit = None):
                     pmf.get_quarter (3) != pmf.get_quarter (2)):
                     pmf.update (pc, third_qt, pmf.get_quarter_mass (3), -1)
             else:
-                # [result, child_eval] = split_mupb (v, pc, pmf, median, limit)
-                # return [result, evaluations + child_eval]
                 if (median - first_qt > third_qt - median):
-                    direction = -1
+                    d = 1.0
                 else:
-                    direction = 1
+                    d = -1.0
         else:
-            if (d == 1.0):
+            if (d > 0):
                 pmf.update (pc, third_qt, pmf.get_quarter_mass (3), -1)
             else:
                 pmf.update (pc, first_qt, pmf.get_quarter_mass (1), 1)
@@ -297,9 +294,6 @@ def mupb (v, pc, pmf = None, limit = None):
         median = pmf.get_quarter (2)
         third_qt = pmf.get_quarter (3)
         limit -= 1
-
-    print ("MPB: ", len (pmf.get_blocks ()))
-    print ("End MPB")
 
     return [v[median], evaluations]
 

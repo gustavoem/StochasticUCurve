@@ -8,8 +8,8 @@ from bisection import mupb
 from math import log
 from time import time
 
-max_input_size = 2500
-test_size = 100.0
+max_input_size = 625
+test_size = 500.0
 
 
 ##  Time and evaluations
@@ -31,7 +31,7 @@ for j in range (5):
     for i in range (int (test_size)):
         input_file = open ('input_file.txt', 'w')
         n = max_input_size
-        points = gen_points (n, .5)
+        points = gen_points (n, random ())
         input_noise  (points, 0)
 
         for i in range (len (points)):
@@ -53,13 +53,13 @@ for j in range (5):
         [result, evaluations] = upb (points, .85)
         s_evaluations += evaluations / (n * 1.0)
         e = time ()
-        s_time +=  e - s
+        s_time += e - s
 
         s = time ()
         [result, evaluations] = mupb (points, .85)
         s2_evaluations += evaluations / (n * 1.0)
         e = time ()
-        s2_time +=  e - s
+        s2_time += e - s
         
         input_file.close ()
 
