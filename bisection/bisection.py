@@ -218,8 +218,8 @@ def upb (v, pc, pmf = None, limit = None):
     
     evaluations = 0
     if (limit is None):
-        # limit = 1 + 2 * int_log2 (n) * int_log2 (n)
-        limit = n 
+        # limit = n 
+        limit = 1 + 2 * int_log2 (n) * int_log2 (n)
 
     first_qt = pmf.get_quarter (1)
     median = pmf.get_quarter (2)
@@ -235,24 +235,13 @@ def upb (v, pc, pmf = None, limit = None):
             else:
                 direction = 1
         
-        #print ("direction: ", direction)
         alpha = pmf.get_quarter_mass (2)
-        s = time ()
         pmf.update (pc, median, alpha, direction)
-        nof_updates += 1
-        e = time ()
-        update_time += e - s
-        #print ("New pmf: ", pmf)
-        #print ("pmf sum:", sum(pmf))
-        
         first_qt = pmf.get_quarter (1)
         median = pmf.get_quarter (2)
         third_qt = pmf.get_quarter (3)
         limit -= 1
 
-    total_e = time ()
-    # print ("Total time for UPB: ", total_e - total_s, " | Updating: ", update_time, " | Nof updates: ", nof_updates)
-    # print (limit)
     return [v[median], evaluations]
 
 def mupb (v, pc, pmf = None, limit = None):
@@ -261,18 +250,14 @@ def mupb (v, pc, pmf = None, limit = None):
     argument and return the minimum element of this vector """
     n = len (v)
     
-    total_s = time ()
-    update_time = 0
-    nof_updates = 0
-
     # Probability Mass Function
     if (pmf is None):
         pmf = PMF (n)
     
     evaluations = 0
     if (limit is None):
-        # limit = 1 + 2 * int_log2 (n) * int_log2 (n)
-        limit = n
+        limit = 1 + 2 * int_log2 (n) * int_log2 (n)
+        # limit = n
 
     first_qt = pmf.get_quarter (1)
     median = pmf.get_quarter (2)
@@ -281,67 +266,36 @@ def mupb (v, pc, pmf = None, limit = None):
            median is not third_qt and limit > 0):
         evaluations += 3
 
-        # print ("-------------\nIterating...")
         d = float (v[third_qt] - v[first_qt])
         if (abs (d) < 1e-8):
             d = 0
         else:
             d = d / abs (d)
-       # print ("direction: ", d)
 
         if (d is 0):
             if (v[median] < v[first_qt]):
-                s = time ()
                 pmf.update (pc, first_qt, pmf.get_quarter_mass (1), 1)
-                e = time ()
-                nof_updates += 1
-                update_time += e - s
                 if (pmf.get_quarter (1) != pmf.get_quarter (2) and \
                     pmf.get_quarter (3) != pmf.get_quarter (2)):
-                    s = time ()
                     pmf.update (pc, third_qt, pmf.get_quarter_mass (3), -1)
-                    e = time ()
-                    nof_updates += 1
-                    update_time += e - s
             else:
                 if (median - first_qt > third_qt - median):
-                    s = time ()
                     pmf.update (pc, first_qt, pmf.get_quarter_mass (1), 1)
-                    e = time ()
-                    nof_updates += 1
-                    update_time += e - s
                 else:
-                    s = time ()
                     pmf.update (pc, third_qt, pmf.get_quarter_mass (3), -1)
-                    e = time ()
-                    nof_updates += 1
-                    update_time += e - s
-
-                    
+                # [result, sub_eval] = split_mupb (v, pc, pmf, median, limit)
+                # return [result, evaluations + sub_eval]
         else:
             if (d > 0):
-                # print ("Left")
-                s = time ()
                 pmf.update (pc, third_qt, pmf.get_quarter_mass (3), -1)
-                e = time ()
-                nof_updates += 1
-                update_time += e - s
             else:
-                # print ("Right")
-                s = time ()
                 pmf.update (pc, first_qt, pmf.get_quarter_mass (1), 1)
-                e = time ()
-                nof_updates += 1
-                update_time += e - s
         
         first_qt = pmf.get_quarter (1)
         median = pmf.get_quarter (2)
         third_qt = pmf.get_quarter (3)
         limit -= 1
 
-    total_e = time ()
-    # print ("Total time for MPB: ", total_e - total_s, " | Updating: ", update_time, " | Nof updates: ", nof_updates)
-    # print (limit) 
     return [v[median], evaluations]
 
 
@@ -408,7 +362,7 @@ def split_mupb (v, pc, pmf, i, limit):
     n2 = len (v) - n1
     v1 = v[0:n1]
     v2 = v[n1:len (v)]
-    print ("n = ", len (v), ", |blocks| = ", len (blocks), ", half_size = ", half_size, ", n1 = ", n1, ", n2 = ", n2)
+    # print ("n = ", len (v), ", |blocks| = ", len (blocks), ", half_size = ", half_size, ", n1 = ", n1, ", n2 = ", n2)
     
     pmf1 = PMF (n1, blocks1)
     pmf2 = PMF (n2, blocks2)

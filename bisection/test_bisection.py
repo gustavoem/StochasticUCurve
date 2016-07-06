@@ -18,7 +18,7 @@ test_size = 500.0
 ##
 time_file = open ('time_data.txt', 'w')
 evaluations_file = open ('evaluations_data.txt', 'w')
-for j in range (0):
+for j in range (5):
     d_evaluations = 0
     m_evaluations = 0
     s_evaluations = 0
@@ -195,7 +195,7 @@ max_input_size = 100
 sigma = 1
 percentage = 0.05
 
-for j in range (0):
+for j in range (10):
     eval_limit = int (log (max_input_size, 2) * percentage)
     d_distance = 0
     m_distance = 0
