@@ -18,7 +18,7 @@ test_size = 500.0
 ##
 time_file = open ('time_data.txt', 'w')
 evaluations_file = open ('evaluations_data.txt', 'w')
-for j in range (5):
+for j in range (0):
     d_evaluations = 0
     m_evaluations = 0
     s_evaluations = 0
@@ -90,7 +90,7 @@ max_input_size = 100
 test_size = 10000.0
 correctness_file = open ('correctness_data.txt', 'w')
 sigma = 0 # input noise parameter
-for j in range (5):
+for j in range (0):
     d_corrects = 0
     m_corrects = 0
     s_corrects = 0
@@ -191,7 +191,7 @@ pc_evaluations_file.close ()
 #
 convergence_file = open ('convergence_data.txt', 'w')
 test_size = 1000.0
-max_input_size = 100
+max_input_size = 1000
 sigma = 1
 percentage = 0.05
 

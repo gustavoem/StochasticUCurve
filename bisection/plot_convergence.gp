@@ -15,7 +15,7 @@ set pointintervalbox 1
 # set xrange [0:5]
 # set yrange [0:4]
 
-set title "Convergence for n = 1000 and sigma = 10";
+set title "Convergence for n = 1000 and sigma = 1";
 set xlabel "Percentage of lg n as input size"
 set ylabel "Average percentual distance to solution"
 plot 'convergence_data.txt' using 1:2 title 'Traditional' with linespoints ls 1, \
