@@ -15,7 +15,7 @@ set pointintervalbox 1
 # set xrange [0:5]
 # set yrange [0:4]
 
-set title "Average Correctness";
+set title "Average Correctness (Limit for UPB and MUPB is lgn)";
 set xlabel "Noise standard deviation"
 set ylabel "Percentage of correct answers (with 5% of acceptable error)"
 plot 'correctness_data.txt' using 1:2 title 'Traditional' with linespoints ls 1, \

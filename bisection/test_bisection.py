@@ -90,7 +90,7 @@ max_input_size = 100
 test_size = 10000.0
 correctness_file = open ('correctness_data.txt', 'w')
 sigma = 0 # input noise parameter
-for j in range (0):
+for j in range (5):
     d_corrects = 0
     m_corrects = 0
     s_corrects = 0
@@ -195,7 +195,7 @@ max_input_size = 1000
 sigma = 1
 percentage = 0.05
 
-for j in range (10):
+for j in range (0):
     eval_limit = int (log (max_input_size, 2) * percentage)
     d_distance = 0
     m_distance = 0
