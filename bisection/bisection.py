@@ -1,6 +1,7 @@
 from pmf import PMF
 from math import log
 from math import floor
+from math import exp
 from time import time
 
 def bisection_min (v, limit = None):
@@ -447,3 +448,39 @@ def update_pmf (pmf, pc, i, alpha, direction):
         pmf[0:i + 1] = map (lambda x: (1.0 / alpha) * qc * x, pmf[0:i + 1])
 
     #print ("sum after: ", sum (pmf))
+
+
+def informed_bisection (v, sigma, limit = None):
+    m = len (v) // 2
+    lm = m // 2
+    rm = m + (len (v) - m) // 2
+
+    acceptance = .9
+
+    if (lm is rm or (limit is not None and limit <= 0)):
+        return [v[m], 0]
+
+    if (v[lm] < v[rm]):
+        min_point = lm
+        if (v[lm] > v[m]):
+            min_point = m
+
+        alpha = v[min_point] - v[rm]
+        if (alpha > sigma):
+            return informed_bisection (v[0:rm], sigma, limit)
+        else:
+            sol1 = informed_bisection (v[0:m], sigma, limit)
+            sol2 = informed_bisection (v[m:len (v)], sigma, limit)
+            return min (sol1, sol2)
+    else:
+        min_point = rm
+        if (v[rm] > v[m]):
+            min_point = m
+
+        alpha = v[min_point] - v[lm]
+        if (alpha > sigma):
+            return informed_bisection (v[lm:len (v)], sigma, limit)
+        else:
+            sol1 = informed_bisection (v[0:m], sigma, limit)
+            sol2 = informed_bisection (v[m:len (v)], sigma, limit)
+            return min (sol1, sol2)

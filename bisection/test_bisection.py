@@ -5,6 +5,7 @@ from bisection import bisection_min
 from bisection import mid_neighbour_bisection 
 from bisection import upb
 from bisection import mupb
+from bisection import informed_bisection
 from math import log
 from time import time
 
@@ -90,13 +91,15 @@ max_input_size = 100
 test_size = 10000.0
 correctness_file = open ('correctness_data.txt', 'w')
 sigma = 0 # input noise parameter
-for j in range (5):
+for j in range (10):
     d_corrects = 0
     m_corrects = 0
     s_corrects = 0
     s2_corrects = 0
+    s3_corrects = 0
     s_error = 0.0
     s2_error = 0.0
+    s3_error = 0.0
     for i in range (int (test_size)):
         n = max_input_size
         points = gen_points (n, random ())
@@ -121,12 +124,20 @@ for j in range (5):
             s2_corrects = s2_corrects + 1
         s2_error = s2_error + abs (expected_solution - result) / abs (expected_solution)
 
+        [result, evaluations] = informed_bisection (points,  sigma)
+        if abs (expected_solution - result) / abs (expected_solution) < .05:
+            s3_corrects = s3_corrects + 1
+        s3_error = s3_error + abs (expected_solution - result) / abs (expected_solution)
+
+
     print ("Correctness for traditional bisection: ", d_corrects / test_size)
     print ("Correctness for mid-neighbour bisection: ", m_corrects / test_size)
     print ("Correctness for UPB: ", s_corrects / test_size)
     print ("Correctness for MPB: ", s2_corrects / test_size)
+    print ("Correctness for Informed Bisection: ", s3_corrects / test_size)
     print ("Average relative error of UPB:", s_error / test_size)
     print ("Average relative error of MPB:", s2_error / test_size)
+    print ("Average relative error of Informed Bisection:", s3_error / test_size)
     correctness_file.write (str (sigma) + " " + str (d_corrects / test_size) + " " + str (m_corrects / test_size) + " " + str (s_corrects / test_size) + " " + str (s2_corrects / test_size) + "\n")
     sigma += 1
 
