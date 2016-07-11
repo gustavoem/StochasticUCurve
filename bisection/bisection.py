@@ -457,8 +457,12 @@ def informed_bisection (v, sigma, limit = None):
 
     acceptance = .9
 
+
     if (lm is rm or (limit is not None and limit <= 0)):
         return [v[m], 0]
+
+    if (limit is not None):
+        limit -= 1
 
     if (v[lm] < v[rm]):
         min_point = lm
@@ -467,11 +471,14 @@ def informed_bisection (v, sigma, limit = None):
 
         alpha = v[min_point] - v[rm]
         if (alpha > sigma):
-            return informed_bisection (v[0:rm], sigma, limit)
+            [sol, evaluations] = informed_bisection (v[0:rm], sigma, limit)
+            return [sol, evaluations + 3]
         else:
-            sol1 = informed_bisection (v[0:m], sigma, limit)
-            sol2 = informed_bisection (v[m:len (v)], sigma, limit)
-            return min (sol1, sol2)
+            [sol1, evaluations1] = informed_bisection (v[0:m], sigma, limit)
+            if (limit is not None):
+                limit -= evaluations1
+            [sol2, evaluations2] = informed_bisection (v[m:len (v)], sigma, limit)
+            return [min (sol1, sol2), evaluations1 + evaluations2 + 3]
     else:
         min_point = rm
         if (v[rm] > v[m]):
@@ -479,8 +486,11 @@ def informed_bisection (v, sigma, limit = None):
 
         alpha = v[min_point] - v[lm]
         if (alpha > sigma):
-            return informed_bisection (v[lm:len (v)], sigma, limit)
+            [sol, evaluations] = informed_bisection (v[lm:len (v)], sigma, limit)
+            return [sol, evaluations + 3]
         else:
-            sol1 = informed_bisection (v[0:m], sigma, limit)
-            sol2 = informed_bisection (v[m:len (v)], sigma, limit)
-            return min (sol1, sol2)
+            [sol1, evaluations1] = informed_bisection (v[0:m], sigma, limit)
+            if (limit is not None):
+                limit -= evaluations1
+            [sol2, evaluations2] = informed_bisection (v[m:len (v)], sigma, limit)
+            return [min (sol1, sol2), evaluations1 + evaluations2 + 3]

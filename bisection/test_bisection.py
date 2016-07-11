@@ -19,22 +19,26 @@ test_size = 500.0
 ##
 time_file = open ('time_data.txt', 'w')
 evaluations_file = open ('evaluations_data.txt', 'w')
-for j in range (0):
+for j in range (5):
     d_evaluations = 0
     m_evaluations = 0
     s_evaluations = 0
     s_pieces = 0
     s2_evaluations = 0
+    s3_evaluations = 0
     d_time = 0
     m_time = 0
     s_time = 0
     s2_time = 0
+    s3_time = 0
+
+    sigma = 1
 
     for i in range (int (test_size)):
         input_file = open ('input_file.txt', 'w')
         n = max_input_size
         points = gen_points (n, random ())
-        input_noise  (points, 0)
+        input_noise  (points, sigma)
 
         for i in range (len (points)):
             input_file.write (str (points[i]) + "\n")
@@ -63,16 +67,24 @@ for j in range (0):
         e = time ()
         s2_time += e - s
         
+        s = time ()
+        [result, evaluations] = informed_bisection (points, sigma)
+        s3_evaluations += evaluations / (n * 1.0)
+        e = time ()
+        s3_time += e - s
+
         input_file.close ()
 
     print ("Average percentage of evaluated nodes for traditional bisection: ", d_evaluations / test_size)
     print ("Average percentage of evaluated nodes for mid-neighbour bisection: ", m_evaluations / test_size)
     print ("Average percentage of evaluated nodes for UPB: ", s_evaluations / test_size)
     print ("Average percentage of evaluated nodes for MUPB: ", s2_evaluations / test_size)
+    print ("Average percentage of evaluated nodes for IB: ", s3_evaluations / test_size)
     print ("Time used for traditional bisection (seconds): ", d_time)
     print ("Time used for mid-neighbour bisection (seconds): ", m_time)
     print ("Time used for UPB (seconds): ", s_time)
     print ("Time used for MUPB (seconds): ", s2_time)
+    print ("Time used for IB (seconds): ", s3_time)
 
     evaluations_file.write (str (max_input_size) + " " + str (d_evaluations / test_size) + " " + str (m_evaluations / test_size) + " " + str (s_evaluations / test_size) + " " + str (s2_evaluations / test_size) + "\n")
     time_file.write (str (max_input_size) + " " + str (d_time) + " " + str (m_time) +  " " + str (s_time) + " " + str (s2_time) + " " +"\n")
@@ -91,7 +103,7 @@ max_input_size = 100
 test_size = 10000.0
 correctness_file = open ('correctness_data.txt', 'w')
 sigma = 0 # input noise parameter
-for j in range (10):
+for j in range (0):
     d_corrects = 0
     m_corrects = 0
     s_corrects = 0
