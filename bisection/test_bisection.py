@@ -56,13 +56,13 @@ for j in range (5):
         m_time += e - s
 
         s = time ()
-        [result, evaluations] = upb (points, .85)
+        # [result, evaluations] = upb (points, .85)
         s_evaluations += evaluations / (n * 1.0)
         e = time ()
         s_time += e - s
 
         s = time ()
-        [result, evaluations] = mupb (points, .85)
+        # [result, evaluations] = mupb (points, .85)
         s2_evaluations += evaluations / (n * 1.0)
         e = time ()
         s2_time += e - s
@@ -99,8 +99,8 @@ time_file.close ()
 # Correctness
 #
 #
-max_input_size = 100
-test_size = 10000.0
+max_input_size = 1000
+test_size = 5000.0
 correctness_file = open ('correctness_data.txt', 'w')
 sigma = 0 # input noise parameter
 for j in range (0):
@@ -126,12 +126,12 @@ for j in range (0):
         if abs (expected_solution - result) / abs (expected_solution) < .05:
             m_corrects = m_corrects + 1
 
-        [result, evaluations] = upb (points, .85)
+        # [result, evaluations] = upb (points, .85)
         if abs (expected_solution - result) / abs (expected_solution) < .05:
             s_corrects = s_corrects + 1
         s_error = s_error + abs (expected_solution - result) / abs (expected_solution)
 
-        [result, evaluations] = mupb (points, .85)
+        # [result, evaluations] = mupb (points, .85)
         if abs (expected_solution - result) / abs (expected_solution) < .05:
             s2_corrects = s2_corrects + 1
         s2_error = s2_error + abs (expected_solution - result) / abs (expected_solution)
@@ -151,7 +151,7 @@ for j in range (0):
     print ("Average relative error of MPB:", s2_error / test_size)
     print ("Average relative error of Informed Bisection:", s3_error / test_size)
     correctness_file.write (str (sigma) + " " + str (d_corrects / test_size) + " " + str (m_corrects / test_size) + " " + str (s_corrects / test_size) + " " + str (s2_corrects / test_size) + "\n")
-    sigma += 1
+    sigma += 5
 
 correctness_file.close ()
 
