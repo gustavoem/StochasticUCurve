@@ -9,8 +9,8 @@ from bisection import informed_bisection
 from math import log
 from time import time
 
-max_input_size = 625
-# max_input_size = 10000
+# max_input_size = 625
+max_input_size = 5000
 test_size = 500.0
 
 
@@ -32,7 +32,7 @@ for j in range (5):
     s2_time = 0
     s3_time = 0
 
-    sigma = 1
+    sigma = 10
 
     for i in range (int (test_size)):
         input_file = open ('input_file.txt', 'w')
@@ -77,19 +77,19 @@ for j in range (5):
 
     print ("Average percentage of evaluated nodes for traditional bisection: ", d_evaluations / test_size)
     print ("Average percentage of evaluated nodes for mid-neighbour bisection: ", m_evaluations / test_size)
-    print ("Average percentage of evaluated nodes for UPB: ", s_evaluations / test_size)
+    # print ("Average percentage of evaluated nodes for UPB: ", s_evaluations / test_size)
     print ("Average percentage of evaluated nodes for MUPB: ", s2_evaluations / test_size)
-    print ("Average percentage of evaluated nodes for IB: ", s3_evaluations / test_size)
+    print ("Average percentage of evaluated nodes for IPB: ", s3_evaluations / test_size)
     print ("Time used for traditional bisection (seconds): ", d_time)
     print ("Time used for mid-neighbour bisection (seconds): ", m_time)
-    print ("Time used for UPB (seconds): ", s_time)
+    # print ("Time used for UPB (seconds): ", s_time)
     print ("Time used for MUPB (seconds): ", s2_time)
-    print ("Time used for IB (seconds): ", s3_time)
+    print ("Time used for IPB (seconds): ", s3_time)
 
-    evaluations_file.write (str (max_input_size) + " " + str (d_evaluations / test_size) + " " + str (m_evaluations / test_size) + " " + str (s_evaluations / test_size) + " " + str (s2_evaluations / test_size) + "\n")
-    time_file.write (str (max_input_size) + " " + str (d_time) + " " + str (m_time) +  " " + str (s_time) + " " + str (s2_time) + " " +"\n")
+    evaluations_file.write (str (max_input_size) + " " + str (d_evaluations / test_size) + " " + str (m_evaluations / test_size) + " " + str (s_evaluations / test_size) + " " + str (s2_evaluations / test_size) + " " + str (s3_evaluations / test_size) + "\n")
+    time_file.write (str (max_input_size) + " " + str (d_time) + " " + str (m_time) +  " " + str (s_time) + " " + str (s2_time) + " " + str (s3_time) + " " +"\n")
     
-    max_input_size *= 2
+    max_input_size += 1000
 
 evaluations_file.close ()
 time_file.close ()
@@ -99,7 +99,7 @@ time_file.close ()
 # Correctness
 #
 #
-max_input_size = 1000
+max_input_size = 100
 test_size = 5000.0
 correctness_file = open ('correctness_data.txt', 'w')
 sigma = 0 # input noise parameter
@@ -131,7 +131,7 @@ for j in range (0):
             s_corrects = s_corrects + 1
         s_error = s_error + abs (expected_solution - result) / abs (expected_solution)
 
-        # [result, evaluations] = mupb (points, .85)
+        [result, evaluations] = mupb (points, .85)
         if abs (expected_solution - result) / abs (expected_solution) < .05:
             s2_corrects = s2_corrects + 1
         s2_error = s2_error + abs (expected_solution - result) / abs (expected_solution)
@@ -144,13 +144,13 @@ for j in range (0):
 
     print ("Correctness for traditional bisection: ", d_corrects / test_size)
     print ("Correctness for mid-neighbour bisection: ", m_corrects / test_size)
-    print ("Correctness for UPB: ", s_corrects / test_size)
+    # print ("Correctness for UPB: ", s_corrects / test_size)
     print ("Correctness for MPB: ", s2_corrects / test_size)
-    print ("Correctness for Informed Bisection: ", s3_corrects / test_size)
-    print ("Average relative error of UPB:", s_error / test_size)
+    print ("Correctness for IPB: ", s3_corrects / test_size)
+    # print ("Average relative error of UPB:", s_error / test_size)
     print ("Average relative error of MPB:", s2_error / test_size)
-    print ("Average relative error of Informed Bisection:", s3_error / test_size)
-    correctness_file.write (str (sigma) + " " + str (d_corrects / test_size) + " " + str (m_corrects / test_size) + " " + str (s_corrects / test_size) + " " + str (s2_corrects / test_size) + "\n")
+    print ("Average relative error of IPB:", s3_error / test_size)
+    correctness_file.write (str (sigma) + " " + str (d_corrects / test_size) + " " + str (m_corrects / test_size) + " " + str (s_corrects / test_size) + " " + str (s2_corrects / test_size) + " " + str (s3_corrects / test_size) + "\n")
     sigma += 5
 
 correctness_file.close ()

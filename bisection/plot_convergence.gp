@@ -9,6 +9,7 @@ set style line 1 lc rgb '#6699cc' lt 1 lw 2 pt 7 pi -1 ps 1
 set style line 2 lc rgb '#0e8466' lt 1 lw 2 pt 7 pi -1 ps 1
 set style line 3 lc rgb '#c8b03e' lt 1 lw 2 pt 7 pi -1 ps 1
 set style line 4 lc rgb '#9d64a2' lt 1 lw 2 pt 7 pi -1 ps 1
+set style line 5 lc rgb '#ff9933' lt 1 lw 2 pt 7 pi -1 ps 1
 set pointintervalbox 1
 
 # unset key
@@ -20,6 +21,8 @@ set xlabel "Percentage of lg n as input size"
 set ylabel "Average percentual distance to solution"
 plot 'convergence_data.txt' using 1:2 title 'Traditional' with linespoints ls 1, \
     'convergence_data.txt' using 1:3 title 'Mid-neighbour' with linespoints ls 2, \
-    'convergence_data.txt' using 1:4 title 'UPB' with linespoints ls 3, \
-    'convergence_data.txt' using 1:5 title 'MUPB' with linespoints ls 4
+    # 'convergence_data.txt' using 1:4 title 'UPB' with linespoints ls 3, \
+    'convergence_data.txt' using 1:5 title 'MUPB' with linespoints ls 4, \
+    'convergence_data.txt' using 1:6 title 'MUPB' with linespoints ls 5
+    
 unset multiplot

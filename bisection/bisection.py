@@ -257,8 +257,8 @@ def mupb (v, pc, pmf = None, limit = None):
     
     evaluations = 0
     if (limit is None):
-        limit = 1 + 2 * int_log2 (n) * int_log2 (n)
-        # limit = n
+        # limit = 1 + 2 * int_log2 (n) * int_log2 (n)
+        limit = n
 
     first_qt = pmf.get_quarter (1)
     median = pmf.get_quarter (2)
