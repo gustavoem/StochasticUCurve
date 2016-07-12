@@ -10,7 +10,7 @@ from math import log
 from time import time
 
 # max_input_size = 625
-max_input_size = 5000
+max_input_size = 100
 test_size = 500.0
 
 
@@ -89,7 +89,7 @@ for j in range (5):
     evaluations_file.write (str (max_input_size) + " " + str (d_evaluations / test_size) + " " + str (m_evaluations / test_size) + " " + str (s_evaluations / test_size) + " " + str (s2_evaluations / test_size) + " " + str (s3_evaluations / test_size) + "\n")
     time_file.write (str (max_input_size) + " " + str (d_time) + " " + str (m_time) +  " " + str (s_time) + " " + str (s2_time) + " " + str (s3_time) + " " +"\n")
     
-    max_input_size += 1000
+    max_input_size += 50
 
 evaluations_file.close ()
 time_file.close ()

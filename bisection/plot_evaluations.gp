@@ -21,7 +21,7 @@ set xlabel "Input size"
 set ylabel "Percentage of search space that was evaluated"
 plot 'evaluations_data.txt' using 1:2 title 'Traditional' with linespoints ls 1, \
     'evaluations_data.txt' using 1:3 title 'Mid-neighbour' with linespoints ls 2, \
-    'evaluations_data.txt' using 1:6 title 'IPB' with linespoints ls 5
+    'evaluations_data.txt' using 1:6 title 'IPB' with linespoints ls 5, \
+    'evaluations_data.txt' using 1:5 title 'MUPB' with linespoints ls 4
     #'evaluations_data.txt' using 1:4 title 'UPB' with linespoints ls 3, \
-    #'evaluations_data.txt' using 1:5 title 'MUPB' with linespoints ls 4
 unset multiplot

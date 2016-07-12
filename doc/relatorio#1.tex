@@ -41,7 +41,7 @@
 To generate the input for the problem we created two functions. The first creates a vector of floating points that simulates the values of a chain of a boolean lattice that respects the U-Curve assumption; and the second one adds a random noise to the values of the vector.
 
 \subsection{Chain Generation}
-The chain is generated based on a polynomial of second degree with positive leading coefficient. This polynomial has the minimum value of $0.1$ evaluated at some point $x^* \in [0, 1]$ which is determined by the user. The algorithm receives two arguments: the first one, $n$, represents the size of the chain; and the second one, $center \in [0, 1]$, specifies where is the minimum of the polynom. After creating a random polynom that holds our constraints, we split the $[0,1]$ interval in $n$ equaly spaced points, and evaluate the polynomial at these points, generating the curve.
+The chain is generated based on a polynomial of second degree with positive leading coefficient. This polynomial has the minimum value of $0.1$ evaluated at some point $x^* \in [0, n]$ (where $n$ the size of the chain) which is determined by the user. The algorithm receives two arguments: the first one, $n$, represents the size of the chain; and the second one, $center \in [0, 1]$, specifies where is the minimum of the polynom. After creating a random polynom that holds our constraints, we generate $n$ uniformily distributed points in the interval $[0, n]$, and evaluate the polynomial at these points, generating the curve.
 
 \begin{algorithm}[t]
 \caption{U-Curve Input Creator}
@@ -69,8 +69,7 @@ The chain is generated based on a polynomial of second degree with positive lead
 \end{algorithm}
 
 \subsection{Noise}
-The noise is applied to the vector created by $GeneratePoints$, by adding that is in the interval 
-$[-\alpha \frac{curve\_amplitude}{n}, \alpha \frac{curve\_amplitude}{n}]$, where $curve\_amplitude = max(v) - min (v)$ and $\alpha$ is a random variable with gaussian distribution with mean $0$ and standard deviation $\sigma$.
+The noise is applied to the vector created by $GeneratePoints$, by adding to every point $v_i$ a Gaussian error, $\epsilon_i$ with mean zero and stardard deviation $sigma$. We also assume that every pair $\epsilon_i$, $\epsilon_j$  are independent and identically distributed for $i \neq j$.
 
 \begin{figure}[H]
 \caption{Example of a curve generated with $\sigma = 0$}
