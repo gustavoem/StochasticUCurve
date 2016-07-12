@@ -9,13 +9,13 @@ def gen_points (n, center):
     
     p = [0, 0, 0] # a, b, c
     p[0] = random.random () # a
-    p[1] = -2 * p[0] * center  # b
+    p[1] = -2 * p[0] * (center * n)# b
     p[2] = (p[1] * p[1] + .1) / (4 * p[0])
     
     dx = 1.0 / n
     x = 0
     for i in range (n):
-        points[i] = random.random ()
+        points[i] = random.random () * n
         # points[i] = evaluate_pol (p, x)
         # x += dx
     points.sort ()
@@ -44,9 +44,7 @@ def input_noise (v, sigma):
     [-(amplitude / len (v)) * (alpha), (amplitude / len (v)) * (alpha)]  where alpha
     is a random variable with gaussian distribution with mean zero and standard deviation
     sigma """
-    curve_amplitude = max (v) - min (v)
-    relative_amplitude = curve_amplitude / len (v)
-    v[0:len (v)] = map (lambda x: x + ((random.gauss (0, sigma)) * relative_amplitude), v[0:len (v)])
+    v[0:len (v)] = map (lambda x: x + random.gauss (0, sigma), v[0:len (v)])
 
 
 def input_file (file_name):
@@ -67,7 +65,7 @@ def input_file (file_name):
 random.seed (datetime.now ())
 f = open ('curve_data.txt', 'w')
 v = gen_points (100, 1.0 / 2)
-input_noise (v, 0)
+input_noise (v, 0.001)
 for x in v:
    f.write (str (x) + "\n")
 f.close ()

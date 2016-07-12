@@ -470,6 +470,7 @@ def informed_bisection (v, sigma, limit = None):
             min_point = m
 
         alpha = v[min_point] - v[rm]
+        print ("Alpha: ", alpha, ", sigma: ", sigma)
         if (alpha > sigma):
             [sol, evaluations] = informed_bisection (v[0:rm], sigma, limit)
             return [sol, evaluations + 3]
@@ -485,6 +486,7 @@ def informed_bisection (v, sigma, limit = None):
             min_point = m
 
         alpha = v[min_point] - v[lm]
+        print ("Alpha: ", alpha, ", sigma: ", sigma)
         if (alpha > sigma):
             [sol, evaluations] = informed_bisection (v[lm:len (v)], sigma, limit)
             return [sol, evaluations + 3]
