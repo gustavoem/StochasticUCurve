@@ -14,5 +14,5 @@ set pointintervalbox 1
 # set yrange [0:4]
 
 set title "Node value";
-plot 'curve_data.txt' using 1 title 'Score' with linespoints ls 1
+plot 'curve_data.txt' using 0:1 title 'Score' with linespoints ls 1
 unset multiplot

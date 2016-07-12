@@ -65,7 +65,7 @@ def input_file (file_name):
 random.seed (datetime.now ())
 f = open ('curve_data.txt', 'w')
 v = gen_points (100, 1.0 / 2)
-input_noise (v, 20)
+input_noise (v, 10)
 for x in v:
    f.write (str (x) + "\n")
 f.close ()
