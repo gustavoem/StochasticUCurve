@@ -263,10 +263,11 @@ def mupb (v, pc, pmf = None, limit = None):
     first_qt = pmf.get_quarter (1)
     median = pmf.get_quarter (2)
     third_qt = pmf.get_quarter (3)
-    while (first_qt is not median and \
+    while (first_qt is not median or \
            median is not third_qt and limit > 0):
         evaluations += 3
 
+        # print (v)
         d = float (v[third_qt] - v[first_qt])
         if (abs (d) < 1e-8):
             d = 0

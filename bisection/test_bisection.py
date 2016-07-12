@@ -62,7 +62,7 @@ for j in range (5):
         s_time += e - s
 
         s = time ()
-        # [result, evaluations] = mupb (points, .85)
+        [result, evaluations] = mupb (points, .85)
         s2_evaluations += evaluations / (n * 1.0)
         e = time ()
         s2_time += e - s
@@ -103,7 +103,7 @@ max_input_size = 100
 test_size = 5000.0
 correctness_file = open ('correctness_data.txt', 'w')
 sigma = 0 # input noise parameter
-for j in range (0):
+for j in range (5):
     d_corrects = 0
     m_corrects = 0
     s_corrects = 0
