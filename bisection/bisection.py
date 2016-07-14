@@ -451,7 +451,7 @@ def update_pmf (pmf, pc, i, alpha, direction):
     #print ("sum after: ", sum (pmf))
 
 
-def informed_bisection (v, sigma, limit = None):
+def mbb (v, sigma, limit = None):
     m = len (v) // 2
     lm = m // 2
     rm = m + (len (v) - m) // 2
@@ -477,13 +477,13 @@ def informed_bisection (v, sigma, limit = None):
         alpha = v[min_point] - v[rm]
         # print ("L Alpha: ", alpha, ", sigma: ", sigma)
         if (alpha < -2 * sigma):
-            [sol, evaluations] = informed_bisection (v[0:rm], sigma, limit)
+            [sol, evaluations] = mbb (v[0:rm], sigma, limit)
             return [sol, evaluations + 3]
         else:
-            [sol1, evaluations1] = informed_bisection (v[0:m], sigma, limit)
+            [sol1, evaluations1] = mbb (v[0:m], sigma, limit)
             if (limit is not None):
                 limit -= evaluations1
-            [sol2, evaluations2] = informed_bisection (v[m:len (v)], sigma, limit)
+            [sol2, evaluations2] = mbb (v[m:len (v)], sigma, limit)
             return [min (sol1, sol2), evaluations1 + evaluations2 + 3]
     else:
         min_point = rm
@@ -493,11 +493,11 @@ def informed_bisection (v, sigma, limit = None):
         alpha = v[min_point] - v[lm]
         # print ("R Alpha: ", alpha, ", sigma: ", sigma)
         if (alpha < -2 * sigma):
-            [sol, evaluations] = informed_bisection (v[lm + 1:len (v)], sigma, limit)
+            [sol, evaluations] = mbb (v[lm + 1:len (v)], sigma, limit)
             return [sol, evaluations + 3]
         else:
-            [sol1, evaluations1] = informed_bisection (v[0:m], sigma, limit)
+            [sol1, evaluations1] = mbb (v[0:m], sigma, limit)
             if (limit is not None):
                 limit -= evaluations1
-            [sol2, evaluations2] = informed_bisection (v[m:len (v)], sigma, limit)
+            [sol2, evaluations2] = mbb (v[m:len (v)], sigma, limit)
             return [min (sol1, sol2), evaluations1 + evaluations2 + 3]

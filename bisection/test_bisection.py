@@ -5,7 +5,7 @@ from bisection import bisection_min
 from bisection import mid_neighbour_bisection 
 from bisection import upb
 from bisection import mupb
-from bisection import informed_bisection
+from bisection import mbb
 from math import log
 from time import time
 
@@ -68,7 +68,7 @@ for j in range (5):
         s2_time += e - s
         
         s = time ()
-        [result, evaluations] = informed_bisection (points, sigma)
+        [result, evaluations] = mbb (points, sigma)
         s3_evaluations += evaluations / (n * 1.0)
         e = time ()
         s3_time += e - s
@@ -79,12 +79,12 @@ for j in range (5):
     print ("Average percentage of evaluated nodes for mid-neighbour bisection: ", m_evaluations / test_size)
     # print ("Average percentage of evaluated nodes for UPB: ", s_evaluations / test_size)
     print ("Average percentage of evaluated nodes for MUPB: ", s2_evaluations / test_size)
-    print ("Average percentage of evaluated nodes for IPB: ", s3_evaluations / test_size)
+    print ("Average percentage of evaluated nodes for MBB: ", s3_evaluations / test_size)
     print ("Time used for traditional bisection (seconds): ", d_time)
     print ("Time used for mid-neighbour bisection (seconds): ", m_time)
     # print ("Time used for UPB (seconds): ", s_time)
     print ("Time used for MUPB (seconds): ", s2_time)
-    print ("Time used for IPB (seconds): ", s3_time)
+    print ("Time used for MBB (seconds): ", s3_time)
 
     evaluations_file.write (str (max_input_size) + " " + str (d_evaluations / test_size) + " " + str (m_evaluations / test_size) + " " + str (s_evaluations / test_size) + " " + str (s2_evaluations / test_size) + " " + str (s3_evaluations / test_size) + "\n")
     time_file.write (str (max_input_size) + " " + str (d_time) + " " + str (m_time) +  " " + str (s_time) + " " + str (s2_time) + " " + str (s3_time) + " " +"\n")
@@ -136,7 +136,7 @@ for j in range (5):
             s2_corrects = s2_corrects + 1
         s2_error = s2_error + abs (expected_solution - result) / abs (expected_solution)
 
-        [result, evaluations] = informed_bisection (points,  sigma)
+        [result, evaluations] = mbb (points,  sigma)
         if abs (expected_solution - result) / abs (expected_solution) < .05:
             s3_corrects = s3_corrects + 1
         s3_error = s3_error + abs (expected_solution - result) / abs (expected_solution)
@@ -146,10 +146,10 @@ for j in range (5):
     print ("Correctness for mid-neighbour bisection: ", m_corrects / test_size)
     # print ("Correctness for UPB: ", s_corrects / test_size)
     print ("Correctness for MPB: ", s2_corrects / test_size)
-    print ("Correctness for IPB: ", s3_corrects / test_size)
+    print ("Correctness for MBB: ", s3_corrects / test_size)
     # print ("Average relative error of UPB:", s_error / test_size)
     print ("Average relative error of MPB:", s2_error / test_size)
-    print ("Average relative error of IPB:", s3_error / test_size)
+    print ("Average relative error of MBB:", s3_error / test_size)
     correctness_file.write (str (sigma) + " " + str (d_corrects / test_size) + " " + str (m_corrects / test_size) + " " + str (s_corrects / test_size) + " " + str (s2_corrects / test_size) + " " + str (s3_corrects / test_size) + "\n")
     sigma += 5
 
