@@ -68,7 +68,7 @@ The chain is generated based on a polynomial of second degree with positive lead
 \end{algorithmic}
 \end{algorithm}
 
-\subsection{Noise}
+\subsection{Noise} \label{noise-section}
 The noise is applied to the vector created by $GeneratePoints$, by adding to every point $v_i$ a Gaussian error, $\epsilon_i$ with mean zero and stardard deviation $sigma$. We also assume that every pair $\epsilon_i$, $\epsilon_j$  are independent and identically distributed for $i \neq j$.
 
 \begin{figure}[H]
@@ -254,7 +254,7 @@ After finding the points $v_{lm}$, $v_m$ and $v_{rm}$ we calculate the cost $c$ 
     \item{If $|c (v_{rm}) - c (v_{lm})| < \epsilon$ and $v_m \geq {min (v_{rm}, v_{lm})}:$} then we can't guess where the minimum is. To overcome this, we divide the problem in the node $v_m$ so we can solve, recursively, two problems and return the minimum of the two solutions.
 \end{itemize}
 
-\begin{algorithm}[h]
+\begin{algorithm}[H]
 \caption{}
 \begin{algorithmic}[1]
 \Procedure{MPB}{$v, pmf$}
@@ -289,6 +289,77 @@ After finding the points $v_{lm}$, $v_m$ and $v_{rm}$ we calculate the cost $c$ 
 \end{algorithmic}
 \end{algorithm}
 
+
+\subsection{Mid-neighbour Belief Bisection}
+The Mid-neighbour Belief Bisection (MBB) is another algorithm based on the Mid-neighbour algorithm and it relies on the knowledge of distribution of the noise prior to the bisection. This algorithm assumes that the noise present on the chain has a Gaussian distribution with mean zero and standard deviation $\sigma$ and it's also i.i.d. in the nodes of the chain, as we described in \ref{noise-section}
+
+The MBB algorithm starts by locating 3 points that divide the chain into 4 equally sized portions, identically to what we did in the Mid-neighbour algorithm; these three points are $v_x$, $v_y$ and $v_z$, where $x < y < z$. Then, we calculate the observable cost of the points $x$ and $z$, $c' (v_x)$ and $c'(v_z)$ respectively, and, using the knowledge of the standard deviation of the noise distribution, we can make assumptions on the real cost function $c$ and decide in which portion of the chain the solution is located, with a high probability.
+
+The algorithm has three different branches that determine how we divide and prune the chain to get the minimum cost, which are:
+\begin{itemize}
+    \item {when $c (x) < c (z)$, with a high probability, we have that the cost of the elements $\{v_{x}, ..., v_{n - 1}\}$ have a higher cost than the elements $\{v_0, ..., v_{x - 1}\}$, therefore we can solve the problem by finding the minimum of the later chain.}
+    \item {when $c (x) > c (z)$, with a high probability, we have that the cost of the elements $\{v_{0}, ..., v_{x}\}$ have a higher cost than the elements $\{v_{x + 1}, ..., v_{n - 1}\}$, therefore we can solve the problem by finding the minimum of the later chain.}
+    \item {when there's not enough information about the difference $c (x) - c (z)$ we have to split the problem into two different problems on the chains $\{v_0, ..., v_y\}$} and $\{v_{y + 1}, ..., v_{n - 1}\}$ and give as a solution the best solution of both sub-problems.
+\end{itemize}
+
+Suppose that $c' (x) < c' (z)$, we can determine whether $P (c (x) < c (z))$ is high or not by deriving the following calculations:
+
+\begin{flalign*}
+    P (c (v_x) < c(v_z)) & =  P (c (v_x) - c (v_z) < 0) \\
+\end{flalign*}
+
+Now we use the fact that $c' (v_i) = c (v_i) + \epsilon_i$ for every $v_i$ of the input chain, and
+\begin{flalign*}
+    P (c (v_x) - c (v_z) < 0) & = P (c' (v_x) - \epsilon_x - c' (v_z) + \epsilon_z < 0) \\
+                              & = P (\epsilon_x - \epsilon_z > c' (v_x) - c' (v_z))
+\end{flalign*}
+Assuming that $\epsilon_x$ and $\epsilon_z$ are Gaussian $(0, \sigma)$ and they are independent, we have that the random variable $\epsilon_x - \epsilon_z$ also have Gaussian distribution with mean zero and standard deviation $2\sigma$. Therefore:
+\begin{flalign*}
+    P (\epsilon_x - \epsilon_z > -2\sigma) = 0.8413
+\end{flalign*}
+
+Then, if we know that $c' (v_x) - c' (v_z) < -2\sigma$, we can guarantee that $P (\epsilon_x - \epsilon_z > c'(v_x) - c' (v_z)) = P (c (v_x) < c (v_z)) \geq 0.8413$
+
+It's important to notice that, to determine a high probability, we used $-2\sigma$ as a boundary that forces $P (c (v_x) < c (v_z))$ to be at least $0.8413$, and also, when the difference $c'(v_x) - c'(v_z)$ doesn't reach the boundary we split the problem into two different pieces with no prune of the chain. Therefore, there's a trade-off when choosing the boundary for a high probability: as we lower the boundary, the probability $P (c (v_x) < c (v_z))$ approaches one, but this also implies that the difference $c (v_x) - c (v_z)$ should be higher otherwise no prune will be made, i.e we have better correctness and worse run time; on the other hand, if we raise the boundary we will make prunes more often, which can imply in the deletion of global minimal, i.e better run time and worse correctness.
+
+\begin{algorithm}[h]
+\caption{}
+\begin{algorithmic}[1]
+\Procedure{MBB}{$v, \sigma$}
+    \State $n \gets v.length$
+    \State $y = n / 2$
+    \State $x = y / 2$
+    \State $z = (n - y) / 2$
+
+    \If {$x = z$}
+        \State
+        \Return $v_x$
+    \EndIf
+
+    \If {$c' (v_x) < c' (v_z)$}
+        \State $w = min (x, y)$
+        \State $d = v_w - v_z$
+        \If {$d < -2\sigma$}
+            \State
+            \Return $MBB (\{v_0, ..., v_z)\}, \sigma)$
+        \Else
+            \State
+            \Return $min (MBB (\{v_0, ..., v_{y-1}\}, \sigma), MBB (\{v_y, ..., v_{n-1}\}))$
+        \EndIf
+    \Else
+        \State $w = min (y, z)$
+        \State $d = v_w - v_x$
+        \If {$d < -2\sigma$}
+            \State
+            \Return $MBB (\{v_{x + 1}, ..., v_{n - 1})\}, \sigma)$
+        \Else
+            \State
+            \Return $min (MBB (\{v_0, ..., v_{y-1}\}, \sigma), MBB (\{v_y, ..., v_{n-1}\}))$
+        \EndIf
+    \EndIf
+\EndProcedure
+\end{algorithmic}
+\end{algorithm}
 
 
 \section{Results}
