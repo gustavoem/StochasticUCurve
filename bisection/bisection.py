@@ -478,13 +478,13 @@ def mbb (v, sigma, limit = None):
         # print ("L Alpha: ", alpha, ", sigma: ", sigma)
         if (alpha < -2 * sigma):
             [sol, evaluations] = mbb (v[0:rm], sigma, limit)
-            return [sol, evaluations + 3]
+            return [sol, evaluations + 2]
         else:
             [sol1, evaluations1] = mbb (v[0:m], sigma, limit)
             if (limit is not None):
                 limit -= evaluations1
             [sol2, evaluations2] = mbb (v[m:len (v)], sigma, limit)
-            return [min (sol1, sol2), evaluations1 + evaluations2 + 3]
+            return [min (sol1, sol2), evaluations1 + evaluations2 + 2]
     else:
         min_point = rm
         if (v[rm] > v[m]):
@@ -494,10 +494,10 @@ def mbb (v, sigma, limit = None):
         # print ("R Alpha: ", alpha, ", sigma: ", sigma)
         if (alpha < -2 * sigma):
             [sol, evaluations] = mbb (v[lm + 1:len (v)], sigma, limit)
-            return [sol, evaluations + 3]
+            return [sol, evaluations + 2]
         else:
             [sol1, evaluations1] = mbb (v[0:m], sigma, limit)
             if (limit is not None):
                 limit -= evaluations1
             [sol2, evaluations2] = mbb (v[m:len (v)], sigma, limit)
-            return [min (sol1, sol2), evaluations1 + evaluations2 + 3]
+            return [min (sol1, sol2), evaluations1 + evaluations2 + 2]
