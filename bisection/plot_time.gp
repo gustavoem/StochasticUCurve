@@ -22,6 +22,6 @@ set ylabel "Average run time in seconds"
 plot 'time_data.txt' using 1:2 title 'Traditional' with linespoints ls 1, \
     'time_data.txt' using 1:3 title 'Mid-neighbour' with linespoints ls 2, \
     'time_data.txt' using 1:6 title 'MBB' with linespoints ls 5, \
-    'time_data.txt' using 1:5 title 'MUPB' with linespoints ls 4
+    #'time_data.txt' using 1:5 title 'MPB' with linespoints ls 4
     #'time_data.txt' using 1:4 title 'UPB' with linespoints ls 3, \
 unset multiplot

@@ -16,12 +16,12 @@ set pointintervalbox 1
 # set xrange [0:5]
 # set yrange [0:4]
 
-set title "Average Correctness (Limit for UPB and MUPB is lgn)";
+set title "Average Correctness";
 set xlabel "Noise standard deviation"
 set ylabel "Percentage of correct answers (with 5% of acceptable error)"
 plot 'correctness_data.txt' using 1:2 title 'Traditional' with linespoints ls 1, \
     'correctness_data.txt' using 1:3 title 'Mid-neighbour' with linespoints ls 2, \
-    'correctness_data.txt' using 1:5 title 'MUPB' with linespoints ls 4, \
-    'correctness_data.txt' using 1:6 title 'IPB' with linespoints ls 5
+    'correctness_data.txt' using 1:5 title 'MPB' with linespoints ls 4, \
+    'correctness_data.txt' using 1:6 title 'MBB' with linespoints ls 5
     #'correctness_data.txt' using 1:4 title 'UPB' with linespoints ls 3, \
 unset multiplot
