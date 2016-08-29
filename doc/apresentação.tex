@@ -1,0 +1,64 @@
+\documentclass{beamer}
+\mode<presentation>
+{
+  \usetheme{default} 
+  \usecolortheme{default}
+  \usefonttheme{default}
+  \setbeamertemplate{navigation symbols}{}
+  \setbeamertemplate{caption}[numbered]
+} 
+
+\usepackage[portuguese]{babel}
+\usepackage[utf8]{inputenc}
+
+\title[]{Pesquisa de Algoritmo Estocástico para o Problema U-Curve}
+\author{Gustavo Estrela}
+\institute{Universidade de São Paulo e Texas A\&M University}
+\date{\today}
+
+\begin{document}
+
+\begin{frame}
+  \titlepage
+\end{frame}
+
+% Uncomment these lines for an automatically generated outline.
+%\begin{frame}{Outline}
+%  \tableofcontents
+%\end{frame}
+
+\section{Objetivo}
+\begin{frame}{Objetivo}
+\begin{itemize}
+  \item Estudo do algoritmo IUBB.
+      \vskip 5em
+  \item Implementação de uma variante estocástica do IUBB.
+\end{itemize}
+\end{frame}
+
+\section{O Algoritmo IUBB}
+\begin{frame}{O Algoritmo IUBB}
+    \begin{itemize}
+        \item{Baseado no UBB.}
+        \vskip 5em
+        \item{Duas ideias principais:}
+        \begin{itemize}
+            \vskip 1em
+            \item{Atualização iterativa de cadeias ótimas.}
+            \vskip 1em
+            \item{Uso da bisecção na procura do mínimo de uma cadeia.}
+        \end{itemize}
+    \end{itemize}
+\end{frame}
+
+\section{Introdução do erro}
+\begin{frame}{Introdução do erro}
+    \begin{itemize}
+        \item{Assumimos erro com distribuição normal com média zero e
+            variância $\sigma^2$.}
+        \item{Efeitos do erro no algoritmo IUBB.}
+    \end{itemize}
+\end{frame}
+
+\end{document}
+

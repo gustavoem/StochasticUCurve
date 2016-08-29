@@ -1,0 +1,5 @@
+\beamer@endinputifotherversion {3.36pt}
+\select@language {portuguese}
+\beamer@sectionintoc {1}{Objetivo}{2}{0}{1}
+\beamer@sectionintoc {2}{O Algoritmo IUBB}{3}{0}{2}
+\beamer@sectionintoc {3}{Introdu\IeC {\c c}\IeC {\~a}o do erro}{4}{0}{3}
