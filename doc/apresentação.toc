@@ -3,3 +3,6 @@
 \beamer@sectionintoc {1}{Objetivo}{2}{0}{1}
 \beamer@sectionintoc {2}{O Algoritmo IUBB}{3}{0}{2}
 \beamer@sectionintoc {3}{Introdu\IeC {\c c}\IeC {\~a}o do erro}{4}{0}{3}
+\beamer@sectionintoc {4}{Algoritmo de Bisec\IeC {\c c}\IeC {\~a}o Mid-neighbour}{5}{0}{4}
+\beamer@sectionintoc {5}{Refer\IeC {\^e}ncias}{6}{0}{5}
+\contentsline {section}{Refer\IeC {\^e}ncias}
