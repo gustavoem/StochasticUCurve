@@ -4,5 +4,8 @@
 \beamer@sectionintoc {2}{O Algoritmo IUBB}{3}{0}{2}
 \beamer@sectionintoc {3}{Introdu\IeC {\c c}\IeC {\~a}o do erro}{4}{0}{3}
 \beamer@sectionintoc {4}{Algoritmo de Bisec\IeC {\c c}\IeC {\~a}o Mid-neighbour}{5}{0}{4}
-\beamer@sectionintoc {5}{Refer\IeC {\^e}ncias}{6}{0}{5}
+\beamer@sectionintoc {5}{Algoritmo Estoc\IeC {\'a}stico I}{6}{0}{5}
+\beamer@sectionintoc {6}{Bisec\IeC {\c c}\IeC {\~a}o Probabilistica Mid-neighbour}{7}{0}{6}
+\beamer@sectionintoc {7}{Resultados}{10}{0}{7}
+\beamer@sectionintoc {8}{Refer\IeC {\^e}ncias}{13}{0}{8}
 \contentsline {section}{Refer\IeC {\^e}ncias}
